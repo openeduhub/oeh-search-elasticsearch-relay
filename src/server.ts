@@ -15,6 +15,10 @@ process.on('unhandledRejection', (e) => {
     process.exit(1);
 });
 
+process.on('SIGINT', () => {
+    process.exit();
+});
+
 const router = express();
 applyMiddleware(middleware, router);
 applyRoutes(routes, router);
@@ -23,6 +27,4 @@ applyMiddleware(errorHandlers, router);
 const { PORT = 3000 } = process.env;
 const server = http.createServer(router);
 
-server.listen(PORT, () =>
-    console.log(`Server is running http://localhost:${PORT}...`),
-);
+server.listen(PORT, () => console.log(`Server is running http://localhost:${PORT}...`));

@@ -58,11 +58,14 @@ export interface Result {
         educationalContext?: {
             de: string;
         }[];
+        learningResourceType?: {
+            de: string;
+        }[];
     };
 }
 
 
-export type Facet = 'sources' | 'keywords' | 'disciplines' | 'educationalContexts';
+export type Facet = 'sources' | 'keywords' | 'disciplines' | 'educationalContexts' | 'learningResourceTypes';
 
 export interface Bucket {
     key: string;

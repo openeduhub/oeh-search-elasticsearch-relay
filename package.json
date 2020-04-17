@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "tsc-watch --build --onSuccess \"node ./dist/server.js\"",
-    "build": "rm -rf dist && tsc --build",
+    "clean": "rm -rf dist",
+    "build": "tsc --build",
     "docker-build": "docker build --tag elasticsearch-relay ."
   },
   "dependencies": {

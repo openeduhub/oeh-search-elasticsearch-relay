@@ -20,8 +20,7 @@ automatically with the relay.
 Build this module before compiling the frontend:
 
 ```bash
-cd shared
-tsc # or tsc --watch
+tsc --project shared # --watch
 ```
 
 ## Build

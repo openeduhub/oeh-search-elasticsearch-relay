@@ -1,0 +1,139 @@
+type Query {
+    """Search for materials within the ElasticSearch index"""
+    search(
+        searchString: String! = "",
+        filters: Filters! = {},
+        size: Int! = 10,
+        from: Int! = 0,
+    ): SearchResult!
+    """Get a single entry"""
+    get(id: ID!): Hit!
+    """Get auto-completion suggestions based on a search string while typing"""
+    autoComplete(
+        searchString: String!
+    ): [String!]!
+}
+
+"""Narrow down the search"""
+input Filters {
+    """source.name"""
+    sources: [String!]
+    """lom.general.keyword"""
+    keywords: [String!]
+    """valuespaces.discipline.de"""
+    disciplines: [String!]
+    """valuespaces.learningResourceType.de"""
+    educationalContexts: [String!]
+    """valuespaces.educationalContext.de"""
+    learningResourceTypes: [String!]
+}
+
+enum Facet {
+    """source.name"""
+    sources
+    """lom.general.keyword"""
+    keywords
+    """valuespaces.discipline.de"""
+    disciplines
+    """valuespaces.learningResourceType.de"""
+    educationalContexts
+    """valuespaces.educationalContext.de"""
+    learningResourceTypes
+}
+
+type SearchResult {
+    """Time it took ElasticSearch to handle the request in milliseconds"""
+    took: Int!
+    """Search results of the given query"""
+    hits: Hits!
+    """A possible spell correction based on the given query"""
+    didYouMeanSuggestion: DidYouMeanSuggestion
+    """Available facets, when taking the given query into account"""
+    facets: [Aggregation!]!
+}
+
+type Hits {
+    """Number of search results"""
+    total: Int!
+    """Search results"""
+    hits: [Hit!]!
+}
+ 
+type Hit {
+    """Content source"""
+    source: Source!
+    """A preview image"""
+    thumbnail: Thumbnail!
+    """Metadata according to the LOM standard"""
+    lom: Lom!
+    id: ID!
+    """Full text for search, not meant to be displayed"""
+    fulltext: String!
+    """Additional metadata to categorize content"""
+    valuespaces: Valuespaces
+}
+
+type Source {
+    """A unique string that identifies the source"""
+    id: ID!
+    """Number of materials provided by the source"""
+    total_count: Int!
+    """A friendly name to display"""
+    name: String!
+    """The source's web presence"""
+    url: String!
+}
+
+type Thumbnail {
+    mimetype: String!
+    """Base64-encoded image in the format given by `mimetype`, low resolution"""
+    small: String!
+    """Base64-encoded image in the format given by `mimetype`, high resolution"""
+    large: String
+}
+
+type Lom {
+    technical: LomTechnical!
+    educational: LomEducational
+    general: LomGeneral!
+}
+
+type LomTechnical {
+    """Content URL"""
+    location: String!
+}
+
+type LomEducational {
+    description: String
+}
+
+type LomGeneral {
+    title: String!
+    identifier: ID
+    keyword: [String!]
+}
+
+type Valuespaces {
+    discipline: [InternationalString!]
+    educationalContext: [InternationalString!]
+    learningResourceType: [InternationalString!]
+}
+
+type InternationalString {
+    de: String!
+}
+ 
+type DidYouMeanSuggestion {
+    plain: String!
+    html: String!
+}
+ 
+type Aggregation {
+    facet: Facet!
+    buckets: [Bucket!]!
+}
+
+type Bucket {
+    key: String!
+    doc_count: Int!
+}

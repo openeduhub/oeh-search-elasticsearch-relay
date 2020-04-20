@@ -7,7 +7,6 @@ export interface SearchResponse {
     facets: Facets;
 }
 
-
 export type Filters = {
     [label in Facet]?: string[];
 };
@@ -64,8 +63,12 @@ export interface Result {
     };
 }
 
-
-export type Facet = 'sources' | 'keywords' | 'disciplines' | 'educationalContexts' | 'learningResourceTypes';
+export type Facet =
+    | 'sources'
+    | 'keywords'
+    | 'disciplines'
+    | 'educationalContexts'
+    | 'learningResourceTypes';
 
 export interface Bucket {
     key: string;
@@ -82,5 +85,3 @@ export interface DidYouMeanSuggestion {
     plain: string;
     html: string;
 }
-
-

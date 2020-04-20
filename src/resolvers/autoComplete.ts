@@ -1,12 +1,18 @@
-import { client, index } from './config';
+import { QueryResolvers } from 'src/generated/graphql';
+import { client, index } from '../elasticSearchClient';
 
-export async function autoComplete(searchString: string): Promise<string[]> {
+const autoCompleteResolver: QueryResolvers['autoComplete'] = async (
+    root,
+    args,
+    context,
+    info,
+): Promise<string[]> => {
     const { body } = await client.search({
         index,
         body: {
             query: {
                 multi_match: {
-                    query: searchString,
+                    query: args.searchString,
                     type: 'bool_prefix',
                     fields: [
                         'lom.general.title.search_as_you_type',
@@ -20,8 +26,10 @@ export async function autoComplete(searchString: string): Promise<string[]> {
         },
     });
     return parseResponse(body);
-}
+};
 
 function parseResponse(body: any): string[] {
     return body.hits.hits.map((hit: any) => hit._source.lom.general.title);
 }
+
+export default autoCompleteResolver;

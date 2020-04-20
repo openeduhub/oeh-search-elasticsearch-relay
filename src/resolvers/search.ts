@@ -1,10 +1,48 @@
-import { Bucket, Facet, Facets, SearchResponse } from 'shared/types';
-import { client, index } from './config';
-import { SearchParams } from './parsers';
+import graphqlFields from 'graphql-fields';
+import {
+    QuerySearchArgs,
+    QueryResolvers,
+    SearchResult,
+    Aggregation,
+    Bucket,
+    Facet,
+    Filters,
+} from 'src/generated/graphql';
+import { client, index } from '../elasticSearchClient';
 
-export type Filters = {
-    [label in Facet]?: string[] | null;
+const searchResolver: QueryResolvers['search'] = async (
+    root,
+    args,
+    context,
+    info,
+): Promise<SearchResult> => {
+    const fields = graphqlFields(info as any);
+    const sources = getSourceFields(fields);
+    const result = await search(args, sources, {
+        fetchDidYouMeanSuggestion: 'didYouMeanSuggestion' in fields,
+        fetchFacets: 'facets' in fields,
+    });
+    return result;
 };
+
+type GraphqlFields = {} | { [key: string]: GraphqlFields };
+
+function getSourceFields(fields: GraphqlFields, qualifier?: string): string[] {
+    if (typeof qualifier !== 'string') {
+        if ('hits' in fields && 'hits' in fields.hits) {
+            return getSourceFields(fields.hits.hits, '');
+        } else {
+            return [];
+        }
+    } else if (typeof fields === 'object' && Object.keys(fields).length === 0) {
+        return [qualifier];
+    }
+    let result: string[] = [];
+    for (const [key, value] of Object.entries(fields)) {
+        result = result.concat(getSourceFields(value, qualifier ? `${qualifier}.${key}` : key));
+    }
+    return result;
+}
 
 interface AggregationTerms {
     field: string;
@@ -47,23 +85,24 @@ const aggregationTerms: { [label: string]: AggregationTerms } = {
     },
 };
 
-export async function search({
-    searchString,
-    pageIndex = 0,
-    pageSize = 10,
-    filters = {},
-}: SearchParams): Promise<SearchResponse> {
+export async function search(
+    { searchString, filters, from, size }: QuerySearchArgs,
+    sources: string[],
+    options: { fetchFacets: boolean; fetchDidYouMeanSuggestion: boolean },
+): Promise<SearchResult> {
     const { body } = await client.search({
         index,
         body: {
-            from: pageIndex * pageSize,
-            size: pageSize,
+            from,
+            size,
             _source: {
-                excludes: ['thumbnail.large'],
+                includes: sources,
             },
             query: generateSearchQuery(searchString, filters),
-            suggest: generateSuggest(searchString),
-            aggregations: generateAggregations(searchString, filters),
+            suggest: options.fetchDidYouMeanSuggestion ? generateSuggest(searchString) : undefined,
+            aggregations: options.fetchFacets
+                ? generateAggregations(searchString, filters)
+                : undefined,
         },
     });
     return parseResponse(body);
@@ -137,40 +176,37 @@ function generateAggregations(searchString?: string, filters: Filters = {}) {
     // that applies all active filters but that of the facet itself. This way, options are
     // narrowed down by other filters but currently not selected options of *this* facet are
     // still shown.
-    const aggregations = Object.entries(aggregationTerms).reduce(
-        (acc, [label, terms]) => {
-            const otherFilters = { ...filters };
-            delete otherFilters[label as Facet];
-            const filteredAggregation = {
-                filter: {
-                    bool: {
-                        must: query.bool.must,
-                        filter: mapFilters(otherFilters),
+    const aggregations = Object.entries(aggregationTerms).reduce((acc, [label, terms]) => {
+        const otherFilters = { ...filters };
+        delete otherFilters[label as Facet];
+        const filteredAggregation = {
+            filter: {
+                bool: {
+                    must: query.bool.must,
+                    filter: mapFilters(otherFilters),
+                },
+            },
+            aggregations: {
+                [`filtered_${label}`]: {
+                    // Will return the top entries with respect to currently active filters.
+                    terms,
+                },
+                [`selected_${label}`]: {
+                    // Will return the currently selected (filtered by) entries.
+                    //
+                    // This is important since the currently selected entries might not be among
+                    // the top results we get from the above aggregation. We explicitly add all
+                    // selected entries to make sure all active filters appear on the list.
+                    terms: {
+                        ...terms,
+                        include: filters[label as Facet] || [],
                     },
                 },
-                aggregations: {
-                    [`filtered_${label}`]: {
-                        // Will return the top entries with respect to currently active filters.
-                        terms,
-                    },
-                    [`selected_${label}`]: {
-                        // Will return the currently selected (filtered by) entries.
-                        //
-                        // This is important since the currently selected entries might not be among
-                        // the top results we get from the above aggregation. We explicitly add all
-                        // selected entries to make sure all active filters appear on the list.
-                        terms: {
-                            ...terms,
-                            include: filters[label as Facet] || [],
-                        },
-                    },
-                },
-            };
-            acc[label as Facet] = filteredAggregation;
-            return acc;
-        },
-        {} as { [label in Facet]?: object },
-    );
+            },
+        };
+        acc[label as Facet] = filteredAggregation;
+        return acc;
+    }, {} as { [label in Facet]?: object });
     return {
         all_facets: {
             global: {},
@@ -179,12 +215,12 @@ function generateAggregations(searchString?: string, filters: Filters = {}) {
     };
 }
 
-function parseResponse(body: any) {
+function parseResponse(body: any): SearchResult {
     return {
-        searchResults: {
+        took: body.took,
+        hits: {
+            hits: body.hits.hits.map((hit: any) => hit._source),
             total: body.hits.total.value,
-            time: body.took,
-            results: body.hits.hits.map((hit: any) => hit._source),
         },
         didYouMeanSuggestion: getDidYouMeanSuggestion(body.suggest),
         facets: getFacets(body.aggregations),
@@ -213,9 +249,7 @@ function processDidYouMeanSuggestion(suggests: Suggest[]) {
         return {
             plain: words.map((word) => word.text).join(' '),
             html: words
-                .map((word) =>
-                    word.changed ? `<em>${word.text}</em>` : word.text,
-                )
+                .map((word) => (word.changed ? `<em>${word.text}</em>` : word.text))
                 .join(' '),
         };
     } else {
@@ -223,30 +257,26 @@ function processDidYouMeanSuggestion(suggests: Suggest[]) {
     }
 }
 
-function getFacets(aggregations: any) {
+function getFacets(aggregations: any): Aggregation[] {
+    if (!aggregations) {
+        return [];
+    }
     // Unwrap the filter structure introduced by `generateAggregations`.
-    const facets = Object.entries<any>(aggregations.all_facets).reduce(
-        (acc, [label, aggregation]) => {
-            if (aggregation[`filtered_${label}`]) {
-                acc[label as Facet] = mergeAggregations(
-                    aggregation[`filtered_${label}`],
-                    aggregation[`selected_${label}`],
-                );
+    const facets = Object.entries<any>(aggregations.all_facets)
+        .map(([key, value]) => {
+            if (value[`filtered_${key}`]) {
+                return {
+                    facet: key as Facet,
+                    buckets: mergeBuckets(
+                        value[`filtered_${key}`].buckets,
+                        value[`selected_${key}`].buckets,
+                    ),
+                };
             }
-            return acc;
-        },
-        {} as Facets,
-    );
+            return (null as any) as Aggregation; // filter out below
+        })
+        .filter((entry) => entry !== null);
     return facets;
-}
-
-function mergeAggregations(
-    lhs: { buckets: Bucket[] },
-    rhs: { buckets: Bucket[] },
-): { buckets: Bucket[] } {
-    // There are actually more fields in aggregations than `buckets`, but we don't use them at the
-    // moment, so we just drop them.
-    return { buckets: mergeBuckets(lhs.buckets, rhs.buckets) };
 }
 
 function mergeBuckets(lhs: Bucket[], rhs: Bucket[]): Bucket[] {
@@ -257,3 +287,6 @@ function mergeBuckets(lhs: Bucket[], rhs: Bucket[]): Bucket[] {
     }
     return lhs;
 }
+
+
+export default searchResolver;

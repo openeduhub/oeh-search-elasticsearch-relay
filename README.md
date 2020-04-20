@@ -6,28 +6,11 @@ The relay provides a custom API that is tailored to the needs of the frontend. I
 to ElasticSearch queries, sends the queries to ElasticSearch and processes the results to a form
 useful to the frontend.
 
-## Structure
-
-### `src`
-
-Code specific to the relay.
-
-### `shared`
-
-Code that is shared with the frontend. This is a separate Typescript module which is built
-automatically with the relay.
-
-Build this module before compiling the frontend:
-
-```bash
-tsc --project shared # --watch
-```
-
 ## Build
 
 Install dependencies: `npm install`
 
-Start a dev server and listen for code changes: `npm run dev`
+Start a dev server and listen for code changes: `npm start`
 
 Build a docker image:
 
@@ -35,6 +18,12 @@ Build a docker image:
 npm run build
 npm run docker-build
 ```
+
+## API
+
+The Relay provides a GraphQL API that is served on `/graphql` (e.g., http://localhost:3000/graphql
+on a dev environment). When accessed with a web browser, this endpoint offers an interactive query
+editor and documentation.
 
 ## Environment Variables
 

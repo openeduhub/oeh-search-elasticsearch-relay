@@ -1,14 +1,12 @@
 import {
     handleCors,
-    handleBodyRequestParsing,
     handleCompression,
 } from './common';
 
-import { handleAPIDocs } from './apiDocs';
+import { handleGraphQl } from './graphql';
 
 export default [
     handleCors,
-    handleBodyRequestParsing,
     handleCompression,
-    handleAPIDocs,
+    handleGraphQl,
 ];

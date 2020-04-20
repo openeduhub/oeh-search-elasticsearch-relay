@@ -81,6 +81,7 @@ function generateSearchQuery(searchString?: string, filters: Filters = {}) {
                               'lom.general.title^3',
                               'lom.general.keyword',
                               'lom.educational.description',
+                              'valuespaces.*.de',
                               'fulltext',
                           ],
                           operator: 'and',

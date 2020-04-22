@@ -2,19 +2,22 @@ type Query {
     """Search for materials within the ElasticSearch index"""
     search(
         """Search query matched against various fields"""
-        searchString: String! = "",
+        searchString: String! = ""
         """Only show results matching a set of filters"""
-        filters: Filters! = {},
+        filters: Filters! = {}
         """Number of results to return"""
-        size: Int! = 10,
+        size: Int! = 10
         """Offset for pagination"""
-        from: Int! = 0,
+        from: Int! = 0
     ): SearchResult!
     """Get a single entry"""
-    get(id: ID!): Hit!
+    get(
+        id: ID!
+    ): Hit!
     """Get auto-completion suggestions based on a search string while typing"""
     autoComplete(
         searchString: String!
+        filters: Filters! = {}
     ): [String!]!
 }
 

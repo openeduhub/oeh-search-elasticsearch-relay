@@ -1,48 +1,13 @@
 import graphqlFields from 'graphql-fields';
 import {
-    QuerySearchArgs,
-    QueryResolvers,
-    SearchResult,
     Aggregation,
     Bucket,
     Facet,
     Filters,
+    QueryResolvers,
+    SearchResult,
 } from 'src/generated/graphql';
 import { client, index } from '../elasticSearchClient';
-
-const searchResolver: QueryResolvers['search'] = async (
-    root,
-    args,
-    context,
-    info,
-): Promise<SearchResult> => {
-    const fields = graphqlFields(info as any);
-    const sources = getSourceFields(fields);
-    const result = await search(args, sources, {
-        fetchDidYouMeanSuggestion: 'didYouMeanSuggestion' in fields,
-        fetchFacets: 'facets' in fields,
-    });
-    return result;
-};
-
-type GraphqlFields = {} | { [key: string]: GraphqlFields };
-
-function getSourceFields(fields: GraphqlFields, qualifier?: string): string[] {
-    if (typeof qualifier !== 'string') {
-        if ('hits' in fields && 'hits' in fields.hits) {
-            return getSourceFields(fields.hits.hits, '');
-        } else {
-            return [];
-        }
-    } else if (typeof fields === 'object' && Object.keys(fields).length === 0) {
-        return [qualifier];
-    }
-    let result: string[] = [];
-    for (const [key, value] of Object.entries(fields)) {
-        result = result.concat(getSourceFields(value, qualifier ? `${qualifier}.${key}` : key));
-    }
-    return result;
-}
 
 interface AggregationTerms {
     field: string;
@@ -85,27 +50,51 @@ const aggregationTerms: { [label: string]: AggregationTerms } = {
     },
 };
 
-export async function search(
-    { searchString, filters, from, size }: QuerySearchArgs,
-    sources: string[],
-    options: { fetchFacets: boolean; fetchDidYouMeanSuggestion: boolean },
-): Promise<SearchResult> {
+const searchResolver: QueryResolvers['search'] = async (
+    root,
+    args,
+    context,
+    info,
+): Promise<SearchResult> => {
+    const fields = graphqlFields(info as any);
+    const sources = getSourceFields(fields);
     const { body } = await client.search({
         index,
         body: {
-            from,
-            size,
+            from: args.from,
+            size: args.size,
             _source: {
                 includes: sources,
             },
-            query: generateSearchQuery(searchString, filters),
-            suggest: options.fetchDidYouMeanSuggestion ? generateSuggest(searchString) : undefined,
-            aggregations: options.fetchFacets
-                ? generateAggregations(searchString, filters)
-                : undefined,
+            query: generateSearchQuery(args.searchString, args.filters),
+            suggest:
+                'didYouMeanSuggestion' in fields ? generateSuggest(args.searchString) : undefined,
+            aggregations:
+                'facets' in fields
+                    ? generateAggregations(args.searchString, args.filters)
+                    : undefined,
         },
     });
     return parseResponse(body);
+};
+
+type GraphqlFields = {} | { [key: string]: GraphqlFields };
+
+function getSourceFields(fields: GraphqlFields, qualifier?: string): string[] {
+    if (typeof qualifier !== 'string') {
+        if ('hits' in fields && 'hits' in fields.hits) {
+            return getSourceFields(fields.hits.hits, '');
+        } else {
+            return [];
+        }
+    } else if (typeof fields === 'object' && Object.keys(fields).length === 0) {
+        return [qualifier];
+    }
+    let result: string[] = [];
+    for (const [key, value] of Object.entries(fields)) {
+        result = result.concat(getSourceFields(value, qualifier ? `${qualifier}.${key}` : key));
+    }
+    return result;
 }
 
 function generateSearchQuery(searchString?: string, filters: Filters = {}) {
@@ -132,7 +121,7 @@ function generateSearchQuery(searchString?: string, filters: Filters = {}) {
     };
 }
 
-function mapFilters(filters: Filters): Array<object | null> {
+export function mapFilters(filters: Filters): Array<object | null> {
     return Object.entries(filters)
         .map(([label, value]) => generateFilter(label as Facet, value || null))
         .filter((entry) => entry !== null);
@@ -287,6 +276,5 @@ function mergeBuckets(lhs: Bucket[], rhs: Bucket[]): Bucket[] {
     }
     return lhs;
 }
-
 
 export default searchResolver;

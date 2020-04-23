@@ -75,7 +75,7 @@ const searchResolver: QueryResolvers['search'] = async (
                     : undefined,
         },
     });
-    return parseResponse(body);
+    return parseResponse(body, args.filters);
 };
 
 type GraphqlFields = {} | { [key: string]: GraphqlFields };
@@ -204,7 +204,7 @@ function generateAggregations(searchString?: string, filters: Filters = {}) {
     };
 }
 
-function parseResponse(body: any): SearchResult {
+function parseResponse(body: any, filters: Filters): SearchResult {
     return {
         took: body.took,
         hits: {
@@ -212,7 +212,7 @@ function parseResponse(body: any): SearchResult {
             total: body.hits.total.value,
         },
         didYouMeanSuggestion: getDidYouMeanSuggestion(body.suggest),
-        facets: getFacets(body.aggregations),
+        facets: getFacets(body.aggregations, filters),
     };
 }
 
@@ -246,7 +246,7 @@ function processDidYouMeanSuggestion(suggests: Suggest[]) {
     }
 }
 
-function getFacets(aggregations: any): Aggregation[] {
+function getFacets(aggregations: any, filters: Filters): Aggregation[] {
     if (!aggregations) {
         return [];
     }
@@ -256,9 +256,10 @@ function getFacets(aggregations: any): Aggregation[] {
             if (value[`filtered_${key}`]) {
                 return {
                     facet: key as Facet,
-                    buckets: mergeBuckets(
+                    buckets: mergeBucketLists(
                         value[`filtered_${key}`].buckets,
                         value[`selected_${key}`].buckets,
+                        generateFilterBuckets(filters[key as Facet]),
                     ),
                 };
             }
@@ -268,13 +269,34 @@ function getFacets(aggregations: any): Aggregation[] {
     return facets;
 }
 
-function mergeBuckets(lhs: Bucket[], rhs: Bucket[]): Bucket[] {
-    for (const bucket of rhs) {
-        if (!lhs.some((b) => b.key === bucket.key)) {
-            lhs.push(bucket);
+/**
+ * Create a fake buckets list for applied filters.
+ *
+ * In case an applied filter has 0 hits, its aggregation will not be included by ElasticSearch.
+ */
+function generateFilterBuckets(filters?: string[] | null) {
+    if (filters) {
+        return filters.map((s) => ({
+            key: s,
+            doc_count: 0,
+        }));
+    } else {
+        return null;
+    }
+}
+
+function mergeBucketLists(bucketList: Bucket[], ...others: Array<Bucket[] | null>): Bucket[] {
+    if (others.length === 0) {
+        return bucketList;
+    }
+    if (Array.isArray(others[0])) {
+        for (const bucket of others[0]) {
+            if (!bucketList.some((b) => b.key === bucket.key)) {
+                bucketList.push(bucket);
+            }
         }
     }
-    return lhs;
+    return mergeBucketLists(bucketList, ...others.slice(1));
 }
 
 export default searchResolver;

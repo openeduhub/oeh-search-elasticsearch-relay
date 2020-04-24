@@ -4,7 +4,7 @@ type Query {
         """Search query matched against various fields"""
         searchString: String! = ""
         """Only show results matching a set of filters"""
-        filters: Filters! = {}
+        filters: [Filter!]
         """Number of results to return"""
         size: Int! = 10
         """Offset for pagination"""
@@ -17,22 +17,13 @@ type Query {
     """Get auto-completion suggestions based on a search string while typing"""
     autoComplete(
         searchString: String!
-        filters: Filters! = {}
+        filters: [Filter!]
     ): [String!]!
 }
 
-"""Narrow down the search"""
-input Filters {
-    """source.name"""
-    sources: [String!]
-    """lom.general.keyword"""
-    keywords: [String!]
-    """valuespaces.discipline.de"""
-    disciplines: [String!]
-    """valuespaces.learningResourceType.de"""
-    educationalContexts: [String!]
-    """valuespaces.educationalContext.de"""
-    learningResourceTypes: [String!]
+input Filter {
+    field: Facet!
+    terms: [String!]!
 }
 
 enum Facet {

@@ -3,7 +3,7 @@ import {
     Aggregation,
     Bucket,
     Facet,
-    Filters,
+    Filter,
     QueryResolvers,
     SearchResult,
 } from 'src/generated/graphql';
@@ -66,16 +66,16 @@ const searchResolver: QueryResolvers['search'] = async (
             _source: {
                 includes: sources,
             },
-            query: generateSearchQuery(args.searchString, args.filters),
+            query: generateSearchQuery(args.searchString, args.filters || undefined),
             suggest:
                 'didYouMeanSuggestion' in fields ? generateSuggest(args.searchString) : undefined,
             aggregations:
                 'facets' in fields
-                    ? generateAggregations(args.searchString, args.filters)
+                    ? generateAggregations(args.searchString, args.filters || undefined)
                     : undefined,
         },
     });
-    return parseResponse(body, args.filters);
+    return parseResponse(body, args.filters || undefined);
 };
 
 type GraphqlFields = {} | { [key: string]: GraphqlFields };
@@ -97,7 +97,7 @@ function getSourceFields(fields: GraphqlFields, qualifier?: string): string[] {
     return result;
 }
 
-function generateSearchQuery(searchString?: string, filters: Filters = {}) {
+function generateSearchQuery(searchString?: string, filters: Filter[] = []) {
     return {
         bool: {
             must: searchString
@@ -121,10 +121,8 @@ function generateSearchQuery(searchString?: string, filters: Filters = {}) {
     };
 }
 
-export function mapFilters(filters: Filters): Array<object | null> {
-    return Object.entries(filters)
-        .map(([label, value]) => generateFilter(label as Facet, value || null))
-        .filter((entry) => entry !== null);
+export function mapFilters(filters: Filter[]): Array<object | null> {
+    return filters.map((filter) => generateFilter(filter.field, filter.terms));
 }
 
 function generateFilter(label: Facet, value: string[] | null): object | null {
@@ -158,16 +156,15 @@ function generateSuggest(searchString?: string) {
     }
 }
 
-function generateAggregations(searchString?: string, filters: Filters = {}) {
+function generateAggregations(searchString?: string, filters: Filter[] = []) {
     // Extract the non-facet part of the query to apply to all aggregations.
-    const query = generateSearchQuery(searchString, {});
+    const query = generateSearchQuery(searchString);
     // Build a modified aggregations object, where each facet is wrapped in a filter aggregation
     // that applies all active filters but that of the facet itself. This way, options are
     // narrowed down by other filters but currently not selected options of *this* facet are
     // still shown.
     const aggregations = Object.entries(aggregationTerms).reduce((acc, [label, terms]) => {
-        const otherFilters = { ...filters };
-        delete otherFilters[label as Facet];
+        const otherFilters = filters.filter(filter => filter.field !== label);
         const filteredAggregation = {
             filter: {
                 bool: {
@@ -188,7 +185,7 @@ function generateAggregations(searchString?: string, filters: Filters = {}) {
                     // selected entries to make sure all active filters appear on the list.
                     terms: {
                         ...terms,
-                        include: filters[label as Facet] || [],
+                        include: getFilterTerms(filters, label) || [],
                     },
                 },
             },
@@ -204,7 +201,12 @@ function generateAggregations(searchString?: string, filters: Filters = {}) {
     };
 }
 
-function parseResponse(body: any, filters: Filters): SearchResult {
+function getFilterTerms(filters: Filter[], field: string): string[] | undefined {
+    const filter = filters.find(f => f.field === field);
+    return filter?.terms;
+}
+
+function parseResponse(body: any, filters?: Filter[]): SearchResult {
     return {
         took: body.took,
         hits: {
@@ -246,7 +248,7 @@ function processDidYouMeanSuggestion(suggests: Suggest[]) {
     }
 }
 
-function getFacets(aggregations: any, filters: Filters): Aggregation[] {
+function getFacets(aggregations: any, filters?: Filter[]): Aggregation[] {
     if (!aggregations) {
         return [];
     }
@@ -259,7 +261,7 @@ function getFacets(aggregations: any, filters: Filters): Aggregation[] {
                     buckets: mergeBucketLists(
                         value[`filtered_${key}`].buckets,
                         value[`selected_${key}`].buckets,
-                        generateFilterBuckets(filters[key as Facet]),
+                        filters ? generateFilterBuckets(getFilterTerms(filters, key)) : null,
                     ),
                 };
             }
@@ -274,9 +276,9 @@ function getFacets(aggregations: any, filters: Filters): Aggregation[] {
  *
  * In case an applied filter has 0 hits, its aggregation will not be included by ElasticSearch.
  */
-function generateFilterBuckets(filters?: string[] | null) {
-    if (filters) {
-        return filters.map((s) => ({
+function generateFilterBuckets(filterTerms?: string[] | undefined) {
+    if (filterTerms) {
+        return filterTerms.map((s) => ({
             key: s,
             doc_count: 0,
         }));

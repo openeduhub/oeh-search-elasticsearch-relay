@@ -26,7 +26,7 @@ const autoCompleteResolver: QueryResolvers['autoComplete'] = async (
                             operator: 'and',
                         },
                     },
-                    filter: mapFilters(args.filters),
+                    filter: args.filters ? mapFilters(args.filters) : undefined,
                 },
             },
         },

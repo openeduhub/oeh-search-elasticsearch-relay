@@ -65,7 +65,7 @@ type Hit {
     """Metadata according to the LOM standard"""
     lom: Lom!
     collection: [Collection!]
-    license: License!
+    license: License
     id: ID!
     """Full text for search, not meant to be displayed"""
     fulltext: String!

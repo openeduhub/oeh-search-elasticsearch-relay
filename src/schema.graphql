@@ -56,7 +56,7 @@ type Hits {
     """Search results"""
     hits: [Hit!]!
 }
- 
+
 type Hit {
     """Content source"""
     source: Source!
@@ -112,14 +112,14 @@ type Thumbnail {
 }
 
 type Lom {
-    technical: LomTechnical!
+    technical: LomTechnical
     educational: LomEducational
     general: LomGeneral!
 }
 
 type LomTechnical {
     """Content URL"""
-    location: String!
+    location: String
 }
 
 type LomEducational {
@@ -141,12 +141,12 @@ type Valuespaces {
 type InternationalString {
     de: String!
 }
- 
+
 type DidYouMeanSuggestion {
     plain: String!
     html: String!
 }
- 
+
 type Aggregation {
     facet: Facet!
     buckets: [Bucket!]!

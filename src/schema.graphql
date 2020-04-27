@@ -64,13 +64,23 @@ type Hit {
     thumbnail: Thumbnail!
     """Metadata according to the LOM standard"""
     lom: Lom!
+    collection: [Collection!]
     id: ID!
     """Full text for search, not meant to be displayed"""
     fulltext: String!
     """Additional metadata to categorize content"""
     valuespaces: Valuespaces
 }
-
+type Collection {
+    uuid: ID!
+    name: String!
+    created: String!
+    last_updated: String!
+    data: CollectionData
+}
+type CollectionData {
+    editorial: Boolean
+}
 type Source {
     """A unique string that identifies the source"""
     id: ID!

@@ -65,11 +65,22 @@ type Hit {
     """Metadata according to the LOM standard"""
     lom: Lom!
     collection: [Collection!]
+    license: License!
     id: ID!
     """Full text for search, not meant to be displayed"""
     fulltext: String!
     """Additional metadata to categorize content"""
     valuespaces: Valuespaces
+}
+enum OerType {
+    NONE
+    MIXED
+    ALL
+}
+type License {
+    url: String
+    internal: String
+    oer: OerType!
 }
 type Collection {
     uuid: ID!

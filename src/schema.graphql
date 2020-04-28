@@ -80,7 +80,7 @@ enum OerType {
 type License {
     url: String
     internal: String
-    oer: OerType!
+    oer: OerType
 }
 type Collection {
     uuid: ID!

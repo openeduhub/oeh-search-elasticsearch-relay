@@ -30,23 +30,23 @@ interface SuggestOption {
 const aggregationTerms: { [label: string]: AggregationTerms } = {
     sources: {
         field: 'source.name.keyword',
-        size: 100,
+        size: 20,
     },
     keywords: {
         field: 'lom.general.keyword.keyword',
-        size: 100,
+        size: 20,
     },
     disciplines: {
         field: 'valuespaces.discipline.de.keyword',
-        size: 100,
+        size: 20,
     },
     learningResourceTypes: {
         field: 'valuespaces.learningResourceType.de.keyword',
-        size: 100,
+        size: 20,
     },
     educationalContexts: {
         field: 'valuespaces.educationalContext.de.keyword',
-        size: 100,
+        size: 20,
     },
 };
 

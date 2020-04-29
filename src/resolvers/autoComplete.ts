@@ -1,5 +1,5 @@
 import { QueryResolvers } from 'src/generated/graphql';
-import { client, index } from '../elasticSearchClient';
+import { client } from '../elasticSearchClient';
 import { mapFilters } from './search';
 
 const autoCompleteResolver: QueryResolvers['autoComplete'] = async (
@@ -9,7 +9,6 @@ const autoCompleteResolver: QueryResolvers['autoComplete'] = async (
     info,
 ): Promise<string[]> => {
     const { body } = await client.search({
-        index,
         body: {
             query: {
                 bool: {

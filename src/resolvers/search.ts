@@ -7,7 +7,7 @@ import {
     QueryResolvers,
     SearchResult,
 } from 'src/generated/graphql';
-import { client, index } from '../elasticSearchClient';
+import { client } from '../elasticSearchClient';
 
 interface AggregationTerms {
     field: string;
@@ -67,7 +67,6 @@ const searchResolver: QueryResolvers['search'] = async (
     const fields = graphqlFields(info as any);
     const sources = getSourceFields(fields);
     const { body } = await client.search({
-        index,
         body: {
             from: args.from,
             size: 'hits' in fields ? args.size : 0,
@@ -172,7 +171,7 @@ function generateAggregations(searchString?: string, filters: Filter[] = []) {
     // narrowed down by other filters but currently not selected options of *this* facet are
     // still shown.
     const aggregations = Object.entries(aggregationTerms).reduce((acc, [label, terms]) => {
-        const otherFilters = filters.filter(filter => filter.field !== label);
+        const otherFilters = filters.filter((filter) => filter.field !== label);
         const filteredAggregation = {
             filter: {
                 bool: {
@@ -210,7 +209,7 @@ function generateAggregations(searchString?: string, filters: Filter[] = []) {
 }
 
 function getFilterTerms(filters: Filter[], field: string): string[] | undefined {
-    const filter = filters.find(f => f.field === field);
+    const filter = filters.find((f) => f.field === field);
     return filter?.terms;
 }
 

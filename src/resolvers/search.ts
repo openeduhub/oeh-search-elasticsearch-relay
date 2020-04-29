@@ -32,6 +32,14 @@ const aggregationTerms: { [label: string]: AggregationTerms } = {
         field: 'source.name.keyword',
         size: 20,
     },
+    licenseOER: {
+        field: 'license.oer',
+        size: 20,
+    },
+    types: {
+        field: 'type',
+        size: 20,
+    },
     keywords: {
         field: 'lom.general.keyword.keyword',
         size: 20,

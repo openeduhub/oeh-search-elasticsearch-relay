@@ -37,6 +37,8 @@ enum Facet {
     educationalContexts
     """valuespaces.educationalContext.de"""
     learningResourceTypes
+    licenseOER
+    types
 }
 
 type SearchResult {

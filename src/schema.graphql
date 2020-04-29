@@ -39,6 +39,7 @@ enum Facet {
     learningResourceTypes
     licenseOER
     types
+    intendedEndUserRoles
 }
 
 type SearchResult {

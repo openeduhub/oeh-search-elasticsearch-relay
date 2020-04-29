@@ -62,7 +62,7 @@ const searchResolver: QueryResolvers['search'] = async (
         index,
         body: {
             from: args.from,
-            size: args.size,
+            size: 'hits' in fields ? args.size : 0,
             _source: {
                 includes: sources,
             },

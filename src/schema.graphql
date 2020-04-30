@@ -69,6 +69,7 @@ type Hit {
     lom: Lom!
     collection: [Collection!]
     license: License
+    type: String!
     id: ID!
     """Full text for search, not meant to be displayed"""
     fulltext: String!

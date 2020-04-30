@@ -140,6 +140,7 @@ type Valuespaces {
     discipline: [InternationalString!]
     educationalContext: [InternationalString!]
     learningResourceType: [InternationalString!]
+    intendedEndUserRole: [InternationalString!]
 }
 
 type InternationalString {

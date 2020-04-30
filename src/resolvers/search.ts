@@ -52,6 +52,10 @@ const aggregationTerms: { [label: string]: AggregationTerms } = {
         field: 'valuespaces.learningResourceType.de.keyword',
         size: 20,
     },
+    educationalContexts: {
+        field: 'valuespaces.educationalContext.de.keyword',
+        size: 20,
+    },
     intendedEndUserRoles: {
         field: 'valuespaces.intendedEndUserRole.de.keyword',
         size: 20,

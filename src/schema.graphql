@@ -55,9 +55,19 @@ type SearchResult {
 
 type Hits {
     """Number of search results"""
-    total: Int!
+    total: TotalHits!
     """Search results"""
     hits: [Hit!]!
+}
+
+type TotalHits {
+    value: Int!
+    relation: TotalHitsRelation!
+}
+
+enum TotalHitsRelation {
+    eq,
+    gte,
 }
 
 type Hit {

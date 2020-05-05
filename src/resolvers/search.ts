@@ -1,4 +1,5 @@
 import graphqlFields from 'graphql-fields';
+import { client } from '../elasticSearchClient';
 import {
     Aggregation,
     Bucket,
@@ -6,8 +7,7 @@ import {
     Filter,
     QueryResolvers,
     SearchResult,
-} from 'src/generated/graphql';
-import { client } from '../elasticSearchClient';
+} from '../generated/graphql';
 
 interface AggregationTerms {
     field: string;
@@ -222,7 +222,7 @@ function parseResponse(body: any, filters?: Filter[]): SearchResult {
         took: body.took,
         hits: {
             hits: body.hits.hits.map((hit: any) => hit._source),
-            total: body.hits.total.value,
+            total: body.hits.total,
         },
         didYouMeanSuggestion: getDidYouMeanSuggestion(body.suggest),
         facets: getFacets(body.aggregations, filters),

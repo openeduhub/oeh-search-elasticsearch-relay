@@ -6,6 +6,7 @@
     "start": "graphql-codegen -w & tsc-watch --build --onSuccess \"bash -c 'npm run copy-schemas && node ./dist/server.js'\"",
     "watch": "graphql-codegen -w & tsc-watch --build --onSuccess \"npm run copy-schemas\"",
     "clean": "rm -rf dist",
+    "generate": "graphql-codegen",
     "prebuild": "graphql-codegen",
     "build": "tsc --build && npm run copy-schemas",
     "docker-build": "docker build --tag elasticsearch-relay .",

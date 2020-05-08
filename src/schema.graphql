@@ -9,6 +9,8 @@ type Query {
         size: Int! = 10
         """Offset for pagination"""
         from: Int! = 0
+        """Return only results that are recommended by editors"""
+        onlyRecommended: Boolean! = false
     ): SearchResult!
     """Get a single entry"""
     get(

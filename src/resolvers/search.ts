@@ -77,7 +77,11 @@ const searchResolver: QueryResolvers['search'] = async (
             _source: {
                 includes: sources,
             },
-            query: generateSearchQuery(args.searchString, args.filters || undefined),
+            query: generateSearchQuery(
+                args.searchString,
+                args.filters || undefined,
+                args.onlyRecommended,
+            ),
             suggest:
                 'didYouMeanSuggestion' in fields ? generateSuggest(args.searchString) : undefined,
             aggregations:
@@ -108,32 +112,50 @@ function getSourceFields(fields: GraphqlFields, qualifier?: string): string[] {
     return result;
 }
 
-function generateSearchQuery(searchString?: string, filters: Filter[] = []) {
+function generateSearchQuery(
+    searchString?: string,
+    filters: Filter[] = [],
+    onlyRecommended: boolean = false,
+) {
+    let must;
+    if (searchString) {
+        must = {
+            multi_match: {
+                query: searchString,
+                type: 'cross_fields',
+                fields: [
+                    'lom.general.title^3',
+                    'lom.general.keyword',
+                    'lom.educational.description',
+                    'valuespaces.*.de',
+                    'fulltext',
+                ],
+                operator: 'and',
+            },
+        };
+    }
+    const filter = mapFilters(filters);
+    if (onlyRecommended) {
+        filter.push(filterRecommended());
+    }
     return {
         bool: {
-            must: searchString
-                ? {
-                      multi_match: {
-                          query: searchString,
-                          type: 'cross_fields',
-                          fields: [
-                              'lom.general.title^3',
-                              'lom.general.keyword',
-                              'lom.educational.description',
-                              'valuespaces.*.de',
-                              'fulltext',
-                          ],
-                          operator: 'and',
-                      },
-                  }
-                : undefined,
-            filter: mapFilters(filters),
+            must,
+            filter,
         },
     };
 }
 
 export function mapFilters(filters: Filter[]): Array<object | null> {
     return filters.map((filter) => generateFilter(filter.field, filter.terms));
+}
+
+function filterRecommended() {
+    return {
+        exists: {
+            field: 'collection.data.editorial',
+        },
+    };
 }
 
 function generateFilter(label: Facet, value: string[] | null): object | null {

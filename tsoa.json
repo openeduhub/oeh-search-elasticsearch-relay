@@ -1,0 +1,15 @@
+{
+    "entryFile": "./src/server.ts",
+    "controllerPathGlobs": ["./src/controllers/**/*controller.ts"],
+    "noImplicitAdditionalProperties": "silently-remove-extras",
+    "spec": {
+        "basePath": "/rest",
+        "outputDirectory": "./src/generated",
+        "specVersion": 3
+    },
+    "routes": {
+        "basePath": "/rest",
+        "routesDir": "./src/generated",
+        "middleware": "express"
+    }
+}

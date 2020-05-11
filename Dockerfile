@@ -1,8 +1,9 @@
 FROM node:13-alpine
 
-ENV ELASTICSEARCH_URL http://elasticsearch
-ENV INDEX search_idx
+ENV NODE_ENV production
 ENV PORT 80
+
+EXPOSE 80
 
 WORKDIR /home/node/app
 COPY dist .

@@ -3,14 +3,17 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "graphql-codegen -w & tsc-watch --build --onSuccess \"bash -c 'npm run copy-schemas && node ./dist/server.js'\"",
-    "watch": "graphql-codegen -w & tsc-watch --build --onSuccess \"npm run copy-schemas\"",
-    "clean": "rm -rf dist",
-    "generate": "graphql-codegen",
-    "prebuild": "graphql-codegen",
-    "build": "tsc --build && npm run copy-schemas",
+    "clean": "rm -rf dist src/generated/*",
+    "start": "concurrently npm:watch-*",
+    "watch-tsoa": "nodemon --watch src --watch tsoa.json --ext ts --ignore src/generated --exec 'tsoa spec-and-routes'",
+    "watch-graphql": "graphql-codegen -w",
+    "watch-schema": "nodemon --watch src/schema.graphql --exec \"npm run copy-schema\"",
+    "watch-tsc": "tsc-watch --noClear --onSuccess \"node dist/server.js\"",
+    "generate": "concurrently \"tsoa spec-and-routes\" \"graphql-codegen\"",
+    "prebuild": "npm run generate",
+    "build": "concurrently \"tsc\" \"npm:copy-schema\"",
     "docker-build": "docker build --tag elasticsearch-relay .",
-    "copy-schemas": "cpx src/schema.graphql dist"
+    "copy-schema": "cpx src/schema.graphql dist"
   },
   "dependencies": {
     "@elastic/elasticsearch": "^7.6.1",
@@ -20,7 +23,11 @@
     "express": "^4.17.1",
     "express-graphql": "^0.9.0",
     "graphql": "^15.0.0",
-    "graphql-fields": "^2.0.3"
+    "graphql-fields": "^2.0.3",
+    "graphql-import": "^1.0.2",
+    "graphql-tools": "^5.0.0",
+    "swagger-ui-express": "^4.1.4",
+    "tsoa": "^3.0.8"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "1.13.3",
@@ -33,8 +40,11 @@
     "@types/graphql": "^14.5.0",
     "@types/graphql-fields": "^1.3.2",
     "@types/node": "^13.11.1",
+    "@types/swagger-ui-express": "^4.1.2",
+    "concurrently": "^5.2.0",
     "cpx": "^1.5.0",
-    "graphql-import": "^1.0.2",
+    "nodemon": "^2.0.3",
+    "ts-node": "^8.10.1",
     "tsc-watch": "^4.2.3",
     "typescript": "^3.8.3"
   }

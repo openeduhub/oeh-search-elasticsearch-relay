@@ -1,4 +1,4 @@
-import { QueryResolvers } from 'src/generated/graphql';
+import { QueryResolvers } from '../generated/graphql';
 import { client } from '../elasticSearchClient';
 import { mapFilters } from './search';
 

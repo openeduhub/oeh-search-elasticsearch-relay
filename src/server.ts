@@ -1,8 +1,10 @@
-import http from 'http';
 import express from 'express';
-import { applyMiddleware } from './utils';
+import http from 'http';
+import { config } from './config';
+import { RegisterRoutes } from './generated/routes';
 import middleware from './middleware';
 import errorHandlers from './middleware/errorHandlers';
+import { applyMiddleware } from './utils';
 
 process.on('uncaughtException', (e) => {
     console.log(e);
@@ -20,9 +22,10 @@ process.on('SIGINT', () => {
 
 const router = express();
 applyMiddleware(middleware, router);
+RegisterRoutes(router);
 applyMiddleware(errorHandlers, router);
 
-const { PORT = 3000 } = process.env;
+const port = config.port;
 const server = http.createServer(router);
 
-server.listen(PORT, () => console.log(`Server is running http://localhost:${PORT}...`));
+server.listen(port, () => console.log(`Server is running on http://localhost:${port}...`));

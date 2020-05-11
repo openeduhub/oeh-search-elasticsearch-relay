@@ -1,4 +1,4 @@
-import { Hit, QueryResolvers } from 'src/generated/graphql';
+import { Hit, QueryResolvers } from '../generated/graphql';
 import { client } from '../elasticSearchClient';
 
 const getResolver: QueryResolvers['get'] = async (root, args, context, info): Promise<Hit> => {

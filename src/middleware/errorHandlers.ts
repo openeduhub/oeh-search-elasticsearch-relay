@@ -1,26 +1,21 @@
 import { Request, Response, NextFunction, Router } from 'express';
-import * as ErrorHandler from '../utils/ErrorHandler';
+import { config } from '../config';
+import { ErrorResponse } from '../types/ErrorResponse';
 
-const handle404Error = (router: Router) => {
-    router.use((req: Request, res: Response) => {
-        ErrorHandler.notFoundError();
+function wrapRestError(router: Router) {
+    router.use('/rest', (err: Error, req: Request, res: Response, next: NextFunction) => {
+        console.error(err);
+        const message: ErrorResponse = {
+            error: err.name,
+            message: err.message,
+            logLevel: config.production ? 'production' : 'debug',
+            stacktraceArray: config.production
+                ? ['Stacktrace is not available in production environment.']
+                : err.stack?.split('\n').map((s) => s.trim()) || [],
+        };
+        const status = (err as any).status || 500;
+        res.status(status).send(message);
     });
-};
+}
 
-const handleClientError = (router: Router) => {
-    router.use(
-        (err: Error, req: Request, res: Response, next: NextFunction) => {
-            ErrorHandler.clientError(err, res, next);
-        },
-    );
-};
-
-const handleServerError = (router: Router) => {
-    router.use(
-        (err: Error, req: Request, res: Response, next: NextFunction) => {
-            ErrorHandler.serverError(err, res, next);
-        },
-    );
-};
-
-export default [handle404Error, handleClientError, handleServerError];
+export default [wrapRestError];

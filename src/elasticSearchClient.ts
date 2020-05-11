@@ -1,11 +1,9 @@
-import dotenv from 'dotenv';
 import { Client, RequestParams } from '@elastic/elasticsearch';
-
-dotenv.config();
+import { config } from './config';
 
 class ElasticSearchClient {
-    private readonly client = new Client({ node: process.env.ELASTICSEARCH_URL });
-    private readonly index = process.env.INDEX;
+    private readonly client = new Client({ node: config.elasticSearch.url });
+    private readonly index = config.elasticSearch.index;
 
     async search(params: RequestParams.Search) {
         try {

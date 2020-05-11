@@ -1,24 +1,18 @@
-import { Router, Request, Response, NextFunction } from 'express';
+import { Router } from 'express';
+import { Readable } from 'stream';
 
 type Wrapper = (router: Router) => void;
 
-export const applyMiddleware = (
-    middlewareWrappers: Wrapper[],
-    router: Router,
-) => {
+export const applyMiddleware = (middlewareWrappers: Wrapper[], router: Router) => {
     for (const wrapper of middlewareWrappers) {
         wrapper(router);
     }
 };
 
-type Handler = (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-) => Promise<void> | void;
-
-interface Route {
-    path: string;
-    method: string;
-    handler: Handler | Handler[];
+export function bufferToReadable(buffer: Buffer): Readable {
+    const readable = new Readable();
+    readable._read = () => {};
+    readable.push(buffer);
+    readable.push(null);
+    return readable;
 }

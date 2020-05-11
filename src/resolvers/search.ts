@@ -119,20 +119,7 @@ function generateSearchQuery(
 ) {
     let must;
     if (searchString) {
-        must = {
-            multi_match: {
-                query: searchString,
-                type: 'cross_fields',
-                fields: [
-                    'lom.general.title^3',
-                    'lom.general.keyword',
-                    'lom.educational.description',
-                    'valuespaces.*.de',
-                    'fulltext',
-                ],
-                operator: 'and',
-            },
-        };
+        must = generateSearchStringQuery(searchString);
     }
     const filter = mapFilters(filters);
     if (onlyRecommended) {
@@ -142,6 +129,23 @@ function generateSearchQuery(
         bool: {
             must,
             filter,
+        },
+    };
+}
+
+export function generateSearchStringQuery(searchString: string) {
+    return {
+        multi_match: {
+            query: searchString,
+            type: 'cross_fields',
+            fields: [
+                'lom.general.title^3',
+                'lom.general.keyword',
+                'lom.educational.description',
+                'valuespaces.*.de',
+                'fulltext',
+            ],
+            operator: 'and',
         },
     };
 }

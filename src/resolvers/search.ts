@@ -60,6 +60,10 @@ const aggregationTerms: { [label: string]: AggregationTerms } = {
         field: 'valuespaces.intendedEndUserRole.de.keyword',
         size: 20,
     },
+    collections: {
+        field: 'collection.uuid',
+        size: 20,
+    },
 };
 
 const searchResolver: QueryResolvers['search'] = async (
@@ -80,7 +84,6 @@ const searchResolver: QueryResolvers['search'] = async (
             query: generateSearchQuery(
                 args.searchString,
                 args.filters || undefined,
-                args.onlyRecommended,
             ),
             suggest:
                 'didYouMeanSuggestion' in fields ? generateSuggest(args.searchString) : undefined,
@@ -115,16 +118,12 @@ function getSourceFields(fields: GraphqlFields, qualifier?: string): string[] {
 function generateSearchQuery(
     searchString?: string,
     filters: Filter[] = [],
-    onlyRecommended: boolean = false,
 ) {
     let must;
     if (searchString) {
         must = generateSearchStringQuery(searchString);
     }
     const filter = mapFilters(filters);
-    if (onlyRecommended) {
-        filter.push(filterRecommended());
-    }
     return {
         bool: {
             must,
@@ -152,14 +151,6 @@ export function generateSearchStringQuery(searchString: string) {
 
 export function mapFilters(filters: Filter[]): Array<object | null> {
     return filters.map((filter) => generateFilter(filter.field, filter.terms));
-}
-
-function filterRecommended() {
-    return {
-        exists: {
-            field: 'collection.data.editorial',
-        },
-    };
 }
 
 function generateFilter(label: Facet, value: string[] | null): object | null {

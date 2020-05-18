@@ -9,8 +9,6 @@ type Query {
         size: Int! = 10
         """Offset for pagination"""
         from: Int! = 0
-        """Return only results that are recommended by editors"""
-        onlyRecommended: Boolean! = false
     ): SearchResult!
     """Get a single entry"""
     get(
@@ -39,9 +37,14 @@ enum Facet {
     educationalContexts
     """valuespaces.educationalContext.de"""
     learningResourceTypes
+    """valuespaces.learningResourceType.de"""
     licenseOER
+    """type"""
     types
+    """valuespaces.intendedEndUserRole.de"""
     intendedEndUserRoles
+    """collection.uuid"""
+    collections
 }
 
 type SearchResult {

@@ -1,12 +1,16 @@
 import { QueryResolvers } from '../generated/graphql';
-import search from './search';
-import get from './get';
 import autoComplete from './autoComplete';
+import didYouMeanSuggestion from './didYouMeanSuggestion';
+import facets from './facets';
+import get from './get';
+import search from './search';
 
 const Query: QueryResolvers = {
-    search,
-    get,
     autoComplete,
+    didYouMeanSuggestion,
+    facets,
+    get,
+    search,
 };
 
 export default { Query };

@@ -19,13 +19,20 @@ type Query {
         searchString: String!
         filters: [Filter!]
     ): [String!]!
+    """A possible spell correction based on the given query"""
+    didYouMeanSuggestion(
+        searchString: String!
+        filters: [Filter!]
+    ): DidYouMeanSuggestion
+    """Available facets, when taking the given query into account"""
+    facets(
+        searchString: String!
+        filters: [Filter!]
+        size: Int! = 20
+    ): Facets!
 }
 
-input Filter {
-    field: Facet!
-    terms: [String!]!
-}
-
+# When changing values here, remember to update `Facets` as well!
 enum Facet {
     """source.name"""
     sources
@@ -33,11 +40,11 @@ enum Facet {
     keywords
     """valuespaces.discipline.de"""
     disciplines
-    """valuespaces.learningResourceType.de"""
-    educationalContexts
     """valuespaces.educationalContext.de"""
-    learningResourceTypes
+    educationalContexts
     """valuespaces.learningResourceType.de"""
+    learningResourceTypes
+    """license.oer"""
     licenseOER
     """type"""
     types
@@ -47,15 +54,28 @@ enum Facet {
     collections
 }
 
+type Facets {
+    sources: [Bucket!]!
+    keywords: [Bucket!]!
+    disciplines: [Bucket!]!
+    educationalContexts: [Bucket!]!
+    learningResourceTypes: [Bucket!]!
+    licenseOER: [Bucket!]!
+    types: [Bucket!]!
+    intendedEndUserRoles: [Bucket!]!
+    collections: [Bucket!]!
+}
+
+input Filter {
+    field: Facet!
+    terms: [String!]!
+}
+
 type SearchResult {
     """Time it took ElasticSearch to handle the request in milliseconds"""
     took: Int!
     """Search results of the given query"""
     hits: Hits!
-    """A possible spell correction based on the given query"""
-    didYouMeanSuggestion: DidYouMeanSuggestion
-    """Available facets, when taking the given query into account"""
-    facets: [Aggregation!]!
 }
 
 type Hits {
@@ -165,11 +185,6 @@ type InternationalString {
 type DidYouMeanSuggestion {
     plain: String!
     html: String!
-}
-
-type Aggregation {
-    facet: Facet!
-    buckets: [Bucket!]!
 }
 
 type Bucket {

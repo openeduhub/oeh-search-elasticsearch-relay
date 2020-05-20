@@ -1,7 +1,7 @@
 import graphqlFields from 'graphql-fields';
 import { client } from '../elasticSearchClient';
-import { Bucket, Facet, Facets, Filter, QueryResolvers, Language } from '../generated/graphql';
-import { generateSearchQuery, mapFilters } from './search';
+import { Bucket, Facet, Facets, Filter, Language, QueryResolvers } from '../generated/graphql';
+import { generateSearchStringQuery, mapFilters } from './search';
 
 interface AggregationTerms {
     field: string;
@@ -31,12 +31,11 @@ const facetsResolver: QueryResolvers['facets'] = async (
     const { body } = await client.search({
         body: {
             size: 0,
-            query: generateSearchQuery(args.searchString, args.filters || undefined),
             aggregations: generateAggregations(
                 facets,
                 args.size,
                 args.language || undefined,
-                args.searchString,
+                args.searchString || undefined,
                 args.filters || undefined,
             ),
         },
@@ -52,7 +51,7 @@ function generateAggregations(
     filters: Filter[] = [],
 ) {
     // Extract the non-facet part of the query to apply to all aggregations.
-    const query = generateSearchQuery(searchString);
+    const must = searchString ? generateSearchStringQuery(searchString) : undefined;
     // Build a modified aggregations object, where each facet is wrapped in a filter aggregation
     // that applies all active filters but that of the facet itself. This way, options are
     // narrowed down by other filters but currently not selected options of *this* facet are
@@ -65,7 +64,7 @@ function generateAggregations(
         const filteredAggregation = {
             filter: {
                 bool: {
-                    must: query.bool.must,
+                    must,
                     filter: mapFilters(otherFilters),
                 },
             },

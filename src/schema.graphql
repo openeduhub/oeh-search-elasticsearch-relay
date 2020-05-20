@@ -26,7 +26,7 @@ type Query {
     ): DidYouMeanSuggestion
     """Available facets, when taking the given query into account"""
     facets(
-        searchString: String!
+        searchString: String
         filters: [Filter!]
         size: Int! = 20
         language: Language

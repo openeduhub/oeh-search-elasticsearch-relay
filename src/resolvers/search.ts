@@ -64,7 +64,7 @@ export function generateSearchStringQuery(searchString: string) {
             fields: [
                 'lom.general.title^3',
                 'lom.general.keyword',
-                'lom.educational.description',
+                'lom.general.description',
                 'valuespaces.*.de',
                 'fulltext',
             ],

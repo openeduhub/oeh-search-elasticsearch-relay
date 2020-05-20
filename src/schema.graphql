@@ -175,6 +175,7 @@ type LomGeneral {
     title: String!
     identifier: ID
     keyword: [String!]
+    description: String
 }
 
 type Valuespaces {

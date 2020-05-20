@@ -1,7 +1,6 @@
 import graphqlFields from 'graphql-fields';
 import { client } from '../elasticSearchClient';
-import { Facet, Filter, QueryResolvers, SearchResult } from '../generated/graphql';
-import { knownFacets } from './facets';
+import { Filter, QueryResolvers, SearchResult } from '../generated/graphql';
 
 const searchResolver: QueryResolvers['search'] = async (
     root,
@@ -78,19 +77,15 @@ export function mapFilters(filters: Filter[]): Array<object | null> {
     return filters.map((filter) => generateFilter(filter.field, filter.terms));
 }
 
-function generateFilter(facet: Facet, value: string[] | null): object | null {
+function generateFilter(field: string, value: string[] | null): object | null {
     if (value === null || value.length === 0) {
         return null;
     }
-    if (facet in knownFacets) {
-        return {
-            terms: {
-                [knownFacets[facet]]: value,
-            },
-        };
-    } else {
-        throw new Error(`Cannot filter for unknown facet: ${facet}`);
-    }
+    return {
+        terms: {
+            [field]: value,
+        },
+    };
 }
 
 function parseResponse(body: any, filters?: Filter[]): SearchResult {

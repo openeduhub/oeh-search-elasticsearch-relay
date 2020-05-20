@@ -29,7 +29,13 @@ type Query {
         searchString: String!
         filters: [Filter!]
         size: Int! = 20
+        language: Language
     ): Facets!
+}
+
+enum Language {
+    de
+    en
 }
 
 # When changing values here, remember to update `Facets` as well!
@@ -55,19 +61,19 @@ enum Facet {
 }
 
 type Facets {
-    sources: [Bucket!]!
-    keywords: [Bucket!]!
-    disciplines: [Bucket!]!
-    educationalContexts: [Bucket!]!
-    learningResourceTypes: [Bucket!]!
-    licenseOER: [Bucket!]!
-    types: [Bucket!]!
-    intendedEndUserRoles: [Bucket!]!
-    collections: [Bucket!]!
+    sources: Aggregation!
+    keywords: Aggregation!
+    disciplines: Aggregation!
+    educationalContexts: Aggregation!
+    learningResourceTypes: Aggregation!
+    licenseOER: Aggregation!
+    types: Aggregation!
+    intendedEndUserRoles: Aggregation!
+    collections: Aggregation!
 }
 
 input Filter {
-    field: Facet!
+    field: String!
     terms: [String!]!
 }
 
@@ -185,6 +191,11 @@ type InternationalString {
 type DidYouMeanSuggestion {
     plain: String!
     html: String!
+}
+
+type Aggregation {
+    buckets: [Bucket!]!
+    field: String!
 }
 
 type Bucket {

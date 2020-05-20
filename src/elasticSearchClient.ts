@@ -15,4 +15,4 @@ class ElasticSearchClient {
     }
 }
 
-export const client = new ElasticSearchClient();;
+export const client = new ElasticSearchClient();

@@ -1,6 +1,6 @@
 import graphqlFields from 'graphql-fields';
 import { client } from '../elasticSearchClient';
-import { Bucket, Facet, Facets, Filter, QueryResolvers } from '../generated/graphql';
+import { Bucket, Facet, Facets, Filter, QueryResolvers, Language } from '../generated/graphql';
 import { generateSearchQuery, mapFilters } from './search';
 
 interface AggregationTerms {
@@ -8,16 +8,16 @@ interface AggregationTerms {
     size: number;
 }
 
-export const knownFacets: { [facet in Facet]: string } = {
-    sources: 'source.name.keyword',
-    licenseOER: 'license.oer',
-    types: 'type',
-    keywords: 'lom.general.keyword.keyword',
-    disciplines: 'valuespaces.discipline.de.keyword',
-    learningResourceTypes: 'valuespaces.learningResourceType.de.keyword',
-    educationalContexts: 'valuespaces.educationalContext.de.keyword',
-    intendedEndUserRoles: 'valuespaces.intendedEndUserRole.de.keyword',
-    collections: 'collection.uuid',
+export const knownFacets: { [facet in Facet]: (language?: Language) => string } = {
+    sources: () => 'source.name.keyword',
+    licenseOER: () => 'license.oer',
+    types: () => 'type',
+    keywords: () => 'lom.general.keyword.keyword',
+    disciplines: (lang) => `valuespaces.discipline.${lang || 'key'}.keyword`,
+    learningResourceTypes: (lang) => `valuespaces.learningResourceType.${lang || 'key'}.keyword`,
+    educationalContexts: (lang) => `valuespaces.educationalContext.${lang || 'key'}.keyword`,
+    intendedEndUserRoles: (lang) => `valuespaces.intendedEndUserRole.${lang || 'key'}.keyword`,
+    collections: () => 'collection.uuid',
 };
 
 const facetsResolver: QueryResolvers['facets'] = async (
@@ -35,17 +35,19 @@ const facetsResolver: QueryResolvers['facets'] = async (
             aggregations: generateAggregations(
                 facets,
                 args.size,
+                args.language || undefined,
                 args.searchString,
                 args.filters || undefined,
             ),
         },
     });
-    return getFacets(body.aggregations, args.filters || undefined);
+    return getFacets(body.aggregations, args.filters || undefined, args.language || undefined);
 };
 
 function generateAggregations(
     facets: Facet[],
     size: number,
+    language?: Language,
     searchString?: string,
     filters: Filter[] = [],
 ) {
@@ -56,8 +58,10 @@ function generateAggregations(
     // narrowed down by other filters but currently not selected options of *this* facet are
     // still shown.
     const aggregations = facets.reduce((acc, facet) => {
-        const otherFilters = filters.filter((filter) => filter.field !== facet);
-        const terms = getAggregationTerms(facet, size);
+        const otherFilters = filters.filter(
+            (filter) => filter.field !== knownFacets[facet](language),
+        );
+        const terms = getAggregationTerms(facet, size, language);
         const filteredAggregation = {
             filter: {
                 bool: {
@@ -94,25 +98,32 @@ function generateAggregations(
     };
 }
 
-function getAggregationTerms(facet: Facet, size: number): AggregationTerms {
+function getAggregationTerms(facet: Facet, size: number, language?: Language): AggregationTerms {
     return {
-        field: knownFacets[facet],
+        field: knownFacets[facet](language),
         size,
     };
 }
 
-function getFacets(aggregations: any, filters?: Filter[]): Facets {
+function getFacets(aggregations: any, filters?: Filter[], language?: Language): Facets {
     // Unwrap the filter structure introduced by `generateAggregations`.
-    const facets = Object.entries<any>(aggregations.all_facets).reduce((acc, [key, value]) => {
-        if (value[`filtered_${key}`]) {
-            acc[key as Facet] = mergeBucketLists(
-                value[`filtered_${key}`].buckets,
-                value[`selected_${key}`].buckets,
-                filters ? generateFilterBuckets(getFilterTerms(filters, key)) : null,
-            );
-        }
-        return acc;
-    }, {} as Facets);
+    const facets = Object.entries<any>(aggregations.all_facets)
+        .filter(([key, value]) => key in knownFacets)
+        .reduce((acc, [key, value]) => {
+            const facet = key as Facet;
+            const field = knownFacets[facet](language);
+            if (value[`filtered_${key}`]) {
+                acc[facet] = {
+                    buckets: mergeBucketLists(
+                        value[`filtered_${facet}`].buckets,
+                        value[`selected_${facet}`].buckets,
+                        filters ? generateFilterBuckets(getFilterTerms(filters, field)) : null,
+                    ),
+                    field,
+                };
+            }
+            return acc;
+        }, {} as Facets);
     return facets;
 }
 

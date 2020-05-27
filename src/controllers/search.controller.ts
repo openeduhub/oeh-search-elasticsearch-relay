@@ -102,7 +102,7 @@ export class SearchController extends Controller {
         // field, we set it to `(null as unknown) as x` here.
         return {
             access: [],
-            aspects: null,
+            aspects: hit.aspects,
             collection: (null as unknown) as CollectionType,
             commentCount: 0,
             content: {

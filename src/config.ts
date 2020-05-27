@@ -9,5 +9,8 @@ export const config = {
     elasticSearch: {
         url: process.env.ELASTICSEARCH_URL || 'http://localhost:9200',
         index: process.env.ELASTICSEARCH_INDEX || 'search_idx',
-    }
-}
+    },
+    eduSharing: {
+        url: process.env.EDUSHARING_URL || 'http://localhost/edu-sharing',
+    },
+};

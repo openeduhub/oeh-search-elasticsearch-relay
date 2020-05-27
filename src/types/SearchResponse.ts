@@ -5,34 +5,55 @@ export interface SearchResponse {
 }
 
 export interface Node {
-    ref: NodeRef;
+    access: string[];
+    aspects: string[] | null;
+    collection: CollectionType;
+    /**
+     * @isInt commentCount
+     */
+    commentCount: number | null;
+    content: Content;
+    createdAt: string;
+    createdBy: Person;
+    downloadUrl: string;
+    iconURL: string | null;
+    isDirectory: boolean | null;
+    license: LicenseType | null;
+    mediatype: string | null;
+    metadataset: string | null;
+    mimetype: string | null;
+    modifiedAt: string | null;
+    modifiedBy: Person | null;
     name: string;
-    // createdAt: string;
-    // createdBy: Person;
-    // access: string[];
-    // downloadUrl: string;
-    // collection: CollectionType;
-    // owner: Person;
+    owner: Person;
+    parent: NodeRef | null;
     preview?: Preview;
-    // ...
+    properties: { [key: string]: string[] };
+    rating: AccumulatedRatings | null;
+    ref: NodeRef;
+    remote: Remote | null;
+    repositoryType: string | null;
+    size: string | null;
+    title: string | null;
+    type: string | null;
 }
 
 export interface Pagination {
     /**
      * Total number of results.
-     * 
+     *
      * @isInt total
      */
     total: number;
     /**
      * Offset as requested by skipCount.
-     * 
+     *
      * @isInt from
      */
     from: number;
     /**
      * Number of returned results as limited by maxItems.
-     * 
+     *
      * @isInt count
      */
     count: number;
@@ -43,30 +64,50 @@ export interface Facette {
 }
 
 export interface NodeRef {
-    // repo: string;
+    archived: boolean;
     id: string;
-    // archived: boolean;
-    // isHomeRepo?: boolean;
+    isHomeRepo?: boolean;
+    repo: string;
+}
+
+export interface Content {
+    hash: string | null;
+    url: string | null;
+    version: string | null;
+}
+
+export interface Remote {
+    // TODO
 }
 
 export interface Person {
     // TODO
 }
 
-export interface CollectionType { // TSOA doesn't like the name 'Collection'
+// Name `Collection` conflicts with Graphql type
+export interface CollectionType {
     // TODO
 }
 
 export interface Preview {
+    /**
+     * @isInt height
+     */
+    height: number;
+    isGenerated: boolean | null;
     isIcon: boolean;
-    isGenerated?: boolean;
     url: string;
     /**
      * @isInt width
      */
-    width: number | null;
-    /**
-     * @isInt height
-     */
-    height: number | null;
+    width: number;
+}
+
+export interface AccumulatedRatings {
+    // TODO
+}
+
+// Name `License` conflicts with Graphql type
+export interface LicenseType {
+    // TODO
 }

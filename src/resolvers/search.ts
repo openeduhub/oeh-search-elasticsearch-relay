@@ -66,6 +66,7 @@ export function generateSearchStringQuery(searchString: string) {
                 'lom.general.keyword',
                 'lom.general.description',
                 'valuespaces.*.de',
+                'valuespaces.*.en',
                 'fulltext',
             ],
             operator: 'and',

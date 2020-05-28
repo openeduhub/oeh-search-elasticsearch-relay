@@ -44,17 +44,17 @@ enum Facet {
     sources
     """lom.general.keyword"""
     keywords
-    """valuespaces.discipline.de"""
+    """valuespaces.discipline"""
     disciplines
-    """valuespaces.educationalContext.de"""
+    """valuespaces.educationalContext"""
     educationalContexts
-    """valuespaces.learningResourceType.de"""
+    """valuespaces.learningResourceType"""
     learningResourceTypes
     """license.oer"""
     licenseOER
     """type"""
     types
-    """valuespaces.intendedEndUserRole.de"""
+    """valuespaces.intendedEndUserRole"""
     intendedEndUserRoles
     """collection.uuid"""
     collections
@@ -187,6 +187,7 @@ type Valuespaces {
 
 type InternationalString {
     de: String!
+    en: String
 }
 
 type DidYouMeanSuggestion {

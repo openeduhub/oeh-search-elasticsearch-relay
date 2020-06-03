@@ -6,6 +6,6 @@ ENV PORT 80
 EXPOSE 80
 
 WORKDIR /home/node/app
-COPY dist .
 COPY node_modules node_modules
+COPY dist .
 CMD ["server.js"]

@@ -76,7 +76,7 @@ export class SearchController extends Controller {
             body: {
                 from,
                 size,
-                query: generateSearchStringQuery(searchString),
+                query: generateSearchQuery(searchString),
             },
         });
         return this.parseSearchResponse(body, { from, preferredLanguage });
@@ -118,10 +118,10 @@ export class SearchController extends Controller {
             license: null,
             mediatype: null,
             metadataset: hit.properties['cm:edu_metadataset'],
-            mimetype: hit.properties['cm:content'].mimetype,
+            mimetype: hit.properties['cm:content']?.mimetype,
             modifiedAt: new Date(hit.properties['cm:modified']).toISOString(),
             modifiedBy: null,
-            name: hit.properties['cm:name'] || hit.properties['cclom:name'],
+            name: hit.properties['cm:name'],
             owner: (null as unknown) as Person,
             parent: hit.path[hit.path.length - 1],
             preview: {
@@ -137,7 +137,7 @@ export class SearchController extends Controller {
             },
             properties: {
                 ...this.mapProperties(hit.properties),
-                ...this.mapI18nProperties(hit.i18n[preferredLanguage]),
+                ...(hit.i18n ? this.mapI18nProperties(hit.i18n[preferredLanguage]) : {}),
             },
             rating: null,
             ref: {
@@ -148,7 +148,7 @@ export class SearchController extends Controller {
             },
             remote: null,
             repositoryType: 'ALFRESCO',
-            size: hit.properties['cm:content'].size,
+            size: hit.properties['cm:content']?.size,
             title: hit.properties['cm:title'] || hit.properties['cclom:title'] || null,
             type: hit.type,
         };
@@ -178,11 +178,30 @@ export class SearchController extends Controller {
     }
 }
 
+function generateSearchQuery(searchString: string) {
+    return {
+        bool: {
+            filter: generateFilter(),
+            must: generateSearchStringQuery(searchString),
+        },
+    };
+}
+
+function generateFilter() {
+    return [
+        {
+            terms: {
+                'permissions.read.keyword': ['GROUP_EVERYONE'],
+            },
+        },
+    ];
+}
+
 /**
  * Has an equivalent function in the search resolver, but with different fields
  * until consolidated.
  */
-export function generateSearchStringQuery(searchString: string) {
+function generateSearchStringQuery(searchString: string) {
     return {
         multi_match: {
             query: searchString,
@@ -191,7 +210,6 @@ export function generateSearchStringQuery(searchString: string) {
                 'properties.cm:title^3',
                 'properties.cm:name^3',
                 'properties.cclom:title^3',
-                'properties.cclom:name^3',
                 'properties.cclom:general_keyword',
                 'properties.cclom:general_description',
             ],

@@ -9,7 +9,9 @@ class ElasticSearchClient {
         try {
             return await this.client.search({ index: this.index, ...params });
         } catch (error) {
-            console.error(error.meta.body.error);
+            if (error.meta.body) {
+                console.error('ElasticSearch error:', error.meta.body.error);
+            }
             throw error;
         }
     }

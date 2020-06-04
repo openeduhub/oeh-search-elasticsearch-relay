@@ -1,0 +1,26 @@
+name: Docker
+
+on:
+  push:
+    branches: [ develop ]
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: azure/docker-login@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_PASSWORD }}
+    - name: Build the project
+      run: |
+        npm install
+        npm run clean
+        npm run build
+        npm prune --production
+    - name: Build Docker image
+      run: docker build --tag openeduhub/elasticsearch-relay .
+    - name: Publish to DockerHub
+      run: docker push openeduhub/elasticsearch-relay
+    

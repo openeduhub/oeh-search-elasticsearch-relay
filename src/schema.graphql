@@ -31,6 +31,10 @@ type Query {
         size: Int! = 20
         language: Language
     ): Facets!
+    subjectsPortals(
+        size: Int! = 100
+        language: Language!
+    ): SubjectsPortals!
 }
 
 enum Language {
@@ -203,4 +207,22 @@ type Aggregation {
 type Bucket {
     key: String!
     doc_count: Int!
+}
+
+type SubjectsPortals {
+    grundschule: [SubjectsPortalDiscipline!]!
+    sekundarstufe_1: [SubjectsPortalDiscipline!]!
+    sekundarstufe_2: [SubjectsPortalDiscipline!]!
+    berufliche_bildung: [SubjectsPortalDiscipline!]!
+    erwachsenenbildung: [SubjectsPortalDiscipline!]!
+    allgemeinbildende_schule: [SubjectsPortalDiscipline!]!
+    foerderschule: [SubjectsPortalDiscipline!]!
+    # mittelschule: [SubjectsPortalDiscipline!]!
+}
+
+type SubjectsPortalDiscipline {
+    id: String!
+    url: String!
+    doc_count: Int!
+    # featured_doc_count: Int!
 }

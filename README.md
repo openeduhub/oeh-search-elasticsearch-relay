@@ -40,6 +40,7 @@ Variable | Description | Default value
 -------- | ----------- | -------------------
 PORT | HTTP Port on which to expose this service | 3000 (80 in Docker)
 URL | Root URL where this service will be accessible from the Internet | http://localhost:3000
+FRONTEND_URL | Root URL where the OEH frontend will be accessible from the Internet | http://localhost:4200
 ELASTICSEARCH_URL | Root URL where this service can reach the ElasticSearch server | http://localhost:9200
 ELASTICSEARCH_INDEX | ElasticSearch index to query | search_idx
 EDUSHARING_URL | Root URL where the corresponding Edu-Sharing instance can be reached from the Internet | http://localhost/edu-sharing

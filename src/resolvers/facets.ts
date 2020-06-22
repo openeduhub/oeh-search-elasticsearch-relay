@@ -89,12 +89,7 @@ function generateAggregations(
         acc[facet as Facet] = filteredAggregation;
         return acc;
     }, {} as { [label in Facet]?: object });
-    return {
-        all_facets: {
-            global: {},
-            aggregations,
-        },
-    };
+    return aggregations;
 }
 
 function getAggregationTerms(facet: Facet, size: number, language?: Language): AggregationTerms {
@@ -106,7 +101,7 @@ function getAggregationTerms(facet: Facet, size: number, language?: Language): A
 
 function getFacets(aggregations: any, filters?: Filter[], language?: Language): Facets {
     // Unwrap the filter structure introduced by `generateAggregations`.
-    const facets = Object.entries<any>(aggregations.all_facets)
+    const facets = Object.entries<any>(aggregations)
         .filter(([key, value]) => key in knownFacets)
         .reduce((acc, [key, value]) => {
             const facet = key as Facet;

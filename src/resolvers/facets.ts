@@ -1,6 +1,6 @@
 import graphqlFields from 'graphql-fields';
 import { client } from '../elasticSearchClient';
-import { Bucket, Facet, Facets, Filter, Language, QueryResolvers } from '../generated/graphql';
+import { Bucket, Facets, Filter, Language, QueryResolvers } from '../generated/graphql';
 import { generateSearchStringQuery, mapFilters } from './search';
 
 interface AggregationTerms {
@@ -8,7 +8,18 @@ interface AggregationTerms {
     size: number;
 }
 
-export const knownFacets: { [facet in Facet]: (language?: Language) => string } = {
+type KnownFacet =
+    | 'sources'
+    | 'licenseOER'
+    | 'types'
+    | 'keywords'
+    | 'disciplines'
+    | 'learningResourceTypes'
+    | 'educationalContexts'
+    | 'intendedEndUserRoles'
+    | 'collections';
+
+export const knownFacetsMap: { [facet in KnownFacet]: (language?: Language) => string } = {
     sources: () => 'source.name.keyword',
     licenseOER: () => 'license.oer',
     types: () => 'type',
@@ -27,7 +38,9 @@ const facetsResolver: QueryResolvers['facets'] = async (
     info,
 ): Promise<Facets> => {
     const fields = graphqlFields(info as any);
-    const facets = Object.keys(fields).filter((field): field is Facet => field in knownFacets);
+    const facets = Object.keys(fields).filter(
+        (field): field is KnownFacet => field in knownFacetsMap,
+    );
     const { body } = await client.search({
         body: {
             size: 0,
@@ -44,7 +57,7 @@ const facetsResolver: QueryResolvers['facets'] = async (
 };
 
 function generateAggregations(
-    facets: Facet[],
+    facets: (keyof typeof knownFacetsMap)[],
     size: number,
     language?: Language,
     searchString?: string,
@@ -58,7 +71,7 @@ function generateAggregations(
     // still shown.
     const aggregations = facets.reduce((acc, facet) => {
         const otherFilters = filters.filter(
-            (filter) => filter.field !== knownFacets[facet](language),
+            (filter) => filter.field !== knownFacetsMap[facet](language),
         );
         const terms = getAggregationTerms(facet, size, language);
         const filteredAggregation = {
@@ -86,15 +99,19 @@ function generateAggregations(
                 },
             },
         };
-        acc[facet as Facet] = filteredAggregation;
+        acc[facet as KnownFacet] = filteredAggregation;
         return acc;
-    }, {} as { [label in Facet]?: object });
+    }, {} as { [label in KnownFacet]?: object });
     return aggregations;
 }
 
-function getAggregationTerms(facet: Facet, size: number, language?: Language): AggregationTerms {
+function getAggregationTerms(
+    facet: KnownFacet,
+    size: number,
+    language?: Language,
+): AggregationTerms {
     return {
-        field: knownFacets[facet](language),
+        field: knownFacetsMap[facet](language),
         size,
     };
 }
@@ -102,10 +119,10 @@ function getAggregationTerms(facet: Facet, size: number, language?: Language): A
 function getFacets(aggregations: any, filters?: Filter[], language?: Language): Facets {
     // Unwrap the filter structure introduced by `generateAggregations`.
     const facets = Object.entries<any>(aggregations)
-        .filter(([key, value]) => key in knownFacets)
+        .filter(([key, value]) => key in knownFacetsMap)
         .reduce((acc, [key, value]) => {
-            const facet = key as Facet;
-            const field = knownFacets[facet](language);
+            const facet = key as KnownFacet;
+            const field = knownFacetsMap[facet](language);
             if (value[`filtered_${key}`]) {
                 acc[facet] = {
                     buckets: mergeBucketLists(

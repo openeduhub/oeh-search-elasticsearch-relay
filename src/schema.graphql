@@ -42,28 +42,6 @@ enum Language {
     en
 }
 
-# When changing values here, remember to update `Facets` as well!
-enum Facet {
-    """source.name"""
-    sources
-    """lom.general.keyword"""
-    keywords
-    """valuespaces.discipline"""
-    disciplines
-    """valuespaces.educationalContext"""
-    educationalContexts
-    """valuespaces.learningResourceType"""
-    learningResourceTypes
-    """license.oer"""
-    licenseOER
-    """type"""
-    types
-    """valuespaces.intendedEndUserRole"""
-    intendedEndUserRoles
-    """collection.uuid"""
-    collections
-}
-
 type Facets {
     sources: Aggregation!
     keywords: Aggregation!

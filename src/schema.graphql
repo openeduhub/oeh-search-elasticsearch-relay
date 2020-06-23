@@ -180,6 +180,7 @@ type DidYouMeanSuggestion {
 type Aggregation {
     buckets: [Bucket!]!
     field: String!
+    total_buckets: Int!
 }
 
 type Bucket {

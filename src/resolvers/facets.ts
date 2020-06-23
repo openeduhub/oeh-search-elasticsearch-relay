@@ -41,7 +41,7 @@ const facetsResolver: QueryResolvers['facets'] = async (
     const facets = Object.keys(fields).filter(
         (field): field is KnownFacet => field in knownFacetsMap,
     );
-    const { body } = await client.search({
+    const requestBody = {
         body: {
             size: 0,
             aggregations: generateAggregations(
@@ -52,7 +52,9 @@ const facetsResolver: QueryResolvers['facets'] = async (
                 args.filters || undefined,
             ),
         },
-    });
+    };
+    // console.log('requestBody:', JSON.stringify(requestBody, null, 4));
+    const { body } = await client.search(requestBody);
     return getFacets(body.aggregations, args.filters || undefined, args.language || undefined);
 };
 
@@ -70,9 +72,8 @@ function generateAggregations(
     // narrowed down by other filters but currently not selected options of *this* facet are
     // still shown.
     const aggregations = facets.reduce((acc, facet) => {
-        const otherFilters = filters.filter(
-            (filter) => filter.field !== knownFacetsMap[facet](language),
-        );
+        const field = knownFacetsMap[facet](language);
+        const otherFilters = filters.filter((filter) => filter.field !== field);
         const terms = getAggregationTerms(facet, size, language);
         const filteredAggregation = {
             filter: {
@@ -82,19 +83,25 @@ function generateAggregations(
                 },
             },
             aggregations: {
+                // Total number of buckets.
+                [`${facet}_count`]: {
+                    cardinality: {
+                        field,
+                    },
+                },
+                // Will return the top entries with respect to currently active filters.
                 [`filtered_${facet}`]: {
-                    // Will return the top entries with respect to currently active filters.
                     terms,
                 },
+                // Will return the currently selected (filtered by) entries.
+                //
+                // This is important since the currently selected entries might not be among
+                // the top results we get from the above aggregation. We explicitly add all
+                // selected entries to make sure all active filters appear on the list.
                 [`selected_${facet}`]: {
-                    // Will return the currently selected (filtered by) entries.
-                    //
-                    // This is important since the currently selected entries might not be among
-                    // the top results we get from the above aggregation. We explicitly add all
-                    // selected entries to make sure all active filters appear on the list.
                     terms: {
                         ...terms,
-                        include: getFilterTerms(filters, facet) || [],
+                        include: getFilterTerms(filters, field) || [],
                     },
                 },
             },
@@ -131,6 +138,7 @@ function getFacets(aggregations: any, filters?: Filter[], language?: Language): 
                         filters ? generateFilterBuckets(getFilterTerms(filters, field)) : null,
                     ),
                     field,
+                    total_buckets: value[`${facet}_count`].value,
                 };
             }
             return acc;

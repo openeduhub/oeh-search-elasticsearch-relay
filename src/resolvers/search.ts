@@ -10,6 +10,7 @@ const searchResolver: QueryResolvers['search'] = async (
 ): Promise<SearchResult> => {
     const fields = graphqlFields(info as any);
     const sources = getSourceFields(fields);
+    const query = generateSearchQuery(args.searchString, args.filters || undefined);
     const { body } = await client.search({
         body: {
             from: args.from,
@@ -17,7 +18,7 @@ const searchResolver: QueryResolvers['search'] = async (
             _source: {
                 includes: sources,
             },
-            query: generateSearchQuery(args.searchString, args.filters || undefined),
+            query,
         },
     });
     return parseResponse(body, args.filters || undefined);
@@ -48,10 +49,19 @@ export function generateSearchQuery(searchString?: string, filters: Filter[] = [
         must = generateSearchStringQuery(searchString);
     }
     const filter = mapFilters(filters);
+    const should = [
+        {
+            terms: {
+                'collection.uuid': ['EDITORIAL', 'FEATURED'],
+                boost: 1,
+            },
+        },
+    ];
     return {
         bool: {
             must,
             filter,
+            should,
         },
     };
 }

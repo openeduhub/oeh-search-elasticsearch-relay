@@ -47,6 +47,8 @@ export function generateSearchQuery(searchString?: string, filters: Filter[] = [
     let must;
     if (searchString) {
         must = generateSearchStringQuery(searchString);
+    } else {
+        must = { match_all: {} };
     }
     const filter = mapFilters(filters);
     const should = [

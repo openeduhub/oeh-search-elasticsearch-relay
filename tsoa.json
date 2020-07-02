@@ -1,6 +1,6 @@
 {
-    "entryFile": "./src/server.ts",
-    "controllerPathGlobs": ["./src/controllers/**/*controller.ts"],
+    "entryFile": "./src/index.ts",
+    "controllerPathGlobs": ["./src/rest/controllers/**/*controller.ts"],
     "noImplicitAdditionalProperties": "silently-remove-extras",
     "spec": {
         "basePath": "/rest",

@@ -28,22 +28,23 @@ editor and documentation.
 
 ### Endpoints
 
-Path | Description
----- | -----------
-`/graphql` | The preferred API endpoint, described above.
-`/rest` | An alternative REST API that emulates the Edu-Sharing REST API.
-`/swagger` | Interactive documentation of the API.
+| Path       | Description                                                     |
+| ---------- | --------------------------------------------------------------- |
+| `/graphql` | The preferred API endpoint, described above.                    |
+| `/rest`    | An alternative REST API that emulates the Edu-Sharing REST API. |
+| `/swagger` | Interactive documentation of the API.                           |
 
 ## Environment Variables
 
-Variable | Description | Default value
--------- | ----------- | -------------------
-PORT | HTTP Port on which to expose this service | 3000 (80 in Docker)
-URL | Root URL where this service will be accessible from the Internet | http://localhost:3000
-FRONTEND_URL | Root URL where the OEH frontend will be accessible from the Internet | http://localhost:4200
-ELASTICSEARCH_URL | Root URL where this service can reach the ElasticSearch server | http://localhost:9200
-ELASTICSEARCH_INDEX | ElasticSearch index to query | search_idx
-EDUSHARING_URL | Root URL where the corresponding Edu-Sharing instance can be reached from the Internet | http://localhost/edu-sharing
+| Variable              | Description                                                                                 | Default value                |
+| --------------------- | ------------------------------------------------------------------------------------------- | ---------------------------- |
+| PORT                  | HTTP Port on which to expose this service                                                   | 3000 (80 in Docker)          |
+| URL                   | Root URL where this service will be accessible from the Internet                            | http://localhost:3000        |
+| FRONTEND_URL          | Root URL where the OEH frontend will be accessible from the Internet                        | http://localhost:4200        |
+| ELASTICSEARCH_URL     | Root URL where this service can reach the ElasticSearch server                              | http://localhost:9200        |
+| ELASTICSEARCH_INDEX   | ElasticSearch index to query                                                                | search_idx                   |
+| ELASTICSEARCH_MAPPING | Structure of the given ElasticSearch index. Supported values are 'edu-sharing' and 'legacy' | legacy                       |
+| EDUSHARING_URL        | Root URL where the corresponding Edu-Sharing instance can be reached from the Internet      | http://localhost/edu-sharing |
 
 ### Overriding Variables in Dev Environment
 
@@ -59,26 +60,33 @@ PORT=2342
 
 Typically you have to set the correct values for at least the variables
 
-- `URL`
-- `ELASTICSEARCH_URL`
+-   `URL`
+-   `ELASTICSEARCH_URL`
 
 Set variables via Docker, e.g. in `docker-compose.yml`:
+
 ```yml
-    environment:
-      - URL=https://my.domain/relay
+environment:
+    - URL=https://my.domain/relay
 ```
-
-
 
 ## Project Structure
 
-- `dist/`: Build directory.
-- `src/`
-    - `controllers/`: Controllers for REST endpoints.
-    - `generated/`: Generated code not tracked by Git. Will be updated automatically or with `npm run generate`.
-    - `middleware/`: Express middleware controlling the overall behavior of the server.
-    - `resolvers/`: GraphQL resolvers, implementing business logic.
-    - `types/`: Types of the REST API from which data models are generated.
-    - `schema.graphql`: GraphQL API schema from which types are generated. (The types used by GraphQL are different from the ones of the REST API.)
-    - `server.ts`: Entry point.
-- `.env`: Override environment variables for development.
+-   `dist/`: Build directory.
+-   `scripts/`: Build-time scripts.
+-   `src/`
+    -   `assets/`: Static source files.
+        -   `vocabs/`: Skos vocabs definitions, updated with `npm run update-vocabs`.
+    -   `common/`: Stuff used by various application parts.
+    -   `generated/`: Generated code not tracked by Git. Will be updated automatically or with `npm run generate`.
+    -   `graphql/`
+        -   `resolvers/`: GraphQL resolvers, implementing business logic.
+        -   `schema.graphql`: GraphQL API schema from which types are generated. (The types used by GraphQL are different from the ones of the REST API.)
+    -   `mapping/`: Mappings of different ElasticSearch index formats.
+    -   `rest/`:
+        -   `controllers/`: Controllers for REST endpoints.
+        -   `types/`: Types of the REST API from which data models are generated.
+    -   `server/`: Express-server-related files.
+        -   `middleware/`: Express middleware controlling the overall behavior of the server.
+    -   `index.ts`: Entry point.
+-   `.env`: Override environment variables for development.

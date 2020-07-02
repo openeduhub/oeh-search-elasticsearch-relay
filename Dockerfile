@@ -8,4 +8,4 @@ EXPOSE 80
 WORKDIR /home/node/app
 COPY node_modules node_modules
 COPY dist .
-CMD ["server.js"]
+CMD ["index.js"]

@@ -1,0 +1,279 @@
+type Query {
+    """
+    Search for materials within the ElasticSearch index
+    """
+    search(
+        """
+        Search query matched against various fields
+        """
+        searchString: String
+        """
+        Search internationalized metadata and filter by display names of the given language
+        """
+        language: Language
+        """
+        Only show results matching a set of filters
+        """
+        filters: [Filter!]
+        """
+        Number of results to return
+        """
+        size: Int! = 10
+        """
+        Offset for pagination
+        """
+        from: Int
+    ): SearchResult!
+    """
+    Get a single entry
+    """
+    get(language: Language, id: ID!): Hit!
+    """
+    Get a single facet, taking the given query into account
+    """
+    facet(
+        searchString: String
+        filters: [Filter!]
+        size: Int! = 20
+        language: Language
+        facet: Facet!
+    ): Aggregation!
+    """
+    Get multiple facets, taking the given query into account
+    """
+    facets(
+        searchString: String
+        filters: [Filter!]
+        size: Int! = 20
+        language: Language
+        """
+        Requested facets; the response array will contain an entry for each given facet
+        """
+        facets: [Facet!]!
+    ): [Aggregation!]!
+    """
+    Get auto-completion suggestions based on a search string while typing
+    """
+    autoComplete(searchString: String!, filters: [Filter!], language: Language): [String!]!
+    """
+    A possible spell correction based on the given query
+    """
+    didYouMeanSuggestion(
+        searchString: String!
+        filters: [Filter!]
+        language: Language
+    ): DidYouMeanSuggestion
+    subjectsPortals(size: Int! = 100, language: Language!): SubjectsPortals!
+}
+
+enum Language {
+    de
+    en
+}
+
+
+enum Facet {
+    source
+    keyword
+    discipline
+    educationalContext
+    learningResourceType
+    intendedEndUserRole
+    type
+    oer
+    editorialTag
+}
+
+input Filter {
+    facet: Facet!
+    terms: [String!]!
+}
+
+type SearchResult {
+    """
+    Time it took ElasticSearch to handle the request in milliseconds
+    """
+    took: Int!
+    """
+    Number of search results
+    """
+    total: TotalHits!
+    """
+    Search results of the given query
+    """
+    hits: [Hit!]!
+}
+
+type TotalHits {
+    value: Int!
+    relation: TotalHitsRelation!
+}
+
+enum TotalHitsRelation {
+    eq
+    gte
+}
+
+type Hit {
+    """
+    UUID issued by Edu-Sharing
+    """
+    id: ID!
+    """
+    Metadata according to the LOM standard
+    """
+    lom: Lom!
+    """
+    Metadata described via SkoHub vocabs
+    """
+    skos: Skos!
+    """
+    The type of media the entry represents
+    """
+    type: Type!
+    """
+    Content source
+    """
+    source: Source!
+    """
+    The material's legal license
+    """
+    license: License!
+    """
+    A list of tags assigned by the editorial team
+    """
+    editorialTags: [EditorialTag!]!
+    """
+    A preview image in different resolutions
+    """
+    previewImage: PreviewImage!
+}
+
+type Lom {
+    technical: LomTechnical!
+    general: LomGeneral!
+}
+
+type LomTechnical {
+    """
+    Content URL
+    """
+    location: String!
+}
+
+type LomGeneral {
+    title: String!
+    keyword: [String!]
+    description: String
+}
+
+type Skos {
+    discipline: [SkosEntry!]
+    educationalContext: [SkosEntry!]
+    learningResourceType: [SkosEntry!]
+    intendedEndUserRole: [SkosEntry!]
+}
+
+type SkosEntry {
+    id: ID!
+    # label(language: Language!): String!
+    label: String!
+}
+
+enum Type {
+    content
+    portal
+    tool
+    lessonPlanning
+}
+
+type Source {
+    """
+    A unique string that identifies the source
+    """
+    id: ID!
+    """
+    A friendly name to display
+    """
+    name: String!
+    """
+    The source's web presence
+    """
+    url: String!
+}
+
+type License {
+    oer: Boolean!
+}
+
+enum EditorialTag {
+    recommended
+}
+
+type PreviewImage {
+    """
+    A thumbnail-sized preview image which will we directly embedded into the response if available
+    """
+    thumbnail: Thumbnail!
+    """
+    URL to a high-resolution version of the preview image
+    """
+    url: String!
+    # """URL to a preview image of selectable size"""
+    # url(size: ImageSize): String!
+}
+
+union Thumbnail = EmbeddedThumbnail | ExternalThumbnail
+
+type EmbeddedThumbnail {
+    mimetype: String!
+    """
+    Base64-encoded image in the format given by `mimetype`
+    """
+    image: String!
+}
+
+type ExternalThumbnail {
+    url: String!
+}
+
+# enum ImageSize {
+#     small
+#     medium
+#     large
+#     original
+# }
+
+type Aggregation {
+    facet: Facet!
+    buckets: [Bucket!]!
+    total_buckets: Int!
+}
+
+type Bucket {
+    key: String!
+    doc_count: Int!
+}
+
+type DidYouMeanSuggestion {
+    plain: String!
+    html: String!
+}
+
+type SubjectsPortals {
+    grundschule: [SubjectsPortalDiscipline!]!
+    sekundarstufe_1: [SubjectsPortalDiscipline!]!
+    sekundarstufe_2: [SubjectsPortalDiscipline!]!
+    berufliche_bildung: [SubjectsPortalDiscipline!]!
+    erwachsenenbildung: [SubjectsPortalDiscipline!]!
+    allgemeinbildende_schule: [SubjectsPortalDiscipline!]!
+    foerderschule: [SubjectsPortalDiscipline!]!
+    # mittelschule: [SubjectsPortalDiscipline!]!
+}
+
+type SubjectsPortalDiscipline {
+    id: String!
+    url: String!
+    doc_count: Int!
+    # featured_doc_count: Int!
+}

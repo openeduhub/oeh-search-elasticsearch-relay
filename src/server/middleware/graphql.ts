@@ -13,7 +13,14 @@ function formatError(error: GraphQLError): GraphQLError {
     return error;
 }
 
-const server = new ApolloServer({ typeDefs, resolvers, formatError });
+const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+    formatError,
+    // Enable interactive playground in production
+    playground: true,
+    introspection: true,
+});
 
 export const handleGraphQl = (router: Router) =>
     server.applyMiddleware({ app: router as Express, path: '/graphql' });

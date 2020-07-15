@@ -1,6 +1,6 @@
 # ElasticSearch Relay
 
-A server to relay queries of the frontend to ElasticSearch.
+A server to relay queries of the Open Edu Hub frontend to ElasticSearch.
 
 The relay provides a custom API that is tailored to the needs of the frontend. It converts requests
 to ElasticSearch queries, sends the queries to ElasticSearch and processes the results to a form
@@ -10,9 +10,15 @@ useful to the frontend.
 
 Install dependencies: `npm install`
 
+### Dev Environment
+
 Start a dev server and listen for code changes: `npm start`
 
-Build a docker image:
+### Docker Image
+
+Docker images are built via Github Actions and uploaded to https://hub.docker.com/repository/docker/openeduhub/elasticsearch-relay.
+
+To build a docker image locally, run
 
 ```bash
 npm run clean
@@ -20,11 +26,45 @@ npm run build
 npm run docker-build
 ```
 
+### Vocabs
+
+Metadata vocabularies that are maintained here: https://github.com/openeduhub/oeh-metadata-vocabs,
+are served as assets with this relay. To update, run `npm run update-vocabs`.
+
 ## API
 
 The Relay provides a GraphQL API that is served on `/graphql` (e.g., http://localhost:3000/graphql
 on a dev environment). When accessed with a web browser, this endpoint offers an interactive query
 editor and documentation.
+
+Use the _DOCS_ panel on the right side of the interactive `/graphql` playground or start by typing
+`{}` and work your way through building a query using <kbd>Ctrl</kbd>+<kbd>Space</kbd>.
+
+A search query could look like this:
+
+```
+{
+  search(
+    searchString: "digital"
+    size: 10
+    language: de
+    filters: [
+      { facet: discipline, terms: ["Physik"] }
+      { facet: educationalContext, terms: ["Sekundarstufe II"] }
+    ]
+  ) {
+    hits {
+      id
+      lom {
+        general {
+          title
+
+        }
+      }
+    }
+  }
+}
+```
 
 ### Endpoints
 
@@ -57,11 +97,6 @@ PORT=2342
 ```
 
 ### Overriding Variables in Docker Container
-
-Typically you have to set the correct values for at least the variables
-
--   `URL`
--   `ELASTICSEARCH_URL`
 
 Set variables via Docker, e.g. in `docker-compose.yml`:
 

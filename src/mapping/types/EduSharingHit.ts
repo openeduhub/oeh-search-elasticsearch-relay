@@ -19,6 +19,7 @@ export interface EduSharingHit {
         'cclom:general_description'?: string[];
         'cclom:general_keyword'?: string[];
         'cclom:location': string[];
+        'ccm:objecttype'?: string;
         'ccm:taxonid'?: string[];
         'ccm:educationalcontext'?: string[];
         'ccm:educationalintendedenduserrole'?: string[];

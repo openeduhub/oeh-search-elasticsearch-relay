@@ -24,10 +24,10 @@ const customTermsMaps: CustomTermsMaps = {
     [Facet.Type]: {
         type: 'one-to-one',
         map: {
-            [Type.Content]: 'ccm:io',
-            // [Type.Portal]: ['SOURCE'],
-            // [Type.Tool]: ['TOOL'],
-            // [Type.LessonPlanning]: ['LESSONPLANNING'],
+            [Type.Content]: 'MATERIAL',
+            [Type.Portal]: 'SOURCE',
+            [Type.Tool]: 'TOOL',
+            [Type.LessonPlanning]: 'LESSONPLANNING',
         },
     },
     [Facet.EditorialTag]: {
@@ -56,7 +56,6 @@ const customTermsMaps: CustomTermsMaps = {
             ['ZDF']: 'zdf_rss_spider',
             ['OER-Repositorium Baden-Württemberg (ZOERR)']: 'zoerr_spider',
             ['ZUM-Unterrichten']: 'zum_spider',
-            [VALUE_NOT_AVAILABLE]: VALUE_NOT_AVAILABLE,
         },
     },
 };
@@ -94,7 +93,7 @@ export class EduSharingMapping implements Mapping<EduSharingHit> {
         [Facet.Keyword]: 'properties.cclom:general_keyword.keyword',
         [Facet.Source]: 'properties.ccm:replicationsource.keyword',
         [Facet.Oer]: 'properties.ccm:commonlicense_key.keyword',
-        [Facet.Type]: 'type',
+        [Facet.Type]: 'properties.ccm:objecttype.keyword',
         [Facet.EditorialTag]: 'collections.properties.ccm:collectiontype.keyword',
     };
     readonly mapFilterTerms: MapFilterTerms;
@@ -132,8 +131,13 @@ export class EduSharingMapping implements Mapping<EduSharingHit> {
                     'ccm:educationalintendedenduserrole'
                 ]?.map((entry) => this.mapSkos(Facet.IntendedEndUserRole, entry, language)),
             },
-            // type: this.commonMapper.map(Facet.Type, source.type, language) as Type,
-            type: Type.Content as Type,
+            type: source.properties['ccm:objecttype']
+                ? (this.commonMapper.map(
+                      Facet.Type,
+                      source.properties['ccm:objecttype'],
+                      language,
+                  ) as Type)
+                : Type.Content,
             source: {
                 id: source.properties['ccm:replicationsource'] ?? VALUE_NOT_AVAILABLE,
                 name: this.commonMapper.map(

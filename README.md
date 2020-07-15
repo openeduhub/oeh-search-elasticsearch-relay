@@ -82,8 +82,8 @@ A search query could look like this:
 | URL                   | Root URL where this service will be accessible from the Internet                            | http://localhost:3000        |
 | FRONTEND_URL          | Root URL where the OEH frontend will be accessible from the Internet                        | http://localhost:4200        |
 | ELASTICSEARCH_URL     | Root URL where this service can reach the ElasticSearch server                              | http://localhost:9200        |
-| ELASTICSEARCH_INDEX   | ElasticSearch index to query                                                                | search_idx                   |
-| ELASTICSEARCH_MAPPING | Structure of the given ElasticSearch index. Supported values are 'edu-sharing' and 'legacy' | legacy                       |
+| ELASTICSEARCH_INDEX   | ElasticSearch index to query                                                                | workspace                    |
+| ELASTICSEARCH_MAPPING | Structure of the given ElasticSearch index. Supported values are 'edu-sharing' and 'legacy' | edu-sharing                  |
 | EDUSHARING_URL        | Root URL where the corresponding Edu-Sharing instance can be reached from the Internet      | http://localhost/edu-sharing |
 
 ### Overriding Variables in Dev Environment

@@ -99,12 +99,6 @@
           "Sonderpädagogische Förderung"
         ]
       }
-    },
-    {
-      "id": "https://w3id.org/openeduhub/vocabs/educationalContext/mittelschule",
-      "prefLabel": {
-        "de": "Mittelschule"
-      }
     }
   ],
   "@context": {

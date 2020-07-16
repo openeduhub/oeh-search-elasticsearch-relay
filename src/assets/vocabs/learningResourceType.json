@@ -11,52 +11,66 @@
   },
   "hasTopConcept": [
     {
-      "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/application",
-      "prefLabel": {
-        "de": "Anwendung/Software",
-        "en": "application"
-      }
-    },
-    {
       "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/assessment",
       "prefLabel": {
         "de": "Lernkontrolle",
         "en": "assessment"
-      }
-    },
-    {
-      "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/audiovisual_medium",
-      "prefLabel": {
-        "de": "Audiovisuelles Medium",
-        "en": "audiovisual medium"
-      }
-    },
-    {
-      "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/broadcast",
-      "prefLabel": {
-        "de": "Radio/TV",
-        "en": "broadcast"
-      }
-    },
-    {
-      "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/case_study",
-      "prefLabel": {
-        "de": "Fallstudie",
-        "en": "case_study"
-      }
+      },
+      "narrower": [
+        {
+          "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/exam",
+          "prefLabel": {
+            "de": "Klassenarbeit",
+            "en": "class test"
+          },
+          "altLabel": {
+            "de": [
+              "Klausur",
+              "Lernkontrolle",
+              "Schulaufgabe"
+            ]
+          }
+        },
+        {
+          "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/test",
+          "prefLabel": {
+            "de": "Test",
+            "en": "test"
+          }
+        },
+        {
+          "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/oral_exam",
+          "prefLabel": {
+            "de": "Mündliche Prüfung",
+            "en": "oral exam"
+          }
+        },
+        {
+          "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/final_exam",
+          "prefLabel": {
+            "de": "Abschlussprüfung",
+            "en": "final exam"
+          }
+        },
+        {
+          "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/evaluation_sheet",
+          "prefLabel": {
+            "de": "Erwartungshorizont",
+            "en": "evaluation sheet"
+          },
+          "altLabel": {
+            "de": [
+              "Bewertungsbogen"
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/course",
       "prefLabel": {
         "de": "Kurs",
         "en": "course"
-      }
-    },
-    {
-      "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/demonstration",
-      "prefLabel": {
-        "de": "Veranschaulichung",
-        "en": "demonstration"
       }
     },
     {
@@ -74,13 +88,6 @@
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/enquiry_oriented_activity",
-      "prefLabel": {
-        "de": "Recherche-Auftrag",
-        "en": "enquiry-oriented activity"
-      }
-    },
-    {
       "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/experiment",
       "prefLabel": {
         "de": "Experiment",
@@ -88,24 +95,20 @@
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/exploration",
-      "prefLabel": {
-        "de": "Entdeckendes Lernen",
-        "en": "exploration"
-      }
-    },
-    {
       "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/glossary",
       "prefLabel": {
-        "de": "Glossar",
-        "en": "glossary"
-      }
-    },
-    {
-      "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/guide",
-      "prefLabel": {
-        "de": "Handbuch",
-        "en": "guide"
+        "de": "Glossar/Wiki",
+        "en": "glossary/wiki"
+      },
+      "altLabel": {
+        "de": [
+          "Wiki",
+          "Glossar"
+        ],
+        "en": [
+          "wiki",
+          "glossary"
+        ]
       }
     },
     {
@@ -113,7 +116,40 @@
       "prefLabel": {
         "de": "Audio",
         "en": "audio"
-      }
+      },
+      "narrower": [
+        {
+          "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/podcast_radio",
+          "prefLabel": {
+            "de": "Podcast/Radio-Beitrag",
+            "en": "Podcast/Broadcast"
+          },
+          "altLabel": {
+            "de": [
+              "Podcast",
+              "Radio"
+            ],
+            "en": [
+              "podcast",
+              "radio"
+            ]
+          }
+        },
+        {
+          "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/audio_sample",
+          "prefLabel": {
+            "de": "Hörbeispiel",
+            "en": "audio sample"
+          }
+        },
+        {
+          "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/music",
+          "prefLabel": {
+            "de": "Musik",
+            "en": "music"
+          }
+        }
+      ]
     },
     {
       "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/data",
@@ -127,27 +163,37 @@
       "prefLabel": {
         "de": "Bild",
         "en": "image"
-      }
+      },
+      "narrower": [
+        {
+          "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/photograph",
+          "prefLabel": {
+            "de": "Foto",
+            "en": "Photograph"
+          }
+        },
+        {
+          "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/graphic",
+          "prefLabel": {
+            "de": "Grafik",
+            "en": "graphic"
+          },
+          "altLabel": {
+            "de": [
+              "Illustration"
+            ],
+            "en": [
+              "illustration"
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/map",
       "prefLabel": {
         "de": "Karte",
         "en": "map"
-      }
-    },
-    {
-      "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/model",
-      "prefLabel": {
-        "de": "Modell",
-        "en": "model"
-      }
-    },
-    {
-      "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/photograph",
-      "prefLabel": {
-        "de": "Foto",
-        "en": "Photograph"
       }
     },
     {
@@ -162,73 +208,110 @@
       "prefLabel": {
         "de": "Video",
         "en": "video"
-      }
-    },
-    {
-      "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/other_asset_type",
-      "prefLabel": {
-        "de": "Anderes Material",
-        "en": "other asset type"
-      }
+      },
+      "narrower": [
+        {
+          "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/film",
+          "prefLabel": {
+            "de": "Film",
+            "en": "movie"
+          }
+        },
+        {
+          "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/tv_report",
+          "prefLabel": {
+            "de": "TV-Beitrag",
+            "en": "tv report"
+          }
+        },
+        {
+          "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/explainer_video",
+          "prefLabel": {
+            "de": "Erklärvideo",
+            "en": "explainer video"
+          }
+        }
+      ]
     },
     {
       "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/lesson_plan",
       "prefLabel": {
         "de": "Unterrichtsplanung",
         "en": "lesson plan"
-      }
-    },
-    {
-      "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/open_activity",
-      "prefLabel": {
-        "de": "Offene Aktivität",
-        "en": "open activity"
-      }
+      },
+      "altLabel": {
+        "de": [
+          "Stundeverlaufsplan",
+          "Unterrichtsentwurf",
+          "Unterrichtskonzept"
+        ]
+      },
+      "narrower": [
+        {
+          "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/teaching_module",
+          "prefLabel": {
+            "de": "Unterrichtsbaustein",
+            "en": "teaching module"
+          },
+          "altLabel": {
+            "de": [
+              "Unterrichtseinheit",
+              "Unterrichtssequenz",
+              "Unterrichtsreihe"
+            ],
+            "en": [
+              "teaching-module"
+            ]
+          }
+        },
+        {
+          "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/teaching_idea",
+          "prefLabel": {
+            "de": "Unterrichtsidee",
+            "en": "teaching idea"
+          },
+          "altLabel": {
+            "de": [
+              "Unterrichtsprojekt",
+              "Projekt"
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/presentation",
       "prefLabel": {
-        "de": "Präsentation",
-        "en": "presentation"
-      }
-    },
-    {
-      "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/project",
-      "prefLabel": {
-        "de": "Projekt",
-        "en": "project"
-      }
-    },
-    {
-      "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/reference",
-      "prefLabel": {
-        "de": "Primärmaterial/Quelle",
-        "en": "reference"
-      }
-    },
-    {
-      "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/role_play",
-      "prefLabel": {
-        "de": "Rollenspiel",
-        "en": "role play"
+        "de": "Präsentation/Tafelbild",
+        "en": "presentation/blackboard"
+      },
+      "altLabel": {
+        "de": [
+          "Präsentation",
+          "Tafelbild",
+          "Smartboard"
+        ],
+        "en": [
+          "presentation",
+          "blackboard",
+          "smartboard"
+        ]
       }
     },
     {
       "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/simulation",
       "prefLabel": {
-        "de": "Simulation",
+        "de": "Animation/Simulation",
         "en": "simulation"
-      }
-    },
-    {
-      "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/teaching_module",
-      "prefLabel": {
-        "de": "Unterrichtsbaustein",
-        "en": "teaching module"
       },
       "altLabel": {
+        "de": [
+          "Simulation",
+          "Animation"
+        ],
         "en": [
-          "teaching-module"
+          "simulation",
+          "animation"
         ]
       }
     },
@@ -237,34 +320,6 @@
       "prefLabel": {
         "de": "Werkzeug",
         "en": "tool"
-      }
-    },
-    {
-      "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/weblog",
-      "prefLabel": {
-        "de": "Weblog",
-        "en": "weblog"
-      }
-    },
-    {
-      "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/web_page",
-      "prefLabel": {
-        "de": "Website",
-        "en": "web page"
-      }
-    },
-    {
-      "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/wiki",
-      "prefLabel": {
-        "de": "Wiki",
-        "en": "wiki"
-      }
-    },
-    {
-      "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/other_web_resource",
-      "prefLabel": {
-        "de": "Andere Web Ressource",
-        "en": "other web resource"
       }
     },
     {
@@ -279,6 +334,77 @@
       "prefLabel": {
         "de": "Arbeitsblatt",
         "en": "worksheet"
+      },
+      "altLabel": {
+        "de": [
+          "Aufgabenkarte"
+        ]
+      }
+    },
+    {
+      "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/special_education_material",
+      "prefLabel": {
+        "de": "Fördermaterial/Inklusion",
+        "en": "special education material"
+      },
+      "altLabel": {
+        "de": [
+          "Fördermaterial",
+          "Inklusion"
+        ]
+      }
+    },
+    {
+      "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/text_book",
+      "prefLabel": {
+        "de": "Schulbuch/Lehrwerk"
+      }
+    },
+    {
+      "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/craft_template",
+      "prefLabel": {
+        "de": "Mal- und Bastelvorlage"
+      },
+      "altLabel": {
+        "de": [
+          "Malvorlage",
+          "Bastelvorlage"
+        ],
+        "en": [
+          "coloring template",
+          "craft template"
+        ]
+      }
+    },
+    {
+      "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/cheatsheet",
+      "prefLabel": {
+        "de": "Merkblatt/Poster",
+        "en": "Cheatsheet/Poster"
+      },
+      "altLabel": {
+        "de": [
+          "Merkblatt",
+          "Poster"
+        ],
+        "en": [
+          "cheatsheet",
+          "poster"
+        ]
+      }
+    },
+    {
+      "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/teacher_training",
+      "prefLabel": {
+        "de": "Lehrer:innenfortbildung",
+        "en": "teacher training"
+      },
+      "altLabel": {
+        "de": [
+          "Lehrerfortbildung",
+          "Lehrerinnenfortbildung",
+          "Lehrer*innenfortbildung"
+        ]
       }
     }
   ],

@@ -537,7 +537,8 @@
     {
       "id": "https://w3id.org/openeduhub/vocabs/discipline/niederdeutsch",
       "prefLabel": {
-        "de": "Niederdeutsch"
+        "de": "Niederdeutsch",
+        "en": "Platt German"
       },
       "altLabel": {
         "de": [
@@ -548,7 +549,8 @@
     {
       "id": "https://w3id.org/openeduhub/vocabs/discipline/48005",
       "prefLabel": {
-        "de": "Gesellschaftskunde"
+        "de": "Gesellschaftskunde",
+        "en": "social studies"
       },
       "altLabel": {
         "de": [

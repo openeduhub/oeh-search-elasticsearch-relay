@@ -106,20 +106,22 @@ class Vocabs {
 
     /**
      * Gets label for the given entry by key.
+     *
+     * Falls back to returning the key if the respective vocabs entry is missing.
      */
     getLabel(vocabsScheme: VocabsScheme, key: string, language: Language) {
-        try {
-            return this.vocabsDictionaries[vocabsScheme].vocabsMap[key][language];
-        } catch (e) {
-            throw new Error(`Missing vocabs entry in ${vocabsScheme}: ${key}`);
-        }
+        return this.vocabsDictionaries[vocabsScheme].vocabsMap[key]?.[language] || key;
     }
 
     /**
      * Gets the key for the given entry by label.
+     *
+     * Falls back to returning the label if the respective vocabs entry is missing. This happens,
+     * when getLabel() returned the key as label earlier, so in case the reverse lookup fails, the
+     * label already is the key.
      */
     getId(vocabsScheme: VocabsScheme, label: string, language: Language) {
-        const key = this.vocabsDictionaries[vocabsScheme].reverseMap[language][label];
+        const key = this.vocabsDictionaries[vocabsScheme].reverseMap[language][label] ?? label;
         return this.keyToId(vocabsScheme, key);
     }
 

@@ -1,5 +1,5 @@
 {
-  "id": "https://w3id.org/openeduhub/vocabs/discipline/",
+  "id": "http://w3id.org/openeduhub/vocabs/discipline/",
   "type": "ConceptScheme",
   "title": {
     "de": "Schulfächer",
@@ -10,7 +10,7 @@
   },
   "hasTopConcept": [
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/720",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/720",
       "prefLabel": {
         "de": "Allgemein",
         "en": "Interdisciplinary media"
@@ -22,21 +22,21 @@
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/080",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/080",
       "prefLabel": {
         "de": "Biologie",
         "en": "Biology"
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/100",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/100",
       "prefLabel": {
         "de": "Chemie",
         "en": "Chemistry"
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/28002",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/28002",
       "prefLabel": {
         "de": "Deutsch als Zweitsprache",
         "en": "German as second language"
@@ -49,14 +49,14 @@
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/12002",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/12002",
       "prefLabel": {
         "de": "Darstellen & Gestalten",
         "en": "Form and representation"
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/120",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/120",
       "prefLabel": {
         "de": "Deutsch",
         "en": "Mother tongue"
@@ -71,14 +71,14 @@
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/20001",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/20001",
       "prefLabel": {
         "de": "Englisch",
         "en": "English"
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/220",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/220",
       "prefLabel": {
         "de": "Geografie",
         "en": "Geography"
@@ -90,28 +90,28 @@
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/160",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/160",
       "prefLabel": {
         "de": "Ethik",
         "en": "Ethics"
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/20002",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/20002",
       "prefLabel": {
         "de": "Französisch",
         "en": "French"
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/240",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/240",
       "prefLabel": {
         "de": "Geschichte",
         "en": "History"
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/28010",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/28010",
       "prefLabel": {
         "de": "Heimatunterricht",
         "en": "Homeland lessons"
@@ -123,7 +123,7 @@
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/320",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/320",
       "prefLabel": {
         "de": "Informatik",
         "en": "ICT"
@@ -135,7 +135,7 @@
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/060",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/060",
       "prefLabel": {
         "de": "Kunst",
         "en": "Art education"
@@ -147,14 +147,14 @@
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/20005",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/20005",
       "prefLabel": {
         "de": "Latein",
         "en": "Latin"
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/380",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/380",
       "prefLabel": {
         "de": "Mathematik",
         "en": "Mathematics"
@@ -169,7 +169,7 @@
       },
       "narrower": [
         {
-          "id": "https://w3id.org/openeduhub/vocabs/discipline/3801",
+          "id": "http://w3id.org/openeduhub/vocabs/discipline/3801",
           "prefLabel": {
             "de": "Zahlen, Algebra"
           },
@@ -182,7 +182,7 @@
       ]
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/400",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/400",
       "prefLabel": {
         "de": "Mediendidaktik",
         "en": "Media education"
@@ -194,28 +194,28 @@
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/420",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/420",
       "prefLabel": {
         "de": "Musik",
         "en": "Music"
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/450",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/450",
       "prefLabel": {
         "de": "Philosophie",
         "en": "Philosophy"
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/460",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/460",
       "prefLabel": {
         "de": "Physik",
         "en": "Physics"
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/480",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/480",
       "prefLabel": {
         "de": "Politik",
         "en": "Politics"
@@ -227,21 +227,21 @@
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/510",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/510",
       "prefLabel": {
         "de": "Psychologie",
         "en": "Psychology"
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/04013",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/04013",
       "prefLabel": {
         "de": "Wirtschaft und Verwaltung",
         "en": "Business and administration"
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/520",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/520",
       "prefLabel": {
         "de": "Religion",
         "en": "Religious education"
@@ -253,21 +253,21 @@
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/20006",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/20006",
       "prefLabel": {
         "de": "Russisch",
         "en": "Russian"
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/44006",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/44006",
       "prefLabel": {
         "de": "Sonderpädagogik",
         "en": "Special needs eduation"
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/44007",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/44007",
       "prefLabel": {
         "de": "Sozialpädagogik",
         "en": "Social education"
@@ -279,14 +279,14 @@
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/20007",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/20007",
       "prefLabel": {
         "de": "Spanisch",
         "en": "Spanish"
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/600",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/600",
       "prefLabel": {
         "de": "Sport",
         "en": "Physical education"
@@ -298,7 +298,7 @@
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/700",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/700",
       "prefLabel": {
         "de": "Wirtschaftskunde",
         "en": "Economics"
@@ -310,14 +310,14 @@
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/020",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/020",
       "prefLabel": {
         "de": "Arbeitslehre",
         "en": "Career education"
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/040",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/040",
       "prefLabel": {
         "de": "Berufliche Bildung",
         "en": "Vocational education"
@@ -329,21 +329,21 @@
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/04001",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/04001",
       "prefLabel": {
         "de": "Agrarwirtschaft",
         "en": "Agricultural economics"
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/04002",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/04002",
       "prefLabel": {
         "de": "Bautechnik",
         "en": "Construction engineering"
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/04003",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/04003",
       "prefLabel": {
         "de": "MINT",
         "en": "MINT"
@@ -359,98 +359,98 @@
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/04005",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/04005",
       "prefLabel": {
         "de": "Eletrotechnik",
         "en": "Electrical engineering"
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/04006",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/04006",
       "prefLabel": {
         "de": "Ernährung und Hauswirtschaft",
         "en": "Nutrition and home economics"
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/04007",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/04007",
       "prefLabel": {
         "de": "Farbtechnik und Raumgestaltung",
         "en": "Color technology and interior design"
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/04009",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/04009",
       "prefLabel": {
         "de": "Holztechnik",
         "en": "Wood engineering"
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/04010",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/04010",
       "prefLabel": {
         "de": "Körperpflege",
         "en": "Body care"
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/04011",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/04011",
       "prefLabel": {
         "de": "Metalltechnik",
         "en": "Metal engineering"
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/04012",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/04012",
       "prefLabel": {
         "de": "Textiltechnik und Bekleidung",
         "en": "Textile technology and clothing"
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/04014",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/04014",
       "prefLabel": {
         "de": "Arbeitssicherheit",
         "en": "Work safety"
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/20003",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/20003",
       "prefLabel": {
         "de": "Alt-Griechisch",
         "en": "Ancient Greek"
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/20004",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/20004",
       "prefLabel": {
         "de": "Italienisch",
         "en": "Italian"
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/20008",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/20008",
       "prefLabel": {
         "de": "Türkisch",
         "en": "Turkish"
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/20009",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/20009",
       "prefLabel": {
         "de": "Sorbisch",
         "en": "Sorbian"
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/20090",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/20090",
       "prefLabel": {
         "de": "Esperanto",
         "en": "Esperanto"
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/260",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/260",
       "prefLabel": {
         "de": "Gesundheit",
         "en": "Health education"
@@ -462,7 +462,7 @@
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/440",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/440",
       "prefLabel": {
         "de": "Pädagogik",
         "en": "Pedagogy"
@@ -474,35 +474,35 @@
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/46014",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/46014",
       "prefLabel": {
         "de": "Astronomie",
         "en": "Astronomy"
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/50001",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/50001",
       "prefLabel": {
         "de": "Hauswirtschaft",
         "en": "Home economics"
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/50005",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/50005",
       "prefLabel": {
         "de": "Werken",
         "en": "Handicraft"
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/560",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/560",
       "prefLabel": {
         "de": "Sexualerziehung",
         "en": "Sex education"
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/640",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/640",
       "prefLabel": {
         "de": "Umweltgefährdung, Umweltschutz",
         "en": "Environmental education"
@@ -514,28 +514,28 @@
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/660",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/660",
       "prefLabel": {
         "de": "Verkehrserziehung",
         "en": "Road safety education"
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/680",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/680",
       "prefLabel": {
         "de": "Weiterbildung",
         "en": "Further education"
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/340",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/340",
       "prefLabel": {
         "de": "Interkulturelle Bildung",
         "en": "Intercultural Education"
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/niederdeutsch",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/niederdeutsch",
       "prefLabel": {
         "de": "Niederdeutsch",
         "en": "Platt German"
@@ -547,7 +547,7 @@
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/discipline/48005",
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/48005",
       "prefLabel": {
         "de": "Gesellschaftskunde",
         "en": "social studies"

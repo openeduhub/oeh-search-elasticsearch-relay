@@ -1,5 +1,5 @@
 {
-  "id": "https://w3id.org/openeduhub/vocabs/intendedEndUserRole/",
+  "id": "http://w3id.org/openeduhub/vocabs/intendedEndUserRole/",
   "type": "ConceptScheme",
   "title": {
     "de": "Zielgruppe",
@@ -11,7 +11,7 @@
   },
   "hasTopConcept": [
     {
-      "id": "https://w3id.org/openeduhub/vocabs/intendedEndUserRole/author",
+      "id": "http://w3id.org/openeduhub/vocabs/intendedEndUserRole/author",
       "prefLabel": {
         "de": "Autor",
         "en": "author"
@@ -23,7 +23,7 @@
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/intendedEndUserRole/counsellor",
+      "id": "http://w3id.org/openeduhub/vocabs/intendedEndUserRole/counsellor",
       "prefLabel": {
         "de": "Berater/in",
         "en": "counsellor"
@@ -35,7 +35,7 @@
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/intendedEndUserRole/learner",
+      "id": "http://w3id.org/openeduhub/vocabs/intendedEndUserRole/learner",
       "prefLabel": {
         "de": "Lerner/in",
         "en": "learner"
@@ -53,14 +53,14 @@
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/intendedEndUserRole/manager",
+      "id": "http://w3id.org/openeduhub/vocabs/intendedEndUserRole/manager",
       "prefLabel": {
         "de": "Verwaltung",
         "en": "manager"
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/intendedEndUserRole/parent",
+      "id": "http://w3id.org/openeduhub/vocabs/intendedEndUserRole/parent",
       "prefLabel": {
         "de": "Eltern",
         "en": "parent"
@@ -75,7 +75,7 @@
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/intendedEndUserRole/teacher",
+      "id": "http://w3id.org/openeduhub/vocabs/intendedEndUserRole/teacher",
       "prefLabel": {
         "de": "Lehrer/in",
         "en": "teacher"
@@ -90,7 +90,7 @@
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/intendedEndUserRole/other",
+      "id": "http://w3id.org/openeduhub/vocabs/intendedEndUserRole/other",
       "prefLabel": {
         "de": "andere",
         "en": "other"

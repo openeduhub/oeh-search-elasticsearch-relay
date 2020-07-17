@@ -1,5 +1,5 @@
 {
-  "id": "https://w3id.org/openeduhub/vocabs/educationalContext/",
+  "id": "http://w3id.org/openeduhub/vocabs/educationalContext/",
   "type": "ConceptScheme",
   "title": {
     "de": "Bildungsstufe",
@@ -10,7 +10,7 @@
   },
   "hasTopConcept": [
     {
-      "id": "https://w3id.org/openeduhub/vocabs/educationalContext/grundschule",
+      "id": "http://w3id.org/openeduhub/vocabs/educationalContext/grundschule",
       "prefLabel": {
         "de": "Primarstufe",
         "en": "primary school"
@@ -25,7 +25,7 @@
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/educationalContext/elementarbereich",
+      "id": "http://w3id.org/openeduhub/vocabs/educationalContext/elementarbereich",
       "prefLabel": {
         "de": "Elementarbereich",
         "en": "elementary level"
@@ -40,7 +40,7 @@
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/educationalContext/sekundarstufe_1",
+      "id": "http://w3id.org/openeduhub/vocabs/educationalContext/sekundarstufe_1",
       "prefLabel": {
         "de": "Sekundarstufe I",
         "en": "Secondary I"
@@ -55,7 +55,7 @@
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/educationalContext/sekundarstufe_2",
+      "id": "http://w3id.org/openeduhub/vocabs/educationalContext/sekundarstufe_2",
       "prefLabel": {
         "de": "Sekundarstufe II",
         "en": "Secondary II"
@@ -70,21 +70,21 @@
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/educationalContext/berufliche_bildung",
+      "id": "http://w3id.org/openeduhub/vocabs/educationalContext/berufliche_bildung",
       "prefLabel": {
         "de": "Berufliche Bildung",
         "en": "vocational education"
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/educationalContext/erwachsenenbildung",
+      "id": "http://w3id.org/openeduhub/vocabs/educationalContext/erwachsenenbildung",
       "prefLabel": {
         "de": "Erwachsenenbildung",
         "en": "continuing education"
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/educationalContext/foerderschule",
+      "id": "http://w3id.org/openeduhub/vocabs/educationalContext/foerderschule",
       "prefLabel": {
         "de": "Förderschule",
         "en": "special education"

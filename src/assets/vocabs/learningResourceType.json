@@ -1,5 +1,5 @@
 {
-  "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/",
+  "id": "http://w3id.org/openeduhub/vocabs/learningResourceType/",
   "type": "ConceptScheme",
   "title": {
     "de": "Typ der Lernressource",
@@ -11,14 +11,14 @@
   },
   "hasTopConcept": [
     {
-      "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/assessment",
+      "id": "http://w3id.org/openeduhub/vocabs/learningResourceType/assessment",
       "prefLabel": {
         "de": "Lernkontrolle",
         "en": "assessment"
       },
       "narrower": [
         {
-          "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/exam",
+          "id": "http://w3id.org/openeduhub/vocabs/learningResourceType/exam",
           "prefLabel": {
             "de": "Klassenarbeit",
             "en": "class test"
@@ -32,28 +32,28 @@
           }
         },
         {
-          "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/test",
+          "id": "http://w3id.org/openeduhub/vocabs/learningResourceType/test",
           "prefLabel": {
             "de": "Test",
             "en": "test"
           }
         },
         {
-          "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/oral_exam",
+          "id": "http://w3id.org/openeduhub/vocabs/learningResourceType/oral_exam",
           "prefLabel": {
             "de": "Mündliche Prüfung",
             "en": "oral exam"
           }
         },
         {
-          "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/final_exam",
+          "id": "http://w3id.org/openeduhub/vocabs/learningResourceType/final_exam",
           "prefLabel": {
             "de": "Abschlussprüfung",
             "en": "final exam"
           }
         },
         {
-          "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/evaluation_sheet",
+          "id": "http://w3id.org/openeduhub/vocabs/learningResourceType/evaluation_sheet",
           "prefLabel": {
             "de": "Erwartungshorizont",
             "en": "evaluation sheet"
@@ -67,35 +67,35 @@
       ]
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/course",
+      "id": "http://w3id.org/openeduhub/vocabs/learningResourceType/course",
       "prefLabel": {
         "de": "Kurs",
         "en": "course"
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/drill_and_practice",
+      "id": "http://w3id.org/openeduhub/vocabs/learningResourceType/drill_and_practice",
       "prefLabel": {
         "de": "Übung",
         "en": "drill and practice"
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/educational_game",
+      "id": "http://w3id.org/openeduhub/vocabs/learningResourceType/educational_game",
       "prefLabel": {
         "de": "Lernspiel",
         "en": "educational Game"
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/experiment",
+      "id": "http://w3id.org/openeduhub/vocabs/learningResourceType/experiment",
       "prefLabel": {
         "de": "Experiment",
         "en": "experiment"
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/glossary",
+      "id": "http://w3id.org/openeduhub/vocabs/learningResourceType/glossary",
       "prefLabel": {
         "de": "Glossar/Wiki",
         "en": "glossary/wiki"
@@ -112,14 +112,14 @@
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/audio",
+      "id": "http://w3id.org/openeduhub/vocabs/learningResourceType/audio",
       "prefLabel": {
         "de": "Audio",
         "en": "audio"
       },
       "narrower": [
         {
-          "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/podcast_radio",
+          "id": "http://w3id.org/openeduhub/vocabs/learningResourceType/podcast_radio",
           "prefLabel": {
             "de": "Podcast/Radio-Beitrag",
             "en": "Podcast/Broadcast"
@@ -136,14 +136,14 @@
           }
         },
         {
-          "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/audio_sample",
+          "id": "http://w3id.org/openeduhub/vocabs/learningResourceType/audio_sample",
           "prefLabel": {
             "de": "Hörbeispiel",
             "en": "audio sample"
           }
         },
         {
-          "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/music",
+          "id": "http://w3id.org/openeduhub/vocabs/learningResourceType/music",
           "prefLabel": {
             "de": "Musik",
             "en": "music"
@@ -152,28 +152,28 @@
       ]
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/data",
+      "id": "http://w3id.org/openeduhub/vocabs/learningResourceType/data",
       "prefLabel": {
         "de": "Daten",
         "en": "data"
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/image",
+      "id": "http://w3id.org/openeduhub/vocabs/learningResourceType/image",
       "prefLabel": {
         "de": "Bild",
         "en": "image"
       },
       "narrower": [
         {
-          "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/photograph",
+          "id": "http://w3id.org/openeduhub/vocabs/learningResourceType/photograph",
           "prefLabel": {
             "de": "Foto",
             "en": "Photograph"
           }
         },
         {
-          "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/graphic",
+          "id": "http://w3id.org/openeduhub/vocabs/learningResourceType/graphic",
           "prefLabel": {
             "de": "Grafik",
             "en": "graphic"
@@ -190,42 +190,42 @@
       ]
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/map",
+      "id": "http://w3id.org/openeduhub/vocabs/learningResourceType/map",
       "prefLabel": {
         "de": "Karte",
         "en": "map"
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/text",
+      "id": "http://w3id.org/openeduhub/vocabs/learningResourceType/text",
       "prefLabel": {
         "de": "Text",
         "en": "text"
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/video",
+      "id": "http://w3id.org/openeduhub/vocabs/learningResourceType/video",
       "prefLabel": {
         "de": "Video",
         "en": "video"
       },
       "narrower": [
         {
-          "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/film",
+          "id": "http://w3id.org/openeduhub/vocabs/learningResourceType/film",
           "prefLabel": {
             "de": "Film",
             "en": "movie"
           }
         },
         {
-          "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/tv_report",
+          "id": "http://w3id.org/openeduhub/vocabs/learningResourceType/tv_report",
           "prefLabel": {
             "de": "TV-Beitrag",
             "en": "tv report"
           }
         },
         {
-          "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/explainer_video",
+          "id": "http://w3id.org/openeduhub/vocabs/learningResourceType/explainer_video",
           "prefLabel": {
             "de": "Erklärvideo",
             "en": "explainer video"
@@ -234,7 +234,7 @@
       ]
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/lesson_plan",
+      "id": "http://w3id.org/openeduhub/vocabs/learningResourceType/lesson_plan",
       "prefLabel": {
         "de": "Unterrichtsplanung",
         "en": "lesson plan"
@@ -248,7 +248,7 @@
       },
       "narrower": [
         {
-          "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/teaching_module",
+          "id": "http://w3id.org/openeduhub/vocabs/learningResourceType/teaching_module",
           "prefLabel": {
             "de": "Unterrichtsbaustein",
             "en": "teaching module"
@@ -265,7 +265,7 @@
           }
         },
         {
-          "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/teaching_idea",
+          "id": "http://w3id.org/openeduhub/vocabs/learningResourceType/teaching_idea",
           "prefLabel": {
             "de": "Unterrichtsidee",
             "en": "teaching idea"
@@ -280,7 +280,7 @@
       ]
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/presentation",
+      "id": "http://w3id.org/openeduhub/vocabs/learningResourceType/presentation",
       "prefLabel": {
         "de": "Präsentation/Tafelbild",
         "en": "presentation/blackboard"
@@ -299,7 +299,7 @@
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/simulation",
+      "id": "http://w3id.org/openeduhub/vocabs/learningResourceType/simulation",
       "prefLabel": {
         "de": "Animation/Simulation",
         "en": "simulation"
@@ -316,21 +316,21 @@
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/tool",
+      "id": "http://w3id.org/openeduhub/vocabs/learningResourceType/tool",
       "prefLabel": {
         "de": "Werkzeug",
         "en": "tool"
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/other",
+      "id": "http://w3id.org/openeduhub/vocabs/learningResourceType/other",
       "prefLabel": {
         "de": "Anderer Ressourcentyp",
         "en": "other"
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/worksheet",
+      "id": "http://w3id.org/openeduhub/vocabs/learningResourceType/worksheet",
       "prefLabel": {
         "de": "Arbeitsblatt",
         "en": "worksheet"
@@ -342,7 +342,7 @@
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/special_education_material",
+      "id": "http://w3id.org/openeduhub/vocabs/learningResourceType/special_education_material",
       "prefLabel": {
         "de": "Fördermaterial/Inklusion",
         "en": "special education material"
@@ -355,15 +355,17 @@
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/text_book",
+      "id": "http://w3id.org/openeduhub/vocabs/learningResourceType/text_book",
       "prefLabel": {
-        "de": "Schulbuch/Lehrwerk"
+        "de": "Schulbuch/Lehrwerk",
+        "en": "textbook"
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/craft_template",
+      "id": "http://w3id.org/openeduhub/vocabs/learningResourceType/craft_template",
       "prefLabel": {
-        "de": "Mal- und Bastelvorlage"
+        "de": "Mal- und Bastelvorlage",
+        "en": "coloring and craft template"
       },
       "altLabel": {
         "de": [
@@ -377,7 +379,7 @@
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/cheatsheet",
+      "id": "http://w3id.org/openeduhub/vocabs/learningResourceType/cheatsheet",
       "prefLabel": {
         "de": "Merkblatt/Poster",
         "en": "Cheatsheet/Poster"
@@ -394,7 +396,7 @@
       }
     },
     {
-      "id": "https://w3id.org/openeduhub/vocabs/learningResourceType/teacher_training",
+      "id": "http://w3id.org/openeduhub/vocabs/learningResourceType/teacher_training",
       "prefLabel": {
         "de": "Lehrer:innenfortbildung",
         "en": "teacher training"

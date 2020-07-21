@@ -3,6 +3,7 @@ import educationalContext from '../assets/vocabs/educationalContext.json';
 import intendedEndUserRole from '../assets/vocabs/intendedEndUserRole.json';
 import learningResourceType from '../assets/vocabs/learningResourceType.json';
 import { Facet, Language } from '../generated/graphql';
+import { warn } from './utils';
 
 export const vocabsSchemes = {
     [Facet.Discipline]: {},
@@ -107,44 +108,58 @@ class Vocabs {
     /**
      * Gets label for the given entry by key.
      *
-     * Falls back to returning the key if the respective vocabs entry is missing.
+     * Falls back to returning the key if the vocabs entry is missing.
      */
     getLabel(vocabsScheme: VocabsScheme, key: string, language: Language) {
-        return this.vocabsDictionaries[vocabsScheme].vocabsMap[key]?.[language] || key;
+        const label = this.vocabsDictionaries[vocabsScheme].vocabsMap[key]?.[language];
+        if (label === undefined) {
+            warn(`Encountered missing vocabs entry ${key} for vocabs scheme ${vocabsScheme}`);
+            return key;
+        }
+        return label;
     }
 
     /**
      * Gets the key for the given entry by label.
      *
-     * Falls back to returning the label if the respective vocabs entry is missing. This happens,
-     * when getLabel() returned the key as label earlier, so in case the reverse lookup fails, the
-     * label already is the key.
+     * Falls back to returning the label if the vocabs entry is missing. This happens when
+     * getLabel() returned the key as label earlier, so in case the reverse lookup fails, the label
+     * already is the key.
      */
     getId(vocabsScheme: VocabsScheme, label: string, language: Language) {
-        const key = this.vocabsDictionaries[vocabsScheme].reverseMap[language][label] ?? label;
+        let key = this.vocabsDictionaries[vocabsScheme].reverseMap[language][label];
+        if (key === undefined) {
+            key = label;
+        }
         return this.keyToId(vocabsScheme, key);
     }
 
     /**
      * Gets the entry id by key.
+     *
+     * Falls back to returning the key if the vocabs entry is missing. This happens when `idToKey()`
+     * returned the id as key earlier, so in case the lookup fails, the key already is the id.
      */
     keyToId(vocabsScheme: VocabsScheme, key: string) {
-        return this.vocabsDictionaries[vocabsScheme].id + key;
+        if (key in this.vocabsDictionaries[vocabsScheme].vocabsMap) {
+            return this.vocabsDictionaries[vocabsScheme].id + key;
+        } else {
+            return key;
+        }
     }
 
     /**
      * Gets the entry key by id.
+     *
+     * Falls back to returning the id if the scheme id does not match.
      */
     idToKey(vocabsScheme: VocabsScheme, id: string) {
         const schemeId = this.vocabsDictionaries[vocabsScheme].id;
         if (id.startsWith(schemeId)) {
             return id.slice(schemeId.length);
         } else {
-            throw new Error(
-                'Given id does not start with scheme id.\n' +
-                    `  Vocabs scheme: ${vocabsScheme}\n` +
-                    `  Id: ${id}`,
-            );
+            warn(`Encountered invalid id ${id} for vocabs scheme ${vocabsScheme}`);
+            return id;
         }
     }
 }

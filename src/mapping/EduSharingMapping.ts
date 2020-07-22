@@ -56,6 +56,7 @@ const customTermsMaps: CustomTermsMaps = {
             ['ZDF']: 'zdf_rss_spider',
             ['OER-Repositorium Baden-Württemberg (ZOERR)']: 'zoerr_spider',
             ['ZUM-Unterrichten']: 'zum_spider',
+            ['iRights.info']: 'irights_spider',
         },
     },
 };
@@ -81,6 +82,7 @@ const sourceUrls: { [spiderName: string]: string } = {
     zdf_rss_spider: 'https://www.zdf.de/',
     zoerr_spider: 'https://www.oerbw.de',
     zum_spider: 'https://unterrichten.zum.de/',
+    irights_spider: 'https://irights.info/',
     [VALUE_NOT_AVAILABLE]: '',
 };
 

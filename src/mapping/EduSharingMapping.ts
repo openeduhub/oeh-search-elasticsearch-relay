@@ -57,6 +57,7 @@ const customTermsMaps: CustomTermsMaps = {
             ['OER-Repositorium Baden-Württemberg (ZOERR)']: 'zoerr_spider',
             ['ZUM-Unterrichten']: 'zum_spider',
             ['iRights.info']: 'irights_spider',
+            ['Schulcampus RLP']: 'rlp_spider',
         },
     },
 };
@@ -83,6 +84,7 @@ const sourceUrls: { [spiderName: string]: string } = {
     zoerr_spider: 'https://www.oerbw.de',
     zum_spider: 'https://unterrichten.zum.de/',
     irights_spider: 'https://irights.info/',
+    rlp_spider: 'https://cloud.schulcampus-rlp.de/',
     [VALUE_NOT_AVAILABLE]: '',
 };
 

@@ -29,6 +29,7 @@ const didYouMeanSuggestionResolver: QueryResolvers['didYouMeanSuggestion'] = asy
                 args.searchString,
                 args.filters ?? null,
                 args.language ?? null,
+                false,
             ),
             suggest: generateSuggest(args.searchString),
         },

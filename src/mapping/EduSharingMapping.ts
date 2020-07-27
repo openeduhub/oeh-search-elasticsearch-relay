@@ -100,6 +100,7 @@ export class EduSharingMapping implements Mapping<EduSharingHit> {
         [Facet.Type]: 'properties.ccm:objecttype.keyword',
         [Facet.EditorialTag]: 'collections.properties.ccm:collectiontype.keyword',
     };
+    readonly collectionsFieldPrefix = 'collections.';
     readonly mapFilterTerms: MapFilterTerms;
     readonly mapFacetBuckets: MapFacetBuckets;
     private readonly commonMapper = new CommonMapper(customTermsMaps);

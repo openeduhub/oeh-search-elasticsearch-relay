@@ -9,6 +9,7 @@ export type MapFacetBuckets = (
 
 export interface Mapping<Source> {
     facetFields: { [facet in Facet]: string };
+    collectionsFieldPrefix?: string;
     mapFilterTerms: MapFilterTerms;
     mapFacetBuckets: MapFacetBuckets;
     mapHit(source: Source, language: Language | null): Hit;

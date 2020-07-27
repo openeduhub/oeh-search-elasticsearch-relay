@@ -27,7 +27,7 @@ const autoCompleteResolver: QueryResolvers['autoComplete'] = async (
                         },
                     },
                     must_not: mapping.getStaticNegativeFilters(),
-                    filter: getFilter(args.filters ?? null, args.language ?? null),
+                    filter: getFilter(args.filters ?? null, args.language ?? null, false),
                 },
             },
         },

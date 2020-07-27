@@ -13,6 +13,7 @@ const searchResolver: QueryResolvers['search'] = async (
         args.searchString ?? null,
         args.filters ?? null,
         args.language ?? null,
+        args.includeCollectionTags ?? false,
     );
     const requestBody = {
         from: args.from,
@@ -32,6 +33,7 @@ export function generateSearchQuery(
     searchString: string | null,
     filters: Filter[] | null,
     language: Language | null,
+    includeCollectionTags: boolean,
 ) {
     let must;
     if (searchString === null || searchString === '') {
@@ -39,7 +41,7 @@ export function generateSearchQuery(
     } else {
         must = generateSearchStringQuery(searchString, language);
     }
-    const filter = getFilter(filters ?? null, language);
+    const filter = getFilter(filters ?? null, language, includeCollectionTags);
     const should = [{ terms: mapping.getShouldTerms() }];
     return {
         bool: {

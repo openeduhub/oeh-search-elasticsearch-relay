@@ -55,7 +55,7 @@ function generateAggregations(
                 bool: {
                     must,
                     must_not: mapping.getStaticNegativeFilters(),
-                    filter: getFilter(otherFilters ?? null, language),
+                    filter: getFilter(otherFilters ?? null, language, false),
                 },
             },
             aggregations: generateFilteredAggregation(facet, size, language, filters),

@@ -198,12 +198,16 @@ export class EduSharingMapping implements Mapping<EduSharingHit> {
         const result = [
             'properties.cclom:title^3',
             'properties.cm:name',
+            'collections.properties.cm:name',
             'properties.cclom:general_keyword',
+            'collections.properties.cclom:general_keyword',
             'properties.cclom:general_description',
+            'collections.properties.cclom:general_description',
             'content.fulltext',
         ];
         if (language) {
-            result.push(`i18n.${language}.*`);
+            result.push(`i18n.${this.getI18nLanguage(language)}.*`);
+            result.push(`collections.i18n.${this.getI18nLanguage(language)}.*`);
         }
         return result;
     }
@@ -253,5 +257,14 @@ export class EduSharingMapping implements Mapping<EduSharingHit> {
             url += '&crop=true&maxWidth=200&maxHeight=200';
         }
         return url;
+    }
+
+    private getI18nLanguage(language: Language) {
+        switch (language) {
+            case Language.De:
+                return 'de_DE';
+            case Language.En:
+                return 'en_US';
+        }
     }
 }

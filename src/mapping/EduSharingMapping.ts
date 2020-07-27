@@ -214,7 +214,7 @@ export class EduSharingMapping implements Mapping<EduSharingHit> {
 
     getShouldTerms() {
         return {
-            'collections.properties.ccm:collectiontype': ['EDITORIAL'],
+            'collections.properties.ccm:collectiontype.keyword': ['EDITORIAL'],
             boost: 1,
         };
     }

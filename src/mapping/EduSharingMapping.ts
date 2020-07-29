@@ -89,6 +89,8 @@ const sourceUrls: { [spiderName: string]: string } = {
 };
 
 export class EduSharingMapping implements Mapping<EduSharingHit> {
+    private static readonly LOCATION_LOCAL_PREFIX = 'ccrep://local/';
+
     readonly facetFields: { [facet in Facet]: string } = {
         [Facet.Discipline]: `properties.ccm:taxonid.keyword`,
         [Facet.LearningResourceType]: `properties.ccm:educationallearningresourcetype.keyword`,
@@ -119,7 +121,7 @@ export class EduSharingMapping implements Mapping<EduSharingHit> {
                     description: source.properties['cclom:general_description']?.[0] ?? null,
                 },
                 technical: {
-                    location: source.properties['cclom:location'][0],
+                    location: this.mapLocation(source.properties['cclom:location'][0]),
                 },
             },
             skos: {
@@ -266,5 +268,13 @@ export class EduSharingMapping implements Mapping<EduSharingHit> {
             case Language.En:
                 return 'en_US';
         }
+    }
+
+    private mapLocation(location: string): string {
+        if (location.startsWith(EduSharingMapping.LOCATION_LOCAL_PREFIX)) {
+            const id = location.substr(EduSharingMapping.LOCATION_LOCAL_PREFIX.length);
+            return `${config.eduSharing.url}/components/render/${id}`;
+        }
+        return location;
     }
 }

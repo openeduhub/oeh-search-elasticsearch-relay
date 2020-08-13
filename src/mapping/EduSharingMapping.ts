@@ -58,6 +58,7 @@ const customTermsMaps: CustomTermsMaps = {
             ['ZUM-Unterrichten']: 'zum_spider',
             ['iRights.info']: 'irights_spider',
             ['Schulcampus RLP']: 'rlp_spider',
+            ['Youtube']: 'youtube_spider',
         },
     },
 };
@@ -85,6 +86,7 @@ const sourceUrls: { [spiderName: string]: string } = {
     zum_spider: 'https://unterrichten.zum.de/',
     irights_spider: 'https://irights.info/',
     rlp_spider: 'https://cloud.schulcampus-rlp.de/',
+    youtube_spider: 'https://www.youtube.com/',
     [VALUE_NOT_AVAILABLE]: '',
 };
 

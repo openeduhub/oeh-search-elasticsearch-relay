@@ -123,7 +123,10 @@ export class EduSharingMapping implements Mapping<EduSharingHit> {
                     description: source.properties['cclom:general_description']?.[0] ?? null,
                 },
                 technical: {
-                    location: this.mapLocation(source.properties['cclom:location'][0]),
+                    location: this.mapLocation(
+                        source.properties['cclom:location'][0],
+                        source.properties['ccm:wwwurl'],
+                    ),
                 },
             },
             skos: {
@@ -272,7 +275,10 @@ export class EduSharingMapping implements Mapping<EduSharingHit> {
         }
     }
 
-    private mapLocation(location: string): string {
+    private mapLocation(location: string, wwwurl: string | undefined): string {
+        if (wwwurl) {
+            return wwwurl;
+        }
         if (location.startsWith(EduSharingMapping.LOCATION_LOCAL_PREFIX)) {
             const id = location.substr(EduSharingMapping.LOCATION_LOCAL_PREFIX.length);
             return `${config.eduSharing.url}/components/render/${id}`;

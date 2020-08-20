@@ -27,6 +27,7 @@ export interface EduSharingHit {
         'ccm:replicationsource'?: string;
         'ccm:commonlicense_key'?: CommonLicenseKey;
         'ccm:collectiontype'?: string;
+        'ccm:wwwurl'?: string;
     };
     collections: Array<EduSharingHit>;
     aspects: string[];

@@ -77,7 +77,7 @@ export class CommonMapper<T extends Facet> {
         language: Language | null,
     ): string {
         if (language !== null) {
-            return vocabs.getLabel(vocabsScheme, vocabs.idToKey(vocabsScheme, value), language);
+            return vocabs.getLabel(vocabsScheme, value, language);
         } else {
             return value;
         }
@@ -120,11 +120,7 @@ export class CommonMapper<T extends Facet> {
     ): Bucket[] {
         if (language !== null) {
             return buckets.map((bucket) => {
-                bucket.key = vocabs.getLabel(
-                    vocabsScheme,
-                    vocabs.idToKey(vocabsScheme, bucket.key),
-                    language,
-                );
+                bucket.key = vocabs.getLabel(vocabsScheme, bucket.key, language);
                 return bucket;
             });
         } else {

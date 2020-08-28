@@ -95,7 +95,7 @@ function generateSubjectsPortalDiscipline(
             language,
         )}/search/${encodeURIComponent(
             vocabs.getLabel(Facet.EducationalContext, educationalContext, language),
-        )}/${encodeURIComponent(vocabs.getLabel(Facet.Discipline, key, language))}`,
+        )}/${encodeURIComponent(vocabs.getLabel(Facet.Discipline, bucket.key, language))}`,
     };
 }
 

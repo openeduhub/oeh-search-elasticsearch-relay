@@ -40,9 +40,9 @@ type ReverseMap = { [language in Language]: { [label: string]: string } };
 class VocabsDictionary {
     /** The root id of the scheme. */
     readonly id: string;
-    /** Maps value keys to labels in all languages. */
+    /** Maps value ids to labels in all languages. */
     readonly vocabsMap: VocabsMap;
-    /** Maps labels to value keys in all languages. */
+    /** Maps labels to value ids in all languages. */
     readonly reverseMap: ReverseMap;
 
     constructor(vocabsDefinition: VocabsDefinition) {
@@ -57,15 +57,15 @@ class VocabsDictionary {
                 throw new Error('Unexpected vocabs id');
             }
             const key = entry.id.slice(vocabsDefinition.id.length);
-            acc[key] = this.getBestLabels(entry, key);
+            acc[entry.id] = this.getBestLabels(entry, key);
             return acc;
         }, {} as VocabsMap);
     }
 
     private generateReverseMap(vocabsMap: VocabsMap) {
         return Object.values(Language).reduce((acc, language) => {
-            acc[language] = Object.entries(vocabsMap).reduce((innerAcc, [key, mapEntry]) => {
-                innerAcc[mapEntry[language]] = key;
+            acc[language] = Object.entries(vocabsMap).reduce((innerAcc, [id, mapEntry]) => {
+                innerAcc[mapEntry[language]] = id;
                 return innerAcc;
             }, {} as { [label: string]: string });
             return acc;
@@ -106,46 +106,39 @@ class Vocabs {
     }
 
     /**
-     * Gets label for the given entry by key.
+     * Gets label for the given entry by id.
      *
-     * Falls back to returning the key if the vocabs entry is missing.
+     * Falls back to returning the id if the vocabs entry is missing.
      */
-    getLabel(vocabsScheme: VocabsScheme, key: string, language: Language) {
-        const label = this.vocabsDictionaries[vocabsScheme].vocabsMap[key]?.[language];
+    getLabel(vocabsScheme: VocabsScheme, id: string, language: Language) {
+        const label = this.vocabsDictionaries[vocabsScheme].vocabsMap[id]?.[language];
         if (label === undefined) {
-            warn(`Encountered missing vocabs entry ${key} for vocabs scheme ${vocabsScheme}`);
-            return key;
+            warn(`Encountered missing vocabs entry ${id} for vocabs scheme ${vocabsScheme}`);
+            return id;
         }
         return label;
     }
 
     /**
-     * Gets the key for the given entry by label.
+     * Gets the id for the given entry by label.
      *
      * Falls back to returning the label if the vocabs entry is missing. This happens when
-     * getLabel() returned the key as label earlier, so in case the reverse lookup fails, the label
-     * already is the key.
+     * getLabel() returned the id as label earlier, so in case the reverse lookup fails, the label
+     * already is the id.
      */
     getId(vocabsScheme: VocabsScheme, label: string, language: Language) {
-        let key = this.vocabsDictionaries[vocabsScheme].reverseMap[language][label];
-        if (key === undefined) {
-            key = label;
+        let id = this.vocabsDictionaries[vocabsScheme].reverseMap[language][label];
+        if (id === undefined) {
+            id = label;
         }
-        return this.keyToId(vocabsScheme, key);
+        return id;
     }
 
     /**
      * Gets the entry id by key.
-     *
-     * Falls back to returning the key if the vocabs entry is missing. This happens when `idToKey()`
-     * returned the id as key earlier, so in case the lookup fails, the key already is the id.
      */
     keyToId(vocabsScheme: VocabsScheme, key: string) {
-        if (key in this.vocabsDictionaries[vocabsScheme].vocabsMap) {
-            return this.vocabsDictionaries[vocabsScheme].id + key;
-        } else {
-            return key;
-        }
+        return this.vocabsDictionaries[vocabsScheme].id + key;
     }
 
     /**

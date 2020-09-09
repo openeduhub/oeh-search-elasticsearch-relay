@@ -59,13 +59,14 @@
       "id": "http://w3id.org/openeduhub/vocabs/discipline/120",
       "prefLabel": {
         "de": "Deutsch",
-        "en": "Mother tongue"
+        "en": "German as mother tongue"
       },
       "altLabel": {
         "de": [
           "Muttersprache"
         ],
         "en": [
+          "German",
           "german"
         ]
       }
@@ -557,6 +558,13 @@
           "Gesellschaftspolitische Gegenwartsfragen"
         ]
       }
+    },
+    {
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/900",
+      "prefLabel": {
+        "de": "Medienbildung",
+        "en": "media education"
+      }
     }
   ],
   "@context": {
@@ -596,6 +604,12 @@
     "source": "dct:source",
     "prefLabel": {
       "@container": "@language"
+    },
+    "hiddenLabel": {
+      "@container": [
+        "@language",
+        "@set"
+      ]
     },
     "altLabel": {
       "@container": [

@@ -86,6 +86,7 @@ function generateSubjectsPortalDiscipline(
     bucket: Bucket,
     language: Language,
 ): SubjectsPortalDiscipline {
+    const educationalContextId = vocabs.keyToId(Facet.EducationalContext, educationalContext);
     const key = vocabs.idToKey(Facet.Discipline, bucket.key);
     return {
         doc_count: bucket.doc_count,
@@ -94,7 +95,7 @@ function generateSubjectsPortalDiscipline(
         url: `${config.frontend.url}/${getUrlLanguageFragment(
             language,
         )}/search/${encodeURIComponent(
-            vocabs.getLabel(Facet.EducationalContext, educationalContext, language),
+            vocabs.getLabel(Facet.EducationalContext, educationalContextId, language),
         )}/${encodeURIComponent(vocabs.getLabel(Facet.Discipline, bucket.key, language))}`,
     };
 }

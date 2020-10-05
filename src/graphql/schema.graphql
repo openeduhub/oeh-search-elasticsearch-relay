@@ -212,6 +212,7 @@ type License {
 
 enum EditorialTag {
     recommended
+    default
 }
 
 type PreviewImage {

@@ -172,13 +172,22 @@ export class EduSharingMapping implements Mapping<EduSharingHit> {
             editorialTags: source.collections?.some(
                 (collection) => collection.properties['ccm:collectiontype'],
             )
-                ? (this.commonMapper.mapArray(
-                      Facet.EditorialTag,
-                      source.collections
-                          .map((collections) => collections.properties['ccm:collectiontype'])
-                          .filter((collectionType) => collectionType !== undefined) as string[],
-                      language,
-                  ) as EditorialTag[])
+                ? // This fallback to the value of `ccm:collectiontype` for collection types other
+                  // than 'EDITORIAL'...
+                  (this.commonMapper
+                      .mapArray(
+                          Facet.EditorialTag,
+                          source.collections
+                              .map((collections) => collections.properties['ccm:collectiontype'])
+                              .filter((collectionType) => collectionType !== undefined) as string[],
+                          language,
+                      )
+                      // ...so we filter those out.
+                      //
+                      // TODO: Find a solution that allows discarding unmapped values.
+                      .filter((tag) =>
+                          Object.values(EditorialTag).includes(tag as EditorialTag),
+                      ) as EditorialTag[])
                 : [],
             previewImage: {
                 thumbnail: {

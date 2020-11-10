@@ -44,15 +44,17 @@
       "altLabel": {
         "de": [
           "DaZ",
-          "Deutsch als Zweit- / Fremdsprache"
+          "DaF",
+          "Deutsch als Zweit- / Fremdsprache",
+          "Deutsch als Fremdsprache"
         ]
       }
     },
     {
       "id": "http://w3id.org/openeduhub/vocabs/discipline/12002",
       "prefLabel": {
-        "de": "Darstellen & Gestalten",
-        "en": "Form and representation"
+        "de": "Darstellendes Spiel",
+        "en": "Performing game"
       }
     },
     {
@@ -115,12 +117,12 @@
     {
       "id": "http://w3id.org/openeduhub/vocabs/discipline/28010",
       "prefLabel": {
-        "de": "Heimatunterricht",
+        "de": "Sachunterricht",
         "en": "Homeland lessons"
       },
       "altLabel": {
         "de": [
-          "Sachunterricht"
+          "Heimatunterricht"
         ]
       }
     },
@@ -513,6 +515,13 @@
         "de": [
           "Umwelterziehung"
         ]
+      }
+    },
+    {
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/64018",
+      "prefLabel": {
+        "de": "Nachhaltigkeit",
+        "en": "Sustainability"
       }
     },
     {

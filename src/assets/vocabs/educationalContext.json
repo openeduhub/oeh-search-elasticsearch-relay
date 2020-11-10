@@ -10,21 +10,6 @@
   },
   "hasTopConcept": [
     {
-      "id": "http://w3id.org/openeduhub/vocabs/educationalContext/grundschule",
-      "prefLabel": {
-        "de": "Primarstufe",
-        "en": "primary school"
-      },
-      "altLabel": {
-        "de": [
-          "Grundschule"
-        ],
-        "en": [
-          "elementary school"
-        ]
-      }
-    },
-    {
       "id": "http://w3id.org/openeduhub/vocabs/educationalContext/elementarbereich",
       "prefLabel": {
         "de": "Elementarbereich",
@@ -33,6 +18,21 @@
       "altLabel": {
         "de": [
           "Elementarstufe"
+        ],
+        "en": [
+          "elementary school"
+        ]
+      }
+    },
+    {
+      "id": "http://w3id.org/openeduhub/vocabs/educationalContext/grundschule",
+      "prefLabel": {
+        "de": "Primarstufe",
+        "en": "primary school"
+      },
+      "altLabel": {
+        "de": [
+          "Grundschule"
         ],
         "en": [
           "elementary school"

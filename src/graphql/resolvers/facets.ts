@@ -32,7 +32,12 @@ const facetsResolver: QueryResolvers['facets'] = async (
     // console.log('requestBody:', JSON.stringify(requestBody, null, 4));
     const { body } = await client.search(requestBody);
     // console.log('response body:', JSON.stringify(body, null, 4));
-    return getFacets(body.aggregations, args.filters ?? null, args.language ?? null);
+    return getFacets(
+        body.aggregations,
+        args.filters ?? null,
+        args.language ?? null,
+        args.skipOutputMapping ?? false,
+    );
 };
 
 function generateAggregations(
@@ -112,15 +117,25 @@ function getFacets(
     aggregations: any,
     filters: Filter[] | null,
     language: Language | null,
+    skipOutputMapping: boolean,
 ): Aggregation[] {
     // Unwrap the filter structure introduced by `generateAggregations`.
     const facets = Object.entries<any>(aggregations).map(([key, value]) => {
         const facet = key as Facet;
-        const buckets = mergeBucketLists(
-            mapping.mapFacetBuckets(facet, value[`filtered_${facet}`].buckets, language),
-            mapping.mapFacetBuckets(facet, value[`selected_${facet}`].buckets, language),
-            filters ? generateFilterBuckets(getFilterTerms(filters, facet)) : null,
-        );
+        const buckets = (() => {
+            if (skipOutputMapping) {
+                if (filters) {
+                    throw new Error('Filters are not supported with `skipOutputMapping`');
+                }
+                return value[`filtered_${facet}`].buckets;
+            } else {
+                return mergeBucketLists(
+                    mapping.mapFacetBuckets(facet, value[`filtered_${facet}`].buckets, language),
+                    mapping.mapFacetBuckets(facet, value[`selected_${facet}`].buckets, language),
+                    filters ? generateFilterBuckets(getFilterTerms(filters, facet)) : null,
+                );
+            }
+        })();
         return {
             buckets,
             facet,

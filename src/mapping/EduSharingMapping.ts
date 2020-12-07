@@ -41,6 +41,7 @@ const customTermsMaps: CustomTermsMaps = {
         map: {
             ['Bayerischer Rundfunk']: 'br_rss_spider',
             ['Biologie-Lernprogramme']: 'biologie_lernprogramme_spider',
+            ['Bundeszentrale für politische Bildung']: 'bpb_spider',
             ['Chemie-Lernprogramme']: 'chemie_lernprogramme_spider',
             ['digital.learning.lab']: 'digitallearninglab_spider',
             ['FWU Sodis Contentpool']: 'oai_sodis_spider',
@@ -69,6 +70,7 @@ const customTermsMaps: CustomTermsMaps = {
 
 const sourceUrls: { [spiderName: string]: string } = {
     biologie_lernprogramme_spider: 'https://biologie-lernprogramme.de/',
+    bpb_spider: 'https://www.bpb.de/',
     br_rss_spider: 'https://www.br.de/',
     chemie_lernprogramme_spider: 'https://chemie-lernprogramme.de/',
     digitallearninglab_spider: 'https://digitallearninglab.de',

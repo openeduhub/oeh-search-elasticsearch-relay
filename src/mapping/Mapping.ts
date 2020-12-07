@@ -18,6 +18,7 @@ export interface Mapping<Source> {
     getSearchQueryFields(language: Language | null): string[];
     getShouldTerms(): { boost: number; [field: string]: string[] | number };
     getAutoCompleteConfig(): {
+        source: { includes?: string[]; excludes?: string[] };
         mapHit: (hit: Source) => string;
         queryFields: string[];
     } | null;

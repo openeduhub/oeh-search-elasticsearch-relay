@@ -246,6 +246,7 @@ export class EduSharingMapping implements Mapping<EduSharingHit> {
 
     getAutoCompleteConfig() {
         return {
+            source: { includes: ['properties.cclom:title'] },
             mapHit: (hit: EduSharingHit) => hit.properties['cclom:title'] ?? '',
             queryFields: ['properties.cclom:title'],
         };

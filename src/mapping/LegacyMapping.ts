@@ -139,6 +139,7 @@ export class LegacyMapping implements Mapping<LegacyHit> {
 
     getAutoCompleteConfig() {
         return {
+            source: { includes: ['lom.general.title'] },
             mapHit: (hit: LegacyHit) => hit.lom.general.title,
             queryFields: [
                 'lom.general.title.search_as_you_type',

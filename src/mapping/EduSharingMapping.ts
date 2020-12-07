@@ -245,7 +245,10 @@ export class EduSharingMapping implements Mapping<EduSharingHit> {
     }
 
     getAutoCompleteConfig() {
-        return null;
+        return {
+            mapHit: (hit: EduSharingHit) => hit.properties['cclom:title'] ?? '',
+            queryFields: ['properties.cclom:title'],
+        };
     }
 
     getDidYouMeanSuggestionField(): string {

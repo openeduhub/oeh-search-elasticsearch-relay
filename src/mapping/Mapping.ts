@@ -1,3 +1,4 @@
+import { Query } from 'elastic-ts';
 import { Facet, Hit, Language, Bucket } from '../generated/graphql';
 
 export type MapFilterTerms = (facet: Facet, terms: string[], language: Language | null) => string[];
@@ -23,6 +24,7 @@ export interface Mapping<Source> {
         queryFields: string[];
     } | null;
     getDidYouMeanSuggestionField(): string;
-    getStaticFilters(): any[];
-    getStaticNegativeFilters(): any[];
+    getStaticFilters(): Query[];
+    getStaticNegativeFilters(): Query[];
+    getInternationalizedFacetFields(facet: Facet, language: Language): string[] | null;
 }

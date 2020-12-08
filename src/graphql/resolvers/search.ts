@@ -1,3 +1,4 @@
+import { Query } from 'elastic-ts';
 import { client } from '../../common/elasticSearchClient';
 import { Filter, Language, QueryResolvers, SearchResult } from '../../generated/graphql';
 import { mapping } from '../../mapping';
@@ -54,7 +55,7 @@ export function generateSearchQuery(
     };
 }
 
-export function generateSearchStringQuery(searchString: string, language: Language | null) {
+export function generateSearchStringQuery(searchString: string, language: Language | null): Query {
     return {
         multi_match: {
             query: searchString,

@@ -1,3 +1,4 @@
+import { Query } from 'elastic-ts';
 import { config } from '../common/config';
 import { VocabsScheme } from '../common/vocabs';
 import { EditorialTag, Facet, Hit, Language, SkosEntry, Type } from '../generated/graphql';
@@ -256,7 +257,7 @@ export class EduSharingMapping implements Mapping<EduSharingHit> {
         return 'properties.cclom:title';
     }
 
-    getStaticFilters() {
+    getStaticFilters(): Query[] {
         return [
             { terms: { type: ['ccm:io'] } },
             { terms: { 'permissions.read': ['GROUP_EVERYONE'] } },
@@ -265,8 +266,44 @@ export class EduSharingMapping implements Mapping<EduSharingHit> {
         ];
     }
 
-    getStaticNegativeFilters() {
+    getStaticNegativeFilters(): Query[] {
         return [{ term: { aspects: 'ccm:collection_io_reference' } }];
+    }
+
+    getInternationalizedFacetFields(facet: Facet, language: Language): string[] | null {
+        const locale = this.getI18nLanguage(language);
+        switch (facet) {
+            case Facet.Discipline:
+                return [`i18n.${locale}.ccm:taxonid`, `collections.i18n.${locale}.ccm:taxonid`];
+            case Facet.LearningResourceType:
+                return [
+                    `i18n.${locale}.ccm:educationallearningresourcetype`,
+                    `collections.i18n.${locale}.ccm:educationallearningresourcetype`,
+                ];
+            case Facet.EducationalContext:
+                return [
+                    `i18n.${locale}.ccm:educationalcontext`,
+                    `collections.i18n.${locale}.ccm:educationalcontext`,
+                ];
+            case Facet.IntendedEndUserRole:
+                return [
+                    `i18n.${locale}.ccm:educationalintendedenduserrole`,
+                    `collections.i18n.${locale}.ccm:educationalintendedenduserrole`,
+                ];
+            case Facet.Keyword:
+                return ['properties.cclom:general_keyword'];
+            case Facet.Oer:
+                return null;
+            case Facet.Type:
+                return [
+                    `i18n.${locale}.ccm:objecttype`,
+                    `collections.i18n.${locale}.ccm:objecttype`,
+                ];
+            case Facet.EditorialTag:
+                return null;
+            case Facet.Source:
+                return [`i18n.${locale}.ccm:replicationsource`];
+        }
     }
 
     private mapSkos(vocabsScheme: VocabsScheme, id: string, language: Language | null): SkosEntry {

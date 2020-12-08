@@ -19,6 +19,7 @@ const searchResolver: QueryResolvers['search'] = async (
         from: args.from,
         size: args.size,
         _source: mapping.getSources(),
+        track_total_hits: true,
         query,
     };
     // console.log('requestBody:', JSON.stringify(requestBody, null, 2));

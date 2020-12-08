@@ -18,6 +18,7 @@ const facetResolver: QueryResolvers['facet'] = async (
             language: args.language,
             searchString: args.searchString,
             filters: args.filters,
+            skipOutputMapping: args.skipOutputMapping,
         },
         context,
         info,

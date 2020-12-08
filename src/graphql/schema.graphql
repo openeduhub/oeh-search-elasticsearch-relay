@@ -41,6 +41,10 @@ type Query {
         size: Int! = 20
         language: Language
         facet: Facet!
+        """
+        Return raw index data, not suited for use with filters
+        """
+        skipOutputMapping: Boolean = False
     ): Aggregation!
     """
     Get multiple facets, taking the given query into account
@@ -50,6 +54,10 @@ type Query {
         filters: [Filter!]
         size: Int! = 20
         language: Language
+        """
+        Return raw index data, not suited for use with filters
+        """
+        skipOutputMapping: Boolean = False
         """
         Requested facets; the response array will contain an entry for each given facet
         """

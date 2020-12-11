@@ -76,6 +76,17 @@ type Query {
         language: Language
     ): DidYouMeanSuggestion
     subjectsPortals(size: Int! = 100, language: Language!): SubjectsPortals!
+    """
+    TODO
+    """
+    facetSuggestions(
+        inputString: String
+        searchString: String
+        filters: [Filter!]
+        size: Int! = 5
+        language: Language!
+        facets: [Facet!]!
+    ): [Aggregation!]!
 }
 
 enum Language {

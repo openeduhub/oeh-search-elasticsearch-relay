@@ -1,9 +1,10 @@
+import { Query } from 'elastic-ts';
 import { config } from '../common/config';
 import { VocabsScheme } from '../common/vocabs';
 import { EditorialTag, Facet, Hit, Language, SkosEntry, Type } from '../generated/graphql';
 import { CommonMapper } from './common/CommonMapper';
 import { CustomTermsMaps } from './common/CustomTermsMap';
-import { Mapping, MapFilterTerms, MapFacetBuckets } from './Mapping';
+import { MapFacetBuckets, MapFilterTerms, Mapping } from './Mapping';
 import { InternationalString, LegacyHit, OerType } from './types/LegacyHit';
 
 export const VALUE_NOT_AVAILABLE = 'N/A';
@@ -139,6 +140,7 @@ export class LegacyMapping implements Mapping<LegacyHit> {
 
     getAutoCompleteConfig() {
         return {
+            source: { includes: ['lom.general.title'] },
             mapHit: (hit: LegacyHit) => hit.lom.general.title,
             queryFields: [
                 'lom.general.title.search_as_you_type',
@@ -153,12 +155,16 @@ export class LegacyMapping implements Mapping<LegacyHit> {
         return 'lom.general.title';
     }
 
-    getStaticFilters() {
+    getStaticFilters(): Query[] {
         return [];
     }
 
-    getStaticNegativeFilters() {
+    getStaticNegativeFilters(): Query[] {
         return [];
+    }
+
+    getInternationalizedFacetFields(facet: Facet, language: Language): string[] | null {
+        return null;
     }
 
     private mapSkos(

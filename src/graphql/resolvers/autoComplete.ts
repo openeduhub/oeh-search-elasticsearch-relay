@@ -16,6 +16,7 @@ const autoCompleteResolver: QueryResolvers['autoComplete'] = async (
     }
     const { body } = await client.search({
         body: {
+            _source: autoCompleteConfig.source,
             query: {
                 bool: {
                     must: {

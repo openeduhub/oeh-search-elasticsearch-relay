@@ -145,7 +145,7 @@ function getFacets(
     return facets;
 }
 
-function getFilterTerms(filters: Filter[], facet: Facet): string[] | null {
+export function getFilterTerms(filters: Filter[], facet: Facet): string[] | null {
     const filter = filters.find((f) => f.facet === facet);
     return filter?.terms ?? null;
 }

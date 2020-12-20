@@ -105,14 +105,14 @@ export class EduSharingMapping implements Mapping<EduSharingHit> {
     private static readonly LOCATION_LOCAL_PREFIX = 'ccrep://local/';
 
     readonly facetFields: { [facet in Facet]: string } = {
-        [Facet.Discipline]: `properties.ccm:taxonid.keyword`,
-        [Facet.LearningResourceType]: `properties.ccm:educationallearningresourcetype.keyword`,
-        [Facet.EducationalContext]: `properties.ccm:educationalcontext.keyword`,
-        [Facet.IntendedEndUserRole]: `properties.ccm:educationalintendedenduserrole.keyword`,
-        [Facet.Keyword]: 'properties.cclom:general_keyword.keyword',
-        [Facet.Source]: 'properties.ccm:replicationsource.keyword',
-        [Facet.Oer]: 'properties.ccm:commonlicense_key.keyword',
-        [Facet.Type]: 'properties.ccm:objecttype.keyword',
+        [Facet.Discipline]: `properties_aggregated.ccm:taxonid`,
+        [Facet.LearningResourceType]: `properties_aggregated.ccm:educationallearningresourcetype`,
+        [Facet.EducationalContext]: `properties_aggregated.ccm:educationalcontext`,
+        [Facet.IntendedEndUserRole]: `properties_aggregated.ccm:educationalintendedenduserrole`,
+        [Facet.Keyword]: 'properties_aggregated.cclom:general_keyword',
+        [Facet.Source]: 'properties_aggregated.ccm:replicationsource',
+        [Facet.Oer]: 'properties_aggregated.ccm:commonlicense_key',
+        [Facet.Type]: 'properties_aggregated.ccm:objecttype',
         [Facet.EditorialTag]: 'collections.properties.ccm:collectiontype.keyword',
     };
     readonly collectionsFieldPrefix = 'collections.';

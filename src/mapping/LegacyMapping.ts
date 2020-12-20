@@ -158,7 +158,9 @@ export class LegacyMapping implements Mapping<LegacyHit> {
     getStaticFilters(): Query[] {
         return [];
     }
-
+    getStoredFields(): string[] {
+        return [];
+    }
     getStaticNegativeFilters(): Query[] {
         return [];
     }

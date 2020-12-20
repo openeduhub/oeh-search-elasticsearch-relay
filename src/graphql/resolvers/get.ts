@@ -6,6 +6,8 @@ const getResolver: QueryResolvers['get'] = async (root, args, context, info): Pr
     const { body } = await client.search({
         body: {
             query: mapping.getIdQuery(args.id),
+            _source: mapping.getSources(),
+            stored_fields: mapping.getStoredFields(),
         },
     });
     return parseResponse(body, args.language ?? null);
@@ -15,7 +17,7 @@ function parseResponse(body: any, language: Language | null): Hit {
     if (body.hits.total.value !== 1) {
         throw new Error(`Got ${body.hits.total.value} results when requesting entry by id`);
     }
-    return mapping.mapHit(body.hits.hits[0]._source, language);
+    return mapping.mapHit(body.hits.hits[0], language);
 }
 
 export default getResolver;

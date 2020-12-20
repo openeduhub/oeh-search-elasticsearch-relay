@@ -5,7 +5,8 @@ import { EditorialTag, Facet, Hit, Language, SkosEntry, Type } from '../generate
 import { CommonMapper } from './common/CommonMapper';
 import { CustomTermsMaps } from './common/CustomTermsMap';
 import { MapFacetBuckets, MapFilterTerms, Mapping } from './Mapping';
-import { CommonLicenseKey, EduSharingHit } from './types/EduSharingHit';
+import { CommonLicenseKey, EduSharingHit, Source } from './types/EduSharingHit';
+import { mapping } from './index';
 
 export const VALUE_NOT_AVAILABLE = 'N/A';
 
@@ -125,7 +126,8 @@ export class EduSharingMapping implements Mapping<EduSharingHit> {
         this.mapFacetBuckets = this.commonMapper.mapFacetBuckets.bind(this.commonMapper);
     }
 
-    mapHit(source: EduSharingHit, language: Language | null): Hit {
+    mapHit(hit: EduSharingHit, language: Language | null): Hit {
+        const source = hit._source;
         return {
             id: source.nodeRef.id,
             lom: {
@@ -140,18 +142,22 @@ export class EduSharingMapping implements Mapping<EduSharingHit> {
                 },
             },
             skos: {
-                discipline: source.properties['ccm:taxonid']?.map((entry) =>
-                    this.mapSkos(Facet.Discipline, entry, language),
-                ),
-                educationalContext: source.properties['ccm:educationalcontext']?.map((entry) =>
-                    this.mapSkos(Facet.EducationalContext, entry, language),
-                ),
-                learningResourceType: source.properties[
-                    'ccm:educationallearningresourcetype'
-                ]?.map((entry) => this.mapSkos(Facet.LearningResourceType, entry, language)),
-                intendedEndUserRole: source.properties[
-                    'ccm:educationalintendedenduserrole'
-                ]?.map((entry) => this.mapSkos(Facet.IntendedEndUserRole, entry, language)),
+                discipline: hit.fields['properties_aggregated.ccm:taxonid']
+                    ?.filter((entry, index, self) => self.indexOf(entry) === index)
+                    .map((entry) => this.mapSkos(Facet.Discipline, entry, language)),
+                educationalContext: hit.fields['properties_aggregated.ccm:educationalcontext']
+                    ?.filter((entry, index, self) => self.indexOf(entry) === index)
+                    .map((entry) => this.mapSkos(Facet.EducationalContext, entry, language)),
+                learningResourceType: hit.fields[
+                    'properties_aggregated.ccm:educationallearningresourcetype'
+                ]
+                    ?.filter((entry, index, self) => self.indexOf(entry) === index)
+                    .map((entry) => this.mapSkos(Facet.LearningResourceType, entry, language)),
+                intendedEndUserRole: hit.fields[
+                    'properties_aggregated.ccm:educationalintendedenduserrole'
+                ]
+                    ?.filter((entry, index, self) => self.indexOf(entry) === index)
+                    .map((entry) => this.mapSkos(Facet.IntendedEndUserRole, entry, language)),
             },
             type: source.properties['ccm:objecttype']
                 ? (this.commonMapper.map(
@@ -219,6 +225,9 @@ export class EduSharingMapping implements Mapping<EduSharingHit> {
             excludes: ['i18n', 'content.fulltext'],
         };
     }
+    getStoredFields() {
+        return ['properties_aggregated.*'];
+    }
 
     getSearchQueryFields(language: Language | null): string[] {
         const result = [
@@ -248,7 +257,7 @@ export class EduSharingMapping implements Mapping<EduSharingHit> {
     getAutoCompleteConfig() {
         return {
             source: { includes: ['properties.cclom:title'] },
-            mapHit: (hit: EduSharingHit) => hit.properties['cclom:title'] ?? '',
+            mapHit: (hit: EduSharingHit) => hit._source.properties['cclom:title'] ?? '',
             queryFields: ['properties.cclom:title'],
         };
     }
@@ -313,7 +322,7 @@ export class EduSharingMapping implements Mapping<EduSharingHit> {
         };
     }
 
-    private getPreviewUrl(source: EduSharingHit, { size }: { size: 'original' | 'thumbnail' }) {
+    private getPreviewUrl(source: Source, { size }: { size: 'original' | 'thumbnail' }) {
         let url =
             `${config.eduSharing.url}/preview` +
             `?nodeId=${source.nodeRef.id}` +

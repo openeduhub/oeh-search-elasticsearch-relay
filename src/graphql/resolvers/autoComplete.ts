@@ -37,7 +37,7 @@ const autoCompleteResolver: QueryResolvers['autoComplete'] = async (
 };
 
 function parseResponse(body: any): string[] {
-    return body.hits.hits.map((hit: any) => autoCompleteConfig?.mapHit(hit._source));
+    return body.hits.hits.map((hit: any) => autoCompleteConfig?.mapHit(hit));
 }
 
 export default autoCompleteResolver;

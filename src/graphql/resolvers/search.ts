@@ -3,6 +3,7 @@ import { client } from '../../common/elasticSearchClient';
 import { Filter, Language, QueryResolvers, SearchResult } from '../../generated/graphql';
 import { mapping } from '../../mapping';
 import { getFilter } from '../common/filter';
+import { RequestBody } from '@elastic/elasticsearch/lib/Transport';
 
 const searchResolver: QueryResolvers['search'] = async (
     root,
@@ -16,9 +17,10 @@ const searchResolver: QueryResolvers['search'] = async (
         args.language ?? null,
         args.includeCollectionTags ?? false,
     );
-    const requestBody = {
+    const requestBody: RequestBody = {
         from: args.from,
         size: args.size,
+        stored_fields: mapping.getStoredFields(),
         _source: mapping.getSources(),
         track_total_hits: true,
         query,
@@ -70,7 +72,7 @@ function parseResponse(body: any, language: Language | null): SearchResult {
     return {
         took: body.took,
         total: body.hits.total,
-        hits: body.hits.hits.map((hit: any) => mapping.mapHit(hit._source, language)),
+        hits: body.hits.hits.map((hit: any) => mapping.mapHit(hit, language)),
     };
 }
 

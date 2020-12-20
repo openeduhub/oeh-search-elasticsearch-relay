@@ -1,4 +1,4 @@
-export interface EduSharingHit {
+export interface Source {
     type: string;
     nodeRef: {
         id: string;
@@ -29,8 +29,19 @@ export interface EduSharingHit {
         'ccm:collectiontype'?: string;
         'ccm:wwwurl'?: string;
     };
-    collections: Array<EduSharingHit>;
+    collections: Array<Source>;
     aspects: string[];
+}
+export interface Fields {
+    'properties_aggregated.cclom:general_keyword'?: string[];
+    'properties_aggregated.ccm:taxonid'?: string[];
+    'properties_aggregated.ccm:educationalcontext'?: string[];
+    'properties_aggregated.ccm:educationalintendedenduserrole'?: string[];
+    'properties_aggregated.ccm:educationallearningresourcetype'?: string[];
+}
+export interface EduSharingHit {
+    _source: Source;
+    fields: Fields;
 }
 
 export enum CommonLicenseKey {

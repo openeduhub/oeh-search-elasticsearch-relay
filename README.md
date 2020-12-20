@@ -16,7 +16,7 @@ Start a dev server and listen for code changes: `npm start`
 
 ### Docker Image
 
-Docker images are built via Github Actions and uploaded to https://hub.docker.com/repository/docker/openeduhub/elasticsearch-relay.
+Docker images are built via Github Actions and uploaded to https://hub.docker.com/r/openeduhub/oeh-search-elasticsearch-relay.
 
 To build a docker image locally, run
 

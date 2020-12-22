@@ -208,8 +208,9 @@ export class EduSharingMapping implements Mapping<EduSharingHit> {
                 : [],
             previewImage: {
                 thumbnail: {
-                    __typename: 'ExternalThumbnail',
-                    url: this.getPreviewUrl(source, { size: 'thumbnail' }),
+                    __typename: 'EmbeddedThumbnail',
+                    image: source.preview.small,
+                    mimetype: source.preview.mimetype ?? 'image/*',
                 },
                 url: this.getPreviewUrl(source, { size: 'original' }),
             },

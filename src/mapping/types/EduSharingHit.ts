@@ -13,6 +13,10 @@ export interface Source {
     content: {
         fulltext: string;
     };
+    preview: {
+        mimetype?: string;
+        small: string;
+    };
     properties: {
         'cm:name': string;
         'cclom:title'?: string;

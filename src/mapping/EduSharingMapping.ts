@@ -207,11 +207,16 @@ export class EduSharingMapping implements Mapping<EduSharingHit> {
                       ) as EditorialTag[])
                 : [],
             previewImage: {
-                thumbnail: {
-                    __typename: 'EmbeddedThumbnail',
-                    image: source.preview.small,
-                    mimetype: source.preview.mimetype ?? 'image/*',
-                },
+                thumbnail: source.preview
+                    ? {
+                          __typename: 'EmbeddedThumbnail',
+                          image: source.preview.small,
+                          mimetype: source.preview.mimetype ?? 'image/*',
+                      }
+                    : {
+                          __typename: 'ExternalThumbnail',
+                          url: this.getPreviewUrl(source, { size: 'thumbnail' }),
+                      },
                 url: this.getPreviewUrl(source, { size: 'original' }),
             },
         };

@@ -6,7 +6,6 @@ import { CommonMapper } from './common/CommonMapper';
 import { CustomTermsMaps } from './common/CustomTermsMap';
 import { MapFacetBuckets, MapFilterTerms, Mapping } from './Mapping';
 import { CommonLicenseKey, EduSharingHit, Source } from './types/EduSharingHit';
-import { mapping } from './index';
 
 export const VALUE_NOT_AVAILABLE = 'N/A';
 
@@ -30,6 +29,7 @@ const customTermsMaps: CustomTermsMaps = {
             [Type.Portal]: 'SOURCE',
             [Type.Tool]: 'TOOL',
             [Type.LessonPlanning]: 'LESSONPLANNING',
+            [Type.Method]: 'METHOD',
         },
     },
     [Facet.EditorialTag]: {

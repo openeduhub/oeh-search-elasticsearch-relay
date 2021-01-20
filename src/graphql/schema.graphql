@@ -208,6 +208,7 @@ enum Type {
     portal
     tool
     lessonPlanning
+    method
 }
 
 type Source {

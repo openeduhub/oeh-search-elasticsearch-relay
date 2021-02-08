@@ -1,27 +1,59 @@
 import { Query } from 'elastic-ts';
 import { config } from '../common/config';
 import { VocabsScheme } from '../common/vocabs';
-import { EditorialTag, Facet, Hit, Language, SkosEntry, Type } from '../generated/graphql';
+import {
+    SimpleFilter,
+    EditorialTag,
+    Facet,
+    Hit,
+    Language,
+    SkosEntry,
+    Type,
+} from '../generated/graphql';
 import { CommonMapper } from './common/CommonMapper';
 import { CustomTermsMaps } from './common/CustomTermsMap';
 import { MapFacetBuckets, MapFilterTerms, Mapping } from './Mapping';
-import { CommonLicenseKey, EduSharingHit, Source } from './types/EduSharingHit';
+import { CommonLicenseKey, EduSharingHit, Fields, Source } from './types/EduSharingHit';
 
 export const VALUE_NOT_AVAILABLE = 'N/A';
 
-const customTermsMaps: CustomTermsMaps = {
-    [Facet.Oer]: {
-        type: 'one-to-many',
-        map: {
-            true: [
+export const oerMapping = new (class OerMapping {
+    private readonly sufficientValues: Array<{ field: keyof Fields; terms: string[] }> = [
+        {
+            field: 'properties_aggregated.ccm:commonlicense_key',
+            terms: [
                 CommonLicenseKey.CC_0,
                 CommonLicenseKey.CC_BY,
                 CommonLicenseKey.CC_BY_SA,
                 CommonLicenseKey.PDM,
             ],
-            false: [CommonLicenseKey.COPYRIGHT_FREE],
         },
-    },
+        {
+            field: 'properties_aggregated.ccm:license_oer',
+            terms: ['http://w3id.org/openeduhub/vocabs/oer/0'],
+        },
+    ];
+
+    getFilter(): Query {
+        return {
+            bool: {
+                should: this.sufficientValues.map((sufficientValue) => ({
+                    terms: {
+                        [sufficientValue.field]: sufficientValue.terms,
+                    },
+                })),
+            },
+        };
+    }
+
+    getValue(hit: EduSharingHit): boolean {
+        return this.sufficientValues.some((sufficientValue) =>
+            hit.fields[sufficientValue.field]?.some((term) => sufficientValue.terms.includes(term)),
+        );
+    }
+})();
+
+const customTermsMaps: CustomTermsMaps = {
     [Facet.Type]: {
         type: 'one-to-one',
         map: {
@@ -112,9 +144,11 @@ export class EduSharingMapping implements Mapping<EduSharingHit> {
         [Facet.IntendedEndUserRole]: `properties_aggregated.ccm:educationalintendedenduserrole`,
         [Facet.Keyword]: 'properties_aggregated.cclom:general_keyword',
         [Facet.Source]: 'properties_aggregated.ccm:replicationsource',
-        [Facet.Oer]: 'properties_aggregated.ccm:commonlicense_key',
         [Facet.Type]: 'properties_aggregated.ccm:objecttype',
         [Facet.EditorialTag]: 'collections.properties.ccm:collectiontype.keyword',
+    };
+    readonly simpleFilters: { [key in SimpleFilter]: Query } = {
+        [SimpleFilter.Oer]: oerMapping.getFilter(),
     };
     readonly collectionsFieldPrefix = 'collections.';
     readonly mapFilterTerms: MapFilterTerms;
@@ -178,13 +212,7 @@ export class EduSharingMapping implements Mapping<EduSharingHit> {
                     '',
             },
             license: {
-                oer: source.properties['ccm:commonlicense_key']
-                    ? this.commonMapper.map(
-                          Facet.Oer,
-                          source.properties['ccm:commonlicense_key'],
-                          language,
-                      ) === 'true'
-                    : false,
+                oer: oerMapping.getValue(hit),
             },
             editorialTags: source.collections?.some(
                 (collection) => collection.properties['ccm:collectiontype'],
@@ -307,8 +335,6 @@ export class EduSharingMapping implements Mapping<EduSharingHit> {
                 ];
             case Facet.Keyword:
                 return ['properties.cclom:general_keyword'];
-            case Facet.Oer:
-                return null;
             case Facet.Type:
                 return [
                     `i18n.${locale}.ccm:objecttype`,

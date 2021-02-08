@@ -5,7 +5,7 @@ import { client } from '../../common/elasticSearchClient';
 import { BadRequestError } from '../../server/errors';
 import { ErrorResponse } from '../types/ErrorResponse';
 import { SearchRequest } from '../types/SearchRequest';
-import { Node, SearchResponse, Person, CollectionType } from '../types/SearchResponse';
+import { EduSharingNode, SearchResponse, Person, CollectionType } from '../types/SearchResponse';
 
 interface SearchParameters {
     from: number;
@@ -96,7 +96,7 @@ export class SearchController extends Controller {
         };
     }
 
-    private mapNode(hit: any, preferredLanguage: string): Node {
+    private mapNode(hit: any, preferredLanguage: string): EduSharingNode {
         const id = hit.nodeRef.id;
         // `Node` is modeled after the Edu-Sharing API. When we don't have the data for a required
         // field, we set it to `(null as unknown) as x` here.

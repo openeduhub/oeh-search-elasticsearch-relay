@@ -19,14 +19,20 @@ jobs:
         username: ${{ github.repository_owner }}
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
     - uses: rlespinasse/github-slug-action@v2.x
+    - name: Install dependencies
+      run: npm ci
+    - name: Lint
+      run: npm run lint
     - name: Build the project
       run: |
-        npm install
         npm run clean
         npm run build
-        npm prune --production
+    - name: Run tests
+      run: npm run test
     - name: Build Docker image
-      run: docker build --tag ${{ github.repository }}:${{ env.GITHUB_REF_SLUG }} .
+      run: |
+        npm prune --production
+        docker build --tag ${{ github.repository }}:${{ env.GITHUB_REF_SLUG }} .
     - name: Publish to DockerHub
       run: docker push ${{ github.repository }}:${{ env.GITHUB_REF_SLUG }}
 

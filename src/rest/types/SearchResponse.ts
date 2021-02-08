@@ -1,10 +1,10 @@
 export interface SearchResponse {
-    nodes: Node[];
+    nodes: EduSharingNode[];
     pagination: Pagination;
     // facettes: Facette[];
 }
 
-export interface Node {
+export interface EduSharingNode {
     access: string[];
     aspects: string[] | null;
     collection: CollectionType;

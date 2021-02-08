@@ -38,10 +38,12 @@ export interface Source {
 }
 export interface Fields {
     'properties_aggregated.cclom:general_keyword'?: string[];
-    'properties_aggregated.ccm:taxonid'?: string[];
+    'properties_aggregated.ccm:commonlicense_key'?: string[];
     'properties_aggregated.ccm:educationalcontext'?: string[];
     'properties_aggregated.ccm:educationalintendedenduserrole'?: string[];
     'properties_aggregated.ccm:educationallearningresourcetype'?: string[];
+    'properties_aggregated.ccm:license_oer'?: string[];
+    'properties_aggregated.ccm:taxonid'?: string[];
 }
 export interface EduSharingHit {
     _source: Source;

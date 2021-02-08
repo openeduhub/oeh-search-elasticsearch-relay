@@ -1,22 +1,23 @@
 import { Query } from 'elastic-ts';
 import { config } from '../common/config';
 import { VocabsScheme } from '../common/vocabs';
-import { EditorialTag, Facet, Hit, Language, SkosEntry, Type } from '../generated/graphql';
+import {
+    SimpleFilter,
+    EditorialTag,
+    Facet,
+    Hit,
+    Language,
+    SkosEntry,
+    Type,
+} from '../generated/graphql';
 import { CommonMapper } from './common/CommonMapper';
 import { CustomTermsMaps } from './common/CustomTermsMap';
 import { MapFacetBuckets, MapFilterTerms, Mapping } from './Mapping';
-import { InternationalString, LegacyHit, OerType } from './types/LegacyHit';
+import { InternationalString, LegacyHit } from './types/LegacyHit';
 
 export const VALUE_NOT_AVAILABLE = 'N/A';
 
 const customTermsMaps: CustomTermsMaps = {
-    [Facet.Oer]: {
-        type: 'one-to-many',
-        map: {
-            true: [OerType.All],
-            false: [OerType.Mixed, OerType.None, VALUE_NOT_AVAILABLE],
-        },
-    },
     [Facet.Type]: {
         type: 'one-to-many',
         map: {
@@ -42,9 +43,14 @@ export class LegacyMapping implements Mapping<LegacyHit> {
         [Facet.IntendedEndUserRole]: `valuespaces.intendedEndUserRole.key.keyword`,
         [Facet.Keyword]: 'lom.general.keyword.keyword',
         [Facet.Source]: 'source.name.keyword',
-        [Facet.Oer]: 'license.oer',
         [Facet.Type]: 'type',
         [Facet.EditorialTag]: 'collection.uuid',
+    };
+    readonly simpleFilters: { [key in SimpleFilter]: Query } = {
+        // TODO implement
+        [SimpleFilter.Oer]: {
+            match_all: {},
+        },
     };
     readonly mapFilterTerms: MapFilterTerms;
     readonly mapFacetBuckets: MapFacetBuckets;
@@ -83,12 +89,8 @@ export class LegacyMapping implements Mapping<LegacyHit> {
             type: this.commonMapper.map(Facet.Type, source.type, language) as Type,
             source: source.source,
             license: {
-                oer:
-                    this.commonMapper.map(
-                        Facet.Oer,
-                        source.license?.oer ?? VALUE_NOT_AVAILABLE,
-                        language,
-                    ) === 'true',
+                // TODO implement
+                oer: false,
             },
             editorialTags: source.collection
                 ? (this.commonMapper.mapArray(

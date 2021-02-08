@@ -1,5 +1,5 @@
 import { Query } from 'elastic-ts';
-import { Facet, Hit, Language, Bucket } from '../generated/graphql';
+import { Bucket, Facet, Hit, Language, SimpleFilter } from '../generated/graphql';
 
 export type MapFilterTerms = (facet: Facet, terms: string[], language: Language | null) => string[];
 export type MapFacetBuckets = (
@@ -10,6 +10,7 @@ export type MapFacetBuckets = (
 
 export interface Mapping<Source> {
     facetFields: { [facet in Facet]: string };
+    simpleFilters: { [key in SimpleFilter]: Query };
     collectionsFieldPrefix?: string;
     mapFilterTerms: MapFilterTerms;
     mapFacetBuckets: MapFacetBuckets;

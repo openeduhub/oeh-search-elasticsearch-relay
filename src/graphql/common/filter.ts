@@ -20,18 +20,30 @@ function mapFilters(
     includeCollectionTags: boolean,
 ): Query[] {
     return filters
-        .map((filter) =>
-            generateFilter(
-                mapping.facetFields[filter.facet],
-                // Map terms that state labels to ids.
-                mapping.mapFilterTerms(filter.facet, filter.terms, language),
-                includeCollectionTags,
-            ),
-        )
+        .map((filter) => generateFilter(filter, language, includeCollectionTags))
         .filter((f): f is Query => f !== null);
 }
 
 function generateFilter(
+    filter: Filter,
+    language: Language | null,
+    includeCollectionTags: boolean,
+): Query | null {
+    if (filter.facet) {
+        return generateFacetFilter(
+            mapping.facetFields[filter.facet],
+            // Map terms that state labels to ids.
+            mapping.mapFilterTerms(filter.facet, filter.terms || [], language),
+            includeCollectionTags,
+        );
+    } else if (filter.simpleFilter) {
+        return mapping.simpleFilters[filter.simpleFilter];
+    } else {
+        throw new Error('Please provide either `facet` or `simpleFilter` for each filter.');
+    }
+}
+
+function generateFacetFilter(
     field: string,
     value: string[] | null,
     includeCollectionTags: boolean,

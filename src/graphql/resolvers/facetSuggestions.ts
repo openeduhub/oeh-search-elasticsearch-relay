@@ -93,7 +93,7 @@ function generateFilteredAggregation(
     // If we already filter for terms of a facet, we request that many more terms, so we can later
     // filter out the ones that are already part of the active filter.
     const numberOfActiveFilterTerms =
-        filters?.find((filter) => filter.facet === facet)?.terms.length ?? 0;
+        filters?.find((filter) => filter.facet === facet)?.terms?.length ?? 0;
     size += numberOfActiveFilterTerms;
     const field = mapping.facetFields[facet];
     const terms = { field, size };
@@ -125,7 +125,7 @@ function getFacets(
         const activeFacetFilters = filters?.find((filter) => filter.facet === facet);
         if (activeFacetFilters) {
             buckets = buckets
-                .filter((bucket: Bucket) => !activeFacetFilters.terms.includes(bucket.key))
+                .filter((bucket: Bucket) => !activeFacetFilters.terms?.includes(bucket.key))
                 .slice(0, size);
         }
         return {

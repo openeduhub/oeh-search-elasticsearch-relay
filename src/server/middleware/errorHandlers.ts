@@ -1,11 +1,8 @@
-import { Request, Response, NextFunction, Router } from 'express';
-import { config } from '../../common/config';
-import { ErrorResponse } from '../../rest/types/ErrorResponse';
+import { NextFunction, Request, Response, Router } from 'express';
 import { GraphQLError } from 'graphql';
-
-function logError(...params: any[]) {
-    console.error(new Date().toUTCString(), ...params);
-}
+import { config } from '../../common/config';
+import { logError } from '../../common/log';
+import { ErrorResponse } from '../../rest/types/ErrorResponse';
 
 function wrapRestError(router: Router) {
     router.use('/rest', (err: Error, req: Request, res: Response, next: NextFunction) => {

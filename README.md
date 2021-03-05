@@ -85,6 +85,7 @@ A search query could look like this:
 | ELASTICSEARCH_INDEX   | ElasticSearch index to query                                                                | workspace                    |
 | ELASTICSEARCH_MAPPING | Structure of the given ElasticSearch index. Supported values are 'edu-sharing' and 'legacy' | edu-sharing                  |
 | EDUSHARING_URL        | Root URL where the corresponding Edu-Sharing instance can be reached from the Internet      | http://localhost/edu-sharing |
+| DEBUG_LOG_REQUESTS    | Log every GraphQL request                                                                   | false                        |
 
 ### Overriding Variables in Dev Environment
 

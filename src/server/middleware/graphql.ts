@@ -1,12 +1,15 @@
-import { ApolloServer } from 'apollo-server-express';
-import { Express, Router } from 'express';
-import * as path from 'path';
-import resolvers from '../../graphql/resolvers';
-import { GraphQLError } from 'graphql';
-import { logGraphQlError } from './errorHandlers';
-import { loadSchemaSync } from '@graphql-tools/load';
 import { GraphQLFileLoader } from '@graphql-tools/graphql-file-loader';
+import { loadSchemaSync } from '@graphql-tools/load';
 import { addResolversToSchema } from '@graphql-tools/schema';
+import { ApolloServer } from 'apollo-server-express';
+import { ApolloServerPlugin } from 'apollo-server-plugin-base/src';
+import { Express, Router } from 'express';
+import { GraphQLError } from 'graphql';
+import * as path from 'path';
+import { config } from '../../common/config';
+import { logInfo } from '../../common/log';
+import resolvers from '../../graphql/resolvers';
+import { logGraphQlError } from './errorHandlers';
 
 const schema = loadSchemaSync(path.join(__dirname, '..', '..', 'graphql', 'schema.graphql'), {
     loaders: [new GraphQLFileLoader()],
@@ -22,12 +25,29 @@ const schemaWithResolvers = addResolversToSchema({
     resolvers,
 });
 
+const logRequests: ApolloServerPlugin = {
+    requestDidStart(requestContext) {
+        logInfo(
+            'GraphQL request\n' +
+                'Query:\n' +
+                '__________________________________________________\n' +
+                requestContext.request.query +
+                '__________________________________________________\n' +
+                'Variables:\n' +
+                JSON.stringify(requestContext.request.variables, null, 2) +
+                '\n' +
+                '__________________________________________________\n',
+        );
+    },
+};
+
 const server = new ApolloServer({
     schema: schemaWithResolvers,
     formatError,
     // Enable interactive playground in production
     playground: true,
     introspection: true,
+    plugins: [...(config.debug.logRequests ? [logRequests] : [])],
 });
 
 export const handleGraphQl = (router: Router) =>

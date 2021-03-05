@@ -19,4 +19,14 @@ export const config = {
     eduSharing: {
         url: process.env.EDUSHARING_URL || 'http://localhost/edu-sharing',
     },
+    debug: {
+        logRequests: parseBool(process.env.DEBUG_LOG_REQUESTS) || false,
+    },
 };
+
+function parseBool(variable?: string): boolean | undefined {
+    if (typeof variable !== 'string' || variable.length === 0) {
+        return undefined;
+    }
+    return ['1', 'true', 'yes', 'on'].includes(variable.toLowerCase());
+}

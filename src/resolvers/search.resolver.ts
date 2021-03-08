@@ -1,31 +1,34 @@
 import { RequestBody } from '@elastic/elasticsearch/lib/Transport';
-import { Args, Query, Resolver } from '@nestjs/graphql';
+import { Args, ArgsType, Query } from '@nestjs/graphql';
+import { Max } from 'class-validator';
 import { Query as ElasticQuery } from 'elastic-ts';
 import { client } from 'src/common/elasticSearchClient';
 import { getFilter } from 'src/common/filter';
 import { Filter, Language, SearchResult } from 'src/graphql';
 import { mapping } from 'src/mapping';
 
-@Resolver()
+@ArgsType()
+class SearchArgs {
+    @Max(1000) size!: number;
+    searchString?: string;
+    language?: Language;
+    filters?: Filter[];
+    includeCollectionTags?: boolean;
+    from?: number;
+}
+
 export class SearchResolver {
     @Query()
-    async search(
-        @Args('size') size: number,
-        @Args('searchString') searchString?: string,
-        @Args('language') language?: Language,
-        @Args('filters') filters?: Filter[],
-        @Args('includeCollectionTags') includeCollectionTags?: boolean,
-        @Args('from') from?: number,
-    ): Promise<SearchResult> {
+    async search(@Args() args: SearchArgs): Promise<SearchResult> {
         const query = generateSearchQuery(
-            searchString ?? null,
-            filters ?? null,
-            language ?? null,
-            includeCollectionTags ?? false,
+            args.searchString ?? null,
+            args.filters ?? null,
+            args.language ?? null,
+            args.includeCollectionTags ?? false,
         );
         const requestBody: RequestBody = {
-            from: from,
-            size: size,
+            from: args.from,
+            size: args.size,
             stored_fields: mapping.getStoredFields(),
             _source: mapping.getSources(),
             track_total_hits: true,
@@ -36,7 +39,7 @@ export class SearchResolver {
             body: requestBody,
         });
         // console.log('hits: ', body.hits.total.value);
-        return parseResponse(body, language ?? null);
+        return parseResponse(body, args.language ?? null);
     }
 }
 

@@ -14,5 +14,8 @@
     "resolveJsonModule": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
+    // This is needed when there are node_modules directories in parent directories of this
+    // repository.
+    "types": ["node", "jest"]
   }
 }

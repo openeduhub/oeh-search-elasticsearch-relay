@@ -1,6 +1,6 @@
 import { merge } from 'lodash';
 import { oerMapping } from './EduSharingMapping';
-import { CommonLicenseKey, EduSharingHit } from './types/EduSharingHit';
+import { EduSharingHit } from './types/EduSharingHit';
 
 describe('EduSharingMapping', () => {
     let dummyHit: EduSharingHit;

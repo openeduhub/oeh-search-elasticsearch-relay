@@ -1,15 +1,7 @@
 import { Query } from 'elastic-ts';
 import { config } from '../common/config';
 import { VocabsScheme } from '../common/vocabs';
-import {
-    SimpleFilter,
-    EditorialTag,
-    Facet,
-    Hit,
-    Language,
-    SkosEntry,
-    Type,
-} from '../generated/graphql';
+import { SimpleFilter, EditorialTag, Facet, Hit, Language, SkosEntry, Type } from '../graphql';
 import { CommonMapper } from './common/CommonMapper';
 import { CustomTermsMaps } from './common/CustomTermsMap';
 import { MapFacetBuckets, MapFilterTerms, Mapping } from './Mapping';
@@ -18,7 +10,8 @@ import { CommonLicenseKey, EduSharingHit, Fields, Source } from './types/EduShar
 export const VALUE_NOT_AVAILABLE = 'N/A';
 
 export const oerMapping = new (class OerMapping {
-    private readonly sufficientValues: Array<{ field: keyof Fields; terms: string[] }> = [
+    /** @internal */
+    readonly sufficientValues: Array<{ field: keyof Fields; terms: string[] }> = [
         {
             field: 'properties_aggregated.ccm:commonlicense_key',
             terms: [
@@ -54,23 +47,23 @@ export const oerMapping = new (class OerMapping {
 })();
 
 const customTermsMaps: CustomTermsMaps = {
-    [Facet.Type]: {
+    [Facet.type]: {
         type: 'one-to-one',
         map: {
-            [Type.Content]: 'MATERIAL',
-            [Type.Portal]: 'SOURCE',
-            [Type.Tool]: 'TOOL',
-            [Type.LessonPlanning]: 'LESSONPLANNING',
-            [Type.Method]: 'METHOD',
+            [Type.content]: 'MATERIAL',
+            [Type.portal]: 'SOURCE',
+            [Type.tool]: 'TOOL',
+            [Type.lessonPlanning]: 'LESSONPLANNING',
+            [Type.method]: 'METHOD',
         },
     },
-    [Facet.EditorialTag]: {
+    [Facet.editorialTag]: {
         type: 'one-to-many',
         map: {
-            [EditorialTag.Recommended]: ['EDITORIAL'],
+            [EditorialTag.recommended]: ['EDITORIAL'],
         },
     },
-    [Facet.Source]: {
+    [Facet.source]: {
         type: 'one-to-one',
         map: {
             ['Bayerischer Rundfunk']: 'br_rss_spider',
@@ -142,17 +135,17 @@ export class EduSharingMapping implements Mapping<EduSharingHit> {
     private static readonly LOCATION_LOCAL_PREFIX = 'ccrep://local/';
 
     readonly facetFields: { [facet in Facet]: string } = {
-        [Facet.Discipline]: `properties_aggregated.ccm:taxonid`,
-        [Facet.LearningResourceType]: `properties_aggregated.ccm:educationallearningresourcetype`,
-        [Facet.EducationalContext]: `properties_aggregated.ccm:educationalcontext`,
-        [Facet.IntendedEndUserRole]: `properties_aggregated.ccm:educationalintendedenduserrole`,
-        [Facet.Keyword]: 'properties_aggregated.cclom:general_keyword',
-        [Facet.Source]: 'properties_aggregated.ccm:replicationsource',
-        [Facet.Type]: 'properties_aggregated.ccm:objecttype',
-        [Facet.EditorialTag]: 'collections.properties.ccm:collectiontype.keyword',
+        [Facet.discipline]: `properties_aggregated.ccm:taxonid`,
+        [Facet.learningResourceType]: `properties_aggregated.ccm:educationallearningresourcetype`,
+        [Facet.educationalContext]: `properties_aggregated.ccm:educationalcontext`,
+        [Facet.intendedEndUserRole]: `properties_aggregated.ccm:educationalintendedenduserrole`,
+        [Facet.keyword]: 'properties_aggregated.cclom:general_keyword',
+        [Facet.source]: 'properties_aggregated.ccm:replicationsource',
+        [Facet.type]: 'properties_aggregated.ccm:objecttype',
+        [Facet.editorialTag]: 'collections.properties.ccm:collectiontype.keyword',
     };
     readonly simpleFilters: { [key in SimpleFilter]: Query } = {
-        [SimpleFilter.Oer]: oerMapping.getFilter(),
+        [SimpleFilter.oer]: oerMapping.getFilter(),
     };
     readonly collectionsFieldPrefix = 'collections.';
     readonly mapFilterTerms: MapFilterTerms;
@@ -171,7 +164,7 @@ export class EduSharingMapping implements Mapping<EduSharingHit> {
             lom: {
                 general: {
                     title: source.properties['cclom:title'] || source.properties['cm:name'],
-                    description: source.properties['cclom:general_description']?.[0] ?? null,
+                    description: source.properties['cclom:general_description']?.[0],
                 },
                 technical: {
                     location:
@@ -182,32 +175,32 @@ export class EduSharingMapping implements Mapping<EduSharingHit> {
             skos: {
                 discipline: hit.fields['properties_aggregated.ccm:taxonid']
                     ?.filter((entry, index, self) => self.indexOf(entry) === index)
-                    .map((entry) => this.mapSkos(Facet.Discipline, entry, language)),
+                    .map((entry) => this.mapSkos(Facet.discipline, entry, language)),
                 educationalContext: hit.fields['properties_aggregated.ccm:educationalcontext']
                     ?.filter((entry, index, self) => self.indexOf(entry) === index)
-                    .map((entry) => this.mapSkos(Facet.EducationalContext, entry, language)),
+                    .map((entry) => this.mapSkos(Facet.educationalContext, entry, language)),
                 learningResourceType: hit.fields[
                     'properties_aggregated.ccm:educationallearningresourcetype'
                 ]
                     ?.filter((entry, index, self) => self.indexOf(entry) === index)
-                    .map((entry) => this.mapSkos(Facet.LearningResourceType, entry, language)),
+                    .map((entry) => this.mapSkos(Facet.learningResourceType, entry, language)),
                 intendedEndUserRole: hit.fields[
                     'properties_aggregated.ccm:educationalintendedenduserrole'
                 ]
                     ?.filter((entry, index, self) => self.indexOf(entry) === index)
-                    .map((entry) => this.mapSkos(Facet.IntendedEndUserRole, entry, language)),
+                    .map((entry) => this.mapSkos(Facet.intendedEndUserRole, entry, language)),
             },
             type: source.properties['ccm:objecttype']
                 ? (this.commonMapper.map(
-                      Facet.Type,
+                      Facet.type,
                       source.properties['ccm:objecttype'],
                       language,
                   ) as Type)
-                : Type.Content,
+                : Type.content,
             source: {
                 id: source.properties['ccm:replicationsource'] ?? VALUE_NOT_AVAILABLE,
                 name: this.commonMapper.map(
-                    Facet.Source,
+                    Facet.source,
                     source.properties['ccm:replicationsource'] ?? VALUE_NOT_AVAILABLE,
                     language,
                 ),
@@ -225,7 +218,7 @@ export class EduSharingMapping implements Mapping<EduSharingHit> {
                   // than 'EDITORIAL'...
                   (this.commonMapper
                       .mapArray(
-                          Facet.EditorialTag,
+                          Facet.editorialTag,
                           source.collections
                               .map((collections) => collections.properties['ccm:collectiontype'])
                               .filter((collectionType) => collectionType !== undefined) as string[],
@@ -320,33 +313,33 @@ export class EduSharingMapping implements Mapping<EduSharingHit> {
     getInternationalizedFacetFields(facet: Facet, language: Language): string[] | null {
         const locale = this.getI18nLanguage(language);
         switch (facet) {
-            case Facet.Discipline:
+            case Facet.discipline:
                 return [`i18n.${locale}.ccm:taxonid`, `collections.i18n.${locale}.ccm:taxonid`];
-            case Facet.LearningResourceType:
+            case Facet.learningResourceType:
                 return [
                     `i18n.${locale}.ccm:educationallearningresourcetype`,
                     `collections.i18n.${locale}.ccm:educationallearningresourcetype`,
                 ];
-            case Facet.EducationalContext:
+            case Facet.educationalContext:
                 return [
                     `i18n.${locale}.ccm:educationalcontext`,
                     `collections.i18n.${locale}.ccm:educationalcontext`,
                 ];
-            case Facet.IntendedEndUserRole:
+            case Facet.intendedEndUserRole:
                 return [
                     `i18n.${locale}.ccm:educationalintendedenduserrole`,
                     `collections.i18n.${locale}.ccm:educationalintendedenduserrole`,
                 ];
-            case Facet.Keyword:
+            case Facet.keyword:
                 return ['properties.cclom:general_keyword'];
-            case Facet.Type:
+            case Facet.type:
                 return [
                     `i18n.${locale}.ccm:objecttype`,
                     `collections.i18n.${locale}.ccm:objecttype`,
                 ];
-            case Facet.EditorialTag:
+            case Facet.editorialTag:
                 return null;
-            case Facet.Source:
+            case Facet.source:
                 return [`i18n.${locale}.ccm:replicationsource`];
         }
     }
@@ -372,9 +365,9 @@ export class EduSharingMapping implements Mapping<EduSharingHit> {
 
     private getI18nLanguage(language: Language) {
         switch (language) {
-            case Language.De:
+            case Language.de:
                 return 'de_DE';
-            case Language.En:
+            case Language.en:
                 return 'en_US';
         }
     }

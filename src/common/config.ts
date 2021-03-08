@@ -5,6 +5,9 @@ dotenv.config();
 
 type IndexMapping = 'legacy' | 'edu-sharing';
 
+// TODO: replace with @nestjs/config (see
+// https://docs.nestjs.com/techniques/configuration#configuration).
+
 export const config = {
     production: process.env.NODE_ENV === 'production',
     port: process.env.PORT || '3000',

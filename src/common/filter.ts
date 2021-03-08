@@ -1,6 +1,6 @@
 import { Query } from 'elastic-ts';
-import { Filter, Language } from '../../generated/graphql';
-import { mapping } from '../../mapping';
+import { Filter, Language } from '../graphql';
+import { mapping } from '../mapping';
 
 export function getFilter(
     filters: Filter[] | null,

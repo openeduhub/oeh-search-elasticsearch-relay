@@ -1,4 +1,4 @@
-import { Bucket, Facet } from '../../generated/graphql';
+import { Bucket, Facet } from '../../graphql';
 
 export interface OneToOneMap {
     type: 'one-to-one';

@@ -4,6 +4,10 @@ type Query {
     """
     search(
         """
+        Number of results to return
+        """
+        size: Int! = 10
+        """
         Search query matched against various fields
         """
         searchString: String
@@ -19,10 +23,7 @@ type Query {
         When filtering, include results in collections that match the filter terms
         """
         includeCollectionTags: Boolean = false
-        """
-        Number of results to return
-        """
-        size: Int! = 10
+
         """
         Offset for pagination
         """
@@ -31,16 +32,16 @@ type Query {
     """
     Get a single entry
     """
-    get(language: Language, id: ID!): Hit!
+    get(id: ID!, language: Language): Hit!
     """
     Get a single facet, taking the given query into account
     """
     facet(
+        facet: Facet!
+        size: Int! = 20
         searchString: String
         filters: [Filter!]
-        size: Int! = 20
         language: Language
-        facet: Facet!
         """
         Return raw index data, not suited for use with filters
         """
@@ -50,18 +51,18 @@ type Query {
     Get multiple facets, taking the given query into account
     """
     facets(
+        """
+        Requested facets; the response array will contain an entry for each given facet
+        """
+        facets: [Facet!]!
+        size: Int! = 20
         searchString: String
         filters: [Filter!]
-        size: Int! = 20
         language: Language
         """
         Return raw index data, not suited for use with filters
         """
         skipOutputMapping: Boolean = False
-        """
-        Requested facets; the response array will contain an entry for each given facet
-        """
-        facets: [Facet!]!
     ): [Aggregation!]!
     """
     Get auto-completion suggestions based on a search string while typing
@@ -80,12 +81,12 @@ type Query {
     TODO
     """
     facetSuggestions(
+        facets: [Facet!]!
+        size: Int! = 5
+        language: Language!
         inputString: String
         searchString: String
         filters: [Filter!]
-        size: Int! = 5
-        language: Language!
-        facets: [Facet!]!
     ): [Aggregation!]!
 }
 
@@ -93,7 +94,6 @@ enum Language {
     de
     en
 }
-
 
 enum Facet {
     source

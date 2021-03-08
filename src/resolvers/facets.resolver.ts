@@ -1,44 +1,44 @@
-import { client } from '../../common/elasticSearchClient';
-import {
-    Aggregation,
-    Bucket,
-    Facet,
-    Filter,
-    Language,
-    QueryResolvers,
-} from '../../generated/graphql';
-import { mapping } from '../../mapping';
+import { Args, Query, Resolver } from '@nestjs/graphql';
+import { client } from '../common/elasticSearchClient';
 import { getFilter } from '../common/filter';
-import { generateSearchStringQuery } from './search';
+import { Aggregation, Bucket, Facet, Filter, Language } from '../graphql';
+import { mapping } from '../mapping';
+import { generateSearchStringQuery } from './search.resolver';
 
-const facetsResolver: QueryResolvers['facets'] = async (
-    root,
-    args,
-    context,
-    info,
-): Promise<Aggregation[]> => {
-    const requestBody = {
-        body: {
-            size: 0,
-            aggregations: generateAggregations(
-                args.facets,
-                args.size,
-                args.language ?? null,
-                args.searchString ?? null,
-                args.filters ?? null,
-            ),
-        },
-    };
-    // console.log('requestBody:', JSON.stringify(requestBody, null, 4));
-    const { body } = await client.search(requestBody);
-    // console.log('response body:', JSON.stringify(body, null, 4));
-    return getFacets(
-        body.aggregations,
-        args.filters ?? null,
-        args.language ?? null,
-        args.skipOutputMapping ?? false,
-    );
-};
+@Resolver()
+export class FacetsResolver {
+    @Query()
+    async facets(
+        @Args('facets') facets: Facet[],
+        @Args('size') size: number,
+        @Args('searchString') searchString?: string,
+        @Args('filters') filters?: Filter[],
+        @Args('language') language?: Language,
+        @Args('skipOutputMapping') skipOutputMapping?: boolean,
+    ): Promise<Aggregation[]> {
+        const requestBody = {
+            body: {
+                size: 0,
+                aggregations: generateAggregations(
+                    facets,
+                    size,
+                    language ?? null,
+                    searchString ?? null,
+                    filters ?? null,
+                ),
+            },
+        };
+        // console.log('requestBody:', JSON.stringify(requestBody, null, 4));
+        const { body } = await client.search(requestBody);
+        // console.log('response body:', JSON.stringify(body, null, 4));
+        return getFacets(
+            body.aggregations,
+            filters ?? null,
+            language ?? null,
+            skipOutputMapping ?? false,
+        );
+    }
+}
 
 function generateAggregations(
     facets: Facet[],
@@ -66,7 +66,7 @@ function generateAggregations(
             aggregations: generateFilteredAggregation(facet, size, language, filters),
         };
         return acc;
-    }, {} as { [label in Facet]?: object });
+    }, {} as { [label in Facet]?: Record<string, unknown> });
     return aggregations;
 }
 
@@ -179,5 +179,3 @@ function mergeBucketLists(bucketList: Bucket[], ...others: Array<Bucket[] | null
     }
     return mergeBucketLists(bucketList, ...others.slice(1));
 }
-
-export default facetsResolver;

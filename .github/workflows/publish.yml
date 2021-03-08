@@ -22,15 +22,11 @@ jobs:
     - name: Lint
       run: npm run lint
     - name: Build the project
-      run: |
-        npm run clean
-        npm run build
+      run: npm run build
     - name: Run tests
       run: npm run test
     - name: Build Docker image
-      run: |
-        npm prune --production
-        docker build --tag ${{ github.repository }}:${{ env.GITHUB_REF_SLUG }} .
+      run: docker build --tag ${{ github.repository }}:${{ env.GITHUB_REF_SLUG }} .
     - name: Publish to DockerHub
       run: docker push ${{ github.repository }}:${{ env.GITHUB_REF_SLUG }}
 

@@ -21,7 +21,6 @@ Docker images are built via Github Actions and uploaded to https://hub.docker.co
 To build a docker image locally, run
 
 ```bash
-npm run clean
 npm run build
 npm run docker-build
 ```

@@ -1,41 +1,41 @@
+import { Args, Query, Resolver } from '@nestjs/graphql';
 import * as Elastic from 'elastic-ts';
-import { client } from '../../common/elasticSearchClient';
-import {
-    Aggregation,
-    Bucket,
-    Facet,
-    Filter,
-    Language,
-    QueryResolvers,
-} from '../../generated/graphql';
-import { mapping } from '../../mapping';
+import { client } from '../common/elasticSearchClient';
 import { getFilter } from '../common/filter';
-import { generateSearchStringQuery } from './search';
+import { Aggregation, Bucket, Facet, Filter, Language } from '../graphql';
+import { mapping } from '../mapping';
+import { generateSearchStringQuery } from './search.resolver';
 
-const facetSuggestionsResolver: QueryResolvers['facetSuggestions'] = async (
-    root,
-    args,
-    context,
-    info,
-): Promise<Aggregation[]> => {
-    const requestBody = {
-        body: {
-            size: 0,
-            aggregations: generateAggregations(
-                args.inputString ?? '',
-                args.facets,
-                args.size,
-                args.language,
-                args.searchString ?? null,
-                args.filters ?? null,
-            ),
-        },
-    };
-    // console.log('requestBody:', JSON.stringify(requestBody, null, 4));
-    const { body } = await client.search(requestBody);
-    // console.log('response body:', JSON.stringify(body, null, 4));
-    return getFacets(body.aggregations, args.language, args.filters ?? null, args.size);
-};
+@Resolver()
+export class FacetSuggestionsResolver {
+    @Query()
+    async facetSuggestions(
+        @Args('facets') facets: Facet[],
+        @Args('size') size: number,
+        @Args('language') language: Language,
+        @Args('inputString') inputString?: string,
+        @Args('searchString') searchString?: string,
+        @Args('filters') filters?: Filter[],
+    ): Promise<Aggregation[]> {
+        const requestBody = {
+            body: {
+                size: 0,
+                aggregations: generateAggregations(
+                    inputString ?? '',
+                    facets,
+                    size,
+                    language,
+                    searchString ?? null,
+                    filters ?? null,
+                ),
+            },
+        };
+        // console.log('requestBody:', JSON.stringify(requestBody, null, 4));
+        const { body } = await client.search(requestBody);
+        // console.log('response body:', JSON.stringify(body, null, 4));
+        return getFacets(body.aggregations, language, filters ?? null, size);
+    }
+}
 
 function generateAggregations(
     inputString: string,
@@ -136,5 +136,3 @@ function getFacets(
     });
     return facets;
 }
-
-export default facetSuggestionsResolver;

@@ -1,5 +1,5 @@
 import { Query } from 'elastic-ts';
-import { Bucket, Facet, Hit, Language, SimpleFilter } from '../generated/graphql';
+import { Bucket, Facet, Hit, Language, SimpleFilter } from '../graphql';
 
 export type MapFilterTerms = (facet: Facet, terms: string[], language: Language | null) => string[];
 export type MapFacetBuckets = (

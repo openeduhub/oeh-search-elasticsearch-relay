@@ -2,14 +2,14 @@ import discipline from '../assets/vocabs/discipline.json';
 import educationalContext from '../assets/vocabs/educationalContext.json';
 import intendedEndUserRole from '../assets/vocabs/intendedEndUserRole.json';
 import learningResourceType from '../assets/vocabs/learningResourceType.json';
-import { Facet, Language } from '../generated/graphql';
+import { Facet, Language } from '../graphql';
 import { warn } from './utils';
 
 export const vocabsSchemes = {
-    [Facet.Discipline]: {},
-    [Facet.EducationalContext]: {},
-    [Facet.IntendedEndUserRole]: {},
-    [Facet.LearningResourceType]: {},
+    [Facet.discipline]: {},
+    [Facet.educationalContext]: {},
+    [Facet.intendedEndUserRole]: {},
+    [Facet.learningResourceType]: {},
 };
 
 export type VocabsScheme = keyof typeof vocabsSchemes;
@@ -98,10 +98,10 @@ class Vocabs {
 
     constructor() {
         this.vocabsDictionaries = {
-            [Facet.Discipline]: new VocabsDictionary(discipline),
-            [Facet.EducationalContext]: new VocabsDictionary(educationalContext),
-            [Facet.IntendedEndUserRole]: new VocabsDictionary(intendedEndUserRole),
-            [Facet.LearningResourceType]: new VocabsDictionary(learningResourceType),
+            [Facet.discipline]: new VocabsDictionary(discipline),
+            [Facet.educationalContext]: new VocabsDictionary(educationalContext),
+            [Facet.intendedEndUserRole]: new VocabsDictionary(intendedEndUserRole),
+            [Facet.learningResourceType]: new VocabsDictionary(learningResourceType),
         };
     }
 

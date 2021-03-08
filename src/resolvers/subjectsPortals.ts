@@ -1,36 +1,33 @@
-import {
-    Bucket,
-    QueryResolvers,
-    SubjectsPortalDiscipline,
-    SubjectsPortals,
-    Language,
-    Facet,
-} from '../../generated/graphql';
-import { client } from '../../common/elasticSearchClient';
-import { config } from '../../common/config';
-import { vocabs } from '../../common/vocabs';
+import { Args, Info, Query, Resolver } from '@nestjs/graphql';
 import graphqlFields from 'graphql-fields';
-import { mapping } from '../../mapping';
+import { config } from '../common/config';
+import { client } from '../common/elasticSearchClient';
+import { vocabs } from '../common/vocabs';
+import { Bucket, Facet, Language, SubjectsPortalDiscipline, SubjectsPortals } from '../graphql';
+import { mapping } from '../mapping';
 
 type EducationalContext = Exclude<keyof SubjectsPortals, '__typename'>;
 
-const subjectsPortalsResolver: QueryResolvers['subjectsPortals'] = async (
-    root,
-    args,
-    context,
-    info,
-): Promise<SubjectsPortals> => {
-    const fields = graphqlFields(info as any);
-    const educationalContexts = Object.keys(fields);
-    const requestBody = {
-        body: {
-            size: 0,
-            aggregations: generateAggregations(educationalContexts, args.size),
-        },
-    };
-    const { body } = await client.search(requestBody);
-    return parseResponse(body, args.language);
-};
+@Resolver()
+export class SubjectsPortalsResolver {
+    @Query()
+    async subjectsPortals(
+        @Args('size') size: number,
+        @Args('language') language: Language,
+        @Info() info: any,
+    ): Promise<SubjectsPortals> {
+        const fields = graphqlFields(info);
+        const educationalContexts = Object.keys(fields);
+        const requestBody = {
+            body: {
+                size: 0,
+                aggregations: generateAggregations(educationalContexts, size),
+            },
+        };
+        const { body } = await client.search(requestBody);
+        return parseResponse(body, language);
+    }
+}
 
 function generateAggregations(educationalContexts: string[], size: number) {
     return educationalContexts.reduce((acc, educationalContext) => {
@@ -43,8 +40,8 @@ function generateSubjectsPortalAggregation(educationalContext: string, size: num
     return {
         filter: {
             term: {
-                [mapping.facetFields[Facet.EducationalContext]]: vocabs.keyToId(
-                    Facet.EducationalContext,
+                [mapping.facetFields[Facet.educationalContext]]: vocabs.keyToId(
+                    Facet.educationalContext,
                     educationalContext,
                 ),
             },
@@ -52,7 +49,7 @@ function generateSubjectsPortalAggregation(educationalContext: string, size: num
         aggregations: {
             disciplines: {
                 terms: {
-                    field: mapping.facetFields[Facet.Discipline],
+                    field: mapping.facetFields[Facet.discipline],
                     size,
                 },
             },
@@ -86,8 +83,8 @@ function generateSubjectsPortalDiscipline(
     bucket: Bucket,
     language: Language,
 ): SubjectsPortalDiscipline {
-    const educationalContextId = vocabs.keyToId(Facet.EducationalContext, educationalContext);
-    const key = vocabs.idToKey(Facet.Discipline, bucket.key);
+    const educationalContextId = vocabs.keyToId(Facet.educationalContext, educationalContext);
+    const key = vocabs.idToKey(Facet.discipline, bucket.key);
     return {
         doc_count: bucket.doc_count,
         id: key,
@@ -95,22 +92,20 @@ function generateSubjectsPortalDiscipline(
         url: `${config.frontend.url}/${getUrlLanguageFragment(
             language,
         )}/search/${encodeURIComponent(
-            vocabs.getLabel(Facet.EducationalContext, educationalContextId, language),
-        )}/${encodeURIComponent(vocabs.getLabel(Facet.Discipline, bucket.key, language))}`,
+            vocabs.getLabel(Facet.educationalContext, educationalContextId, language),
+        )}/${encodeURIComponent(vocabs.getLabel(Facet.discipline, bucket.key, language))}`,
     };
 }
 
 function getUrlLanguageFragment(language: Language) {
     if (config.production) {
         switch (language) {
-            case Language.De:
+            case Language.de:
                 return 'de';
-            case Language.En:
+            case Language.en:
                 return 'en-US';
         }
     } else {
         return '';
     }
 }
-
-export default subjectsPortalsResolver;

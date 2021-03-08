@@ -1,4 +1,4 @@
-import { Facet, Language, Bucket } from '../../generated/graphql';
+import { Facet, Language, Bucket } from '../../graphql';
 import { vocabsSchemes, VocabsScheme, vocabs } from '../../common/vocabs';
 import {
     CustomTermsMapper,

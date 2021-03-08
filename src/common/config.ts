@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+import { logInfo } from './log';
 
 dotenv.config();
 
@@ -20,13 +21,25 @@ export const config = {
         url: process.env.EDUSHARING_URL || 'http://localhost/edu-sharing',
     },
     debug: {
-        logRequests: parseBool(process.env.DEBUG_LOG_REQUESTS) || false,
+        logRequests: parseEnvVariableBool('DEBUG_LOG_REQUESTS', { defaultValue: false }),
     },
 };
 
-function parseBool(variable?: string): boolean | undefined {
-    if (typeof variable !== 'string' || variable.length === 0) {
-        return undefined;
+logInfo('Loaded server configuration:', config);
+
+function parseEnvVariableBool(
+    variableKey: string,
+    { defaultValue }: { defaultValue: boolean },
+): boolean {
+    const value = process.env[variableKey];
+    if (typeof value !== 'string') {
+        return defaultValue;
+    } else if (['1', 'true', 'yes', 'on'].includes(value.toLowerCase())) {
+        return true;
+    } else if (['0', 'false', 'no', 'off'].includes(value.toLowerCase())) {
+        return false;
+    } else {
+        console.warn(`WARNING: Invalid value "${value}" for boolean env variable "${variableKey}"`);
+        return defaultValue;
     }
-    return ['1', 'true', 'yes', 'on'].includes(variable.toLowerCase());
 }

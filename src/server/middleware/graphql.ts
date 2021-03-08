@@ -7,7 +7,7 @@ import { Express, Router } from 'express';
 import { GraphQLError } from 'graphql';
 import * as path from 'path';
 import { config } from '../../common/config';
-import { logInfo } from '../../common/log';
+import { logInfo, SEPARATOR } from '../../common/log';
 import resolvers from '../../graphql/resolvers';
 import { logGraphQlError } from './errorHandlers';
 
@@ -30,13 +30,14 @@ const logRequests: ApolloServerPlugin = {
         logInfo(
             'GraphQL request\n' +
                 'Query:\n' +
-                '__________________________________________________\n' +
+                SEPARATOR +
                 requestContext.request.query +
-                '__________________________________________________\n' +
+                '\n' +
+                SEPARATOR +
                 'Variables:\n' +
                 JSON.stringify(requestContext.request.variables, null, 2) +
                 '\n' +
-                '__________________________________________________\n',
+                SEPARATOR,
         );
     },
 };

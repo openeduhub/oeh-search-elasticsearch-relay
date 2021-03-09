@@ -16,7 +16,7 @@ export interface Mapping<Source> {
     mapFacetBuckets: MapFacetBuckets;
     mapHit(source: Source, language: Language | null): Hit;
     getIdQuery(id: string): { term: any };
-    getSources(): { includes?: string[]; excludes?: string[] };
+    getSources(fields: any): { includes?: string[]; excludes?: string[] };
     getStoredFields(): string[];
     getSearchQueryFields(language: Language | null): string[];
     getShouldTerms(): { boost: number; [field: string]: string[] | number };

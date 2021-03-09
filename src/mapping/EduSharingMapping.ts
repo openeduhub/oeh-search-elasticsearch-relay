@@ -1,7 +1,7 @@
 import { Query } from 'elastic-ts';
 import { config } from '../common/config';
 import { VocabsScheme } from '../common/vocabs';
-import { SimpleFilter, EditorialTag, Facet, Hit, Language, SkosEntry, Type } from '../graphql';
+import { EditorialTag, Facet, Hit, Language, SimpleFilter, SkosEntry, Type } from '../graphql';
 import { CommonMapper } from './common/CommonMapper';
 import { CustomTermsMaps } from './common/CustomTermsMap';
 import { MapFacetBuckets, MapFilterTerms, Mapping } from './Mapping';
@@ -251,9 +251,13 @@ export class EduSharingMapping implements Mapping<EduSharingHit> {
         return { term: { 'nodeRef.id': id } };
     }
 
-    getSources() {
+    getSources(fields: any) {
         return {
-            excludes: ['i18n', 'content.fulltext'],
+            excludes: [
+                'i18n',
+                'content.fulltext',
+                ...(fields.hits?.previewImage?.thumbnail ? [] : ['preview']),
+            ],
         };
     }
     getStoredFields() {

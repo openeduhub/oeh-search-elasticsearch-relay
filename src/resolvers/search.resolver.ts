@@ -1,7 +1,8 @@
 import { RequestBody } from '@elastic/elasticsearch/lib/Transport';
-import { Args, ArgsType, Query } from '@nestjs/graphql';
+import { Args, ArgsType, Info, Query } from '@nestjs/graphql';
 import { Max } from 'class-validator';
 import { Query as ElasticQuery } from 'elastic-ts';
+import graphqlFields from 'graphql-fields';
 import { client } from 'src/common/elasticSearchClient';
 import { getFilter } from 'src/common/filter';
 import { Filter, Language, SearchResult } from 'src/graphql';
@@ -19,7 +20,8 @@ class SearchArgs {
 
 export class SearchResolver {
     @Query()
-    async search(@Args() args: SearchArgs): Promise<SearchResult> {
+    async search(@Args() args: SearchArgs, @Info() info: any): Promise<SearchResult> {
+        const fields = graphqlFields(info);
         const query = generateSearchQuery(
             args.searchString ?? null,
             args.filters ?? null,
@@ -30,7 +32,7 @@ export class SearchResolver {
             from: args.from,
             size: args.size,
             stored_fields: mapping.getStoredFields(),
-            _source: mapping.getSources(),
+            _source: mapping.getSources(fields),
             track_total_hits: true,
             query,
         };

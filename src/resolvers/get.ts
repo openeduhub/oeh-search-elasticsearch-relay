@@ -1,4 +1,5 @@
-import { Args, Query, Resolver } from '@nestjs/graphql';
+import { Args, Info, Query, Resolver } from '@nestjs/graphql';
+import graphqlFields from 'graphql-fields';
 import { Hit, Language } from '..//graphql';
 import { client } from '../common/elasticSearchClient';
 import { mapping } from '../mapping';
@@ -6,11 +7,16 @@ import { mapping } from '../mapping';
 @Resolver()
 export class GetResolver {
     @Query()
-    async get(@Args('id') id: string, @Args('language') language?: Language): Promise<Hit> {
+    async get(
+        @Info() info: any,
+        @Args('id') id: string,
+        @Args('language') language?: Language,
+    ): Promise<Hit> {
+        const fields = graphqlFields(info);
         const { body } = await client.search({
             body: {
                 query: mapping.getIdQuery(id),
-                _source: mapping.getSources(),
+                _source: mapping.getSources(fields),
                 stored_fields: mapping.getStoredFields(),
             },
         });

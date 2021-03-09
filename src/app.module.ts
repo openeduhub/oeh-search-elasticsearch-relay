@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
+import { config } from './common/config';
 import { LogRequestsPlugin } from './common/logRequests';
 import { AutoCompleteResolvers } from './resolvers/autoComplete.resolver';
 import { FacetResolver } from './resolvers/facet.resolver';
@@ -14,7 +15,8 @@ import { SubjectsPortalsResolver } from './resolvers/subjectsPortals';
     imports: [
         ConfigModule.forRoot(),
         GraphQLModule.forRoot({
-            // debug: true,
+            debug: !config.production,
+            introspection: true,
             playground: true,
             typePaths: ['./**/*.graphql'],
         }),

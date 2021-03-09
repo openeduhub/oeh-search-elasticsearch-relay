@@ -3,7 +3,7 @@ import { logInfo } from './log';
 
 dotenv.config();
 
-type IndexMapping = 'legacy' | 'edu-sharing';
+type IndexMapping = 'edu-sharing';
 
 // TODO: replace with @nestjs/config (see
 // https://docs.nestjs.com/techniques/configuration#configuration).

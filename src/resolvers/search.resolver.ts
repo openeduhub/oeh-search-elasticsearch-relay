@@ -9,7 +9,7 @@ import { mapping } from 'src/mapping';
 
 @ArgsType()
 class SearchArgs {
-    @Max(1000) size!: number;
+    @Max(100) size!: number;
     searchString?: string;
     language?: Language;
     filters?: Filter[];

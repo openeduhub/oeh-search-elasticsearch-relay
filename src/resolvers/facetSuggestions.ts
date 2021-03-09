@@ -1,4 +1,5 @@
 import { Args, Query, Resolver } from '@nestjs/graphql';
+import { Max } from 'class-validator';
 import * as Elastic from 'elastic-ts';
 import { client } from '../common/elasticSearchClient';
 import { getFilter } from '../common/filter';
@@ -6,34 +7,36 @@ import { Aggregation, Bucket, Facet, Filter, Language } from '../graphql';
 import { mapping } from '../mapping';
 import { generateSearchStringQuery } from './search.resolver';
 
+class FacetSuggestionsArgs {
+    facets!: Facet[];
+    @Max(100) size!: number;
+    language!: Language;
+    inputString?: string;
+    searchString?: string;
+    filters?: Filter[];
+}
+
 @Resolver()
 export class FacetSuggestionsResolver {
     @Query()
-    async facetSuggestions(
-        @Args('facets') facets: Facet[],
-        @Args('size') size: number,
-        @Args('language') language: Language,
-        @Args('inputString') inputString?: string,
-        @Args('searchString') searchString?: string,
-        @Args('filters') filters?: Filter[],
-    ): Promise<Aggregation[]> {
+    async facetSuggestions(@Args() args: FacetSuggestionsArgs): Promise<Aggregation[]> {
         const requestBody = {
             body: {
                 size: 0,
                 aggregations: generateAggregations(
-                    inputString ?? '',
-                    facets,
-                    size,
-                    language,
-                    searchString ?? null,
-                    filters ?? null,
+                    args.inputString ?? '',
+                    args.facets,
+                    args.size,
+                    args.language,
+                    args.searchString ?? null,
+                    args.filters ?? null,
                 ),
             },
         };
         // console.log('requestBody:', JSON.stringify(requestBody, null, 4));
         const { body } = await client.search(requestBody);
         // console.log('response body:', JSON.stringify(body, null, 4));
-        return getFacets(body.aggregations, language, filters ?? null, size);
+        return getFacets(body.aggregations, args.language, args.filters ?? null, args.size);
     }
 }
 

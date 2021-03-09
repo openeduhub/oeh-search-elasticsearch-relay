@@ -1,30 +1,33 @@
 import { Args, Query, Resolver } from '@nestjs/graphql';
+import { Max } from 'class-validator';
 import { client } from '../common/elasticSearchClient';
 import { getFilter } from '../common/filter';
 import { Aggregation, Bucket, Facet, Filter, Language } from '../graphql';
 import { mapping } from '../mapping';
 import { generateSearchStringQuery } from './search.resolver';
 
+class FacetsArgs {
+    facets!: Facet[];
+    @Max(100) size!: number;
+    searchString?: string;
+    filters?: Filter[];
+    language?: Language;
+    skipOutputMapping?: boolean;
+}
+
 @Resolver()
 export class FacetsResolver {
     @Query()
-    async facets(
-        @Args('facets') facets: Facet[],
-        @Args('size') size: number,
-        @Args('searchString') searchString?: string,
-        @Args('filters') filters?: Filter[],
-        @Args('language') language?: Language,
-        @Args('skipOutputMapping') skipOutputMapping?: boolean,
-    ): Promise<Aggregation[]> {
+    async facets(@Args() args: FacetsArgs): Promise<Aggregation[]> {
         const requestBody = {
             body: {
                 size: 0,
                 aggregations: generateAggregations(
-                    facets,
-                    size,
-                    language ?? null,
-                    searchString ?? null,
-                    filters ?? null,
+                    args.facets,
+                    args.size,
+                    args.language ?? null,
+                    args.searchString ?? null,
+                    args.filters ?? null,
                 ),
             },
         };
@@ -33,9 +36,9 @@ export class FacetsResolver {
         // console.log('response body:', JSON.stringify(body, null, 4));
         return getFacets(
             body.aggregations,
-            filters ?? null,
-            language ?? null,
-            skipOutputMapping ?? false,
+            args.filters ?? null,
+            args.language ?? null,
+            args.skipOutputMapping ?? false,
         );
     }
 }

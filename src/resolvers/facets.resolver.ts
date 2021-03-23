@@ -62,7 +62,12 @@ function generateAggregations(
             filter: {
                 bool: {
                     must,
-                    must_not: mapping.getStaticNegativeFilters(),
+                    must_not: [
+                        ...mapping.getStaticNegativeFilters(),
+                        {
+                            match: { [mapping.facetFields[facet]]: '' },
+                        },
+                    ],
                     filter: getFilter(otherFilters ?? null, language, false),
                 },
             },

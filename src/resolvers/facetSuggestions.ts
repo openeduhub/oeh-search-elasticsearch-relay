@@ -58,7 +58,12 @@ function generateAggregations(
                     must: inputString
                         ? getFacetAsYouTypeQuery(facet, language, inputString)
                         : undefined,
-                    must_not: mapping.getStaticNegativeFilters(),
+                    must_not: [
+                        ...mapping.getStaticNegativeFilters(),
+                        {
+                            match: { [mapping.facetFields[facet]]: '' },
+                        },
+                    ],
                     filter,
                 },
             },

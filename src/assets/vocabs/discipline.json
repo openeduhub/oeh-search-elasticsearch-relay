@@ -137,7 +137,7 @@
     {
       "id": "http://w3id.org/openeduhub/vocabs/discipline/04005",
       "prefLabel": {
-        "de": "Eletrotechnik",
+        "de": "Elektrotechnik",
         "en": "Electrical engineering"
       }
     },
@@ -186,6 +186,11 @@
       "prefLabel": {
         "de": "Farbtechnik und Raumgestaltung",
         "en": "Color technology and interior design"
+      },
+      "altLabel": {
+        "de": [
+          "Raumgestaltung"
+        ]
       }
     },
     {
@@ -262,6 +267,9 @@
       "altLabel": {
         "de": [
           "Informations- und Kommunikationstechnologie"
+        ],
+        "en": [
+          "Computer Science"
         ]
       }
     },
@@ -288,6 +296,9 @@
       "altLabel": {
         "de": [
           "Kunsterziehung"
+        ],
+        "en": [
+          "Art"
         ]
       }
     },
@@ -382,7 +393,8 @@
           "Naturwissenschaften"
         ],
         "en": [
-          "Chemistry, Physics, Biology"
+          "Chemistry, Physics, Biology",
+          "Natural Sciences"
         ]
       }
     },
@@ -573,6 +585,9 @@
       "altLabel": {
         "de": [
           "Wirtschaftswissenschaften"
+        ],
+        "en": [
+          "Economy"
         ]
       }
     },

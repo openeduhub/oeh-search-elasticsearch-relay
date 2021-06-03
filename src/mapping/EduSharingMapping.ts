@@ -93,9 +93,10 @@ const customTermsMaps: CustomTermsMaps = {
             ['ZDF']: 'zdf_rss_spider',
             ['ZUM Deutsch Lernen']: 'zum_deutschlernen_spider',
             ['ZUM-Unterrichten']: 'zum_spider',
-            ['fobizz']: 'fobizz_spider',
+            ['Fobizz']: 'fobizz_spider',
             ['Schule im Aufbruch']: 'schule_im_aufbruch_spider',
             ['KindOERgarten']: 'kindoergarten_spider',
+            ['rpi-virtuell']: 'rpi_virtuell_spider',
         },
     },
 };
@@ -134,6 +135,7 @@ const sourceUrls: { [spiderName: string]: string } = {
     fobizz_spider: 'https://fobizz.com',
     schule_im_aufbruch_spider: 'https://vimeo.com/user12637410/videos',
     kindoergarten_spider: 'https://kindoergarten.wordpress.com/',
+    rpi_virtuell_spider: 'https://material.rpi-virtuell.de',
     [VALUE_NOT_AVAILABLE]: '',
 };
 

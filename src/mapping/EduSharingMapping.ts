@@ -93,6 +93,9 @@ const customTermsMaps: CustomTermsMaps = {
             ['ZDF']: 'zdf_rss_spider',
             ['ZUM Deutsch Lernen']: 'zum_deutschlernen_spider',
             ['ZUM-Unterrichten']: 'zum_spider',
+            ['fobizz']: 'fobizz_spider',
+            ['Schule im Aufbruch']: 'schule_im_aufbruch_spider',
+            ['KindOERgarten']: 'kindoergarten_spider',
         },
     },
 };
@@ -128,6 +131,9 @@ const sourceUrls: { [spiderName: string]: string } = {
     zum_deutschlernen_spider: 'https://deutsch-lernen.zum.de/',
     zum_klexikon_spider: 'https://klexikon.zum.de/',
     zum_spider: 'https://unterrichten.zum.de/',
+    fobizz_spider: 'https://fobizz.com',
+    schule_im_aufbruch_spider: 'https://vimeo.com/user12637410/videos',
+    kindoergarten_spider: 'https://kindoergarten.wordpress.com/',
     [VALUE_NOT_AVAILABLE]: '',
 };
 

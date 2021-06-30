@@ -22,7 +22,9 @@ export interface Source {
         'cclom:title'?: string;
         'cclom:general_description'?: string[];
         'cclom:general_keyword'?: string[];
+        'cclom:general_language'?: string[];
         'cclom:location': string[];
+        'cclom:duration'?: string;
         'ccm:objecttype'?: string;
         'ccm:taxonid'?: string[];
         'ccm:educationalcontext'?: string[];

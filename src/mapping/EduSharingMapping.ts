@@ -173,11 +173,15 @@ export class EduSharingMapping implements Mapping<EduSharingHit> {
                 general: {
                     title: source.properties['cclom:title'] || source.properties['cm:name'],
                     description: source.properties['cclom:general_description']?.[0],
+                    language: source.properties['cclom:general_language'],
                 },
                 technical: {
                     location:
                         source.properties['ccm:wwwurl'] ||
                         this.mapLocation(source.properties['cclom:location'][0]),
+                    duration: source.properties['cclom:duration']
+                        ? parseInt(source.properties['cclom:duration'], 10)
+                        : undefined,
                 },
             },
             skos: {

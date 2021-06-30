@@ -107,11 +107,13 @@ export interface LomGeneral {
     title: string;
     keyword?: string[];
     description?: string;
+    language?: string[];
 }
 
 export interface LomTechnical {
     __typename?: 'LomTechnical';
     location: string;
+    duration?: number;
 }
 
 export interface PreviewImage {

@@ -94,6 +94,7 @@ export interface Hit {
 export interface License {
     __typename?: 'License';
     oer: boolean;
+    displayName?: string;
 }
 
 export interface Lom {

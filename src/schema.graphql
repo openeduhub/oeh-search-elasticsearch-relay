@@ -243,6 +243,7 @@ type Source {
 
 type License {
     oer: Boolean!
+    displayName: String
 }
 
 enum EditorialTag {

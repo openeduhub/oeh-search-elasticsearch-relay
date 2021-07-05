@@ -39,6 +39,7 @@ export interface Source {
     collections: Array<Source>;
     aspects: string[];
 }
+
 export interface Fields {
     'properties_aggregated.cclom:general_keyword'?: string[];
     'properties_aggregated.ccm:commonlicense_key'?: string[];
@@ -47,7 +48,11 @@ export interface Fields {
     'properties_aggregated.ccm:educationallearningresourcetype'?: string[];
     'properties_aggregated.ccm:license_oer'?: string[];
     'properties_aggregated.ccm:taxonid'?: string[];
+    'properties_aggregated.ccm:conditionsOfAccess'?: string[];
+    'properties_aggregated.ccm:oeh_widgets'?: string[];
+    'properties_aggregated.ccm:price'?: string[];
 }
+
 export interface EduSharingHit {
     _source: Source;
     fields: Fields;

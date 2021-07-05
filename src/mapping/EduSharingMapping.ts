@@ -254,6 +254,15 @@ export class EduSharingMapping implements Mapping<EduSharingHit> {
                 ]
                     ?.filter((entry, index, self) => self.indexOf(entry) === index)
                     .map((entry) => this.mapSkos(Facet.intendedEndUserRole, entry, language)),
+                conditionsOfAccess: hit.fields['properties_aggregated.ccm:conditionsOfAccess']
+                    ?.filter((entry, index, self) => self.indexOf(entry) === index)
+                    .map((entry) => this.mapSkos('conditionsOfAccess', entry, language)),
+                price: hit.fields['properties_aggregated.ccm:price']
+                    ?.filter((entry, index, self) => self.indexOf(entry) === index)
+                    .map((entry) => this.mapSkos('price', entry, language)),
+                widgets: hit.fields['properties_aggregated.ccm:oeh_widgets']
+                    ?.filter((entry, index, self) => self.indexOf(entry) === index)
+                    .map((entry) => this.mapSkos('widgets', entry, language)),
             },
             type: source.properties['ccm:objecttype']
                 ? (this.commonMapper.map(

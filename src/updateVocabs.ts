@@ -8,6 +8,9 @@ const vocabsSchemes = [
     'intendedEndUserRole',
     'learningResourceType',
     'discipline',
+    'conditionsOfAccess',
+    'widgets',
+    'price',
 ];
 const targetDir = 'src/assets/vocabs';
 

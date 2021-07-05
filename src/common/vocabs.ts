@@ -2,6 +2,9 @@ import discipline from '../assets/vocabs/discipline.json';
 import educationalContext from '../assets/vocabs/educationalContext.json';
 import intendedEndUserRole from '../assets/vocabs/intendedEndUserRole.json';
 import learningResourceType from '../assets/vocabs/learningResourceType.json';
+import conditionsOfAccess from '../assets/vocabs/conditionsOfAccess.json';
+import price from '../assets/vocabs/price.json';
+import widgets from '../assets/vocabs/widgets.json';
 import { Facet, Language } from '../graphql';
 import { warn } from './utils';
 
@@ -10,6 +13,9 @@ export const vocabsSchemes = {
     [Facet.educationalContext]: {},
     [Facet.intendedEndUserRole]: {},
     [Facet.learningResourceType]: {},
+    conditionsOfAccess: {},
+    price: {},
+    widgets: {},
 };
 
 export type VocabsScheme = keyof typeof vocabsSchemes;
@@ -102,6 +108,9 @@ class Vocabs {
             [Facet.educationalContext]: new VocabsDictionary(educationalContext),
             [Facet.intendedEndUserRole]: new VocabsDictionary(intendedEndUserRole),
             [Facet.learningResourceType]: new VocabsDictionary(learningResourceType),
+            conditionsOfAccess: new VocabsDictionary(conditionsOfAccess),
+            price: new VocabsDictionary(price),
+            widgets: new VocabsDictionary(widgets),
         };
     }
 

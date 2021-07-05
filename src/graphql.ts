@@ -184,6 +184,9 @@ export interface Skos {
     educationalContext?: SkosEntry[];
     learningResourceType?: SkosEntry[];
     intendedEndUserRole?: SkosEntry[];
+    conditionsOfAccess?: SkosEntry[];
+    price?: SkosEntry[];
+    widgets?: SkosEntry[];
 }
 
 export interface SkosEntry {

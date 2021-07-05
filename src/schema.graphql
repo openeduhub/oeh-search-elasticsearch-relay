@@ -210,6 +210,9 @@ type Skos {
     educationalContext: [SkosEntry!]
     learningResourceType: [SkosEntry!]
     intendedEndUserRole: [SkosEntry!]
+    conditionsOfAccess: [SkosEntry!]
+    price: [SkosEntry!]
+    widgets: [SkosEntry!]
 }
 
 type SkosEntry {

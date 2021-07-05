@@ -19,7 +19,7 @@ export class CommonMapper<T extends Facet> {
         this.customTermsMappers = this.generateCustomTermsMappers(customTermsMaps);
     }
 
-    map(facet: Facet, value: string, language: Language | null): string {
+    map(facet: Facet | VocabsScheme, value: string, language: Language | null): string {
         if (facet in this.customTermsMappers) {
             return this.mapCustomField(facet as T, value);
         } else if (facet in vocabsSchemes) {

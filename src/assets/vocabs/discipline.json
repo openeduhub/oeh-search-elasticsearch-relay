@@ -599,7 +599,8 @@
       },
       "altLabel": {
         "de": [
-          "Umwelterziehung"
+          "Umwelterziehung",
+          "Wirtschaft"
         ]
       }
     },
@@ -622,6 +623,13 @@
       "prefLabel": {
         "de": "Werken",
         "en": "Handicraft"
+      }
+    },
+    {
+      "id": "http://w3id.org/openeduhub/vocabs/discipline/72001",
+      "prefLabel": {
+        "de": "Zeitgemäße Bildung",
+        "en": "Modern education"
       }
     },
     {

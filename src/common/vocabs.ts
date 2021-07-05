@@ -30,6 +30,7 @@ interface DefinitionEntry {
     id: string;
     prefLabel: { [language in Language]?: string };
     altLabel?: { [language in Language]?: string[] };
+    narrower?: DefinitionEntry[];
 }
 
 type VocabsMap = { [key: string]: { [language in Language]: string } };
@@ -58,7 +59,8 @@ class VocabsDictionary {
     }
 
     private generateVocabsMap(vocabsDefinition: VocabsDefinition): VocabsMap {
-        return vocabsDefinition.hasTopConcept.reduce((acc, entry) => {
+        const entries = this.flattenEntries(vocabsDefinition.hasTopConcept);
+        return entries.reduce((acc, entry) => {
             if (!entry.id.startsWith(vocabsDefinition.id)) {
                 throw new Error('Unexpected vocabs id');
             }
@@ -66,6 +68,16 @@ class VocabsDictionary {
             acc[entry.id] = this.getBestLabels(entry, key);
             return acc;
         }, {} as VocabsMap);
+    }
+
+    private flattenEntries(entries: DefinitionEntry[]): DefinitionEntry[] {
+        let additionalEntries: DefinitionEntry[] = [];
+        for (const entry of entries) {
+            if (entry.narrower) {
+                additionalEntries = [...additionalEntries, ...this.flattenEntries(entry.narrower)];
+            }
+        }
+        return [...entries, ...additionalEntries];
     }
 
     private generateReverseMap(vocabsMap: VocabsMap) {

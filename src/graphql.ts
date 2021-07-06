@@ -89,6 +89,7 @@ export interface Hit {
     license: License;
     editorialTags: EditorialTag[];
     previewImage: PreviewImage;
+    misc: Misc;
 }
 
 export interface License {
@@ -128,6 +129,11 @@ export interface LomTechnical {
     location: string;
     duration?: number;
     format?: string;
+}
+
+export interface Misc {
+    __typename?: 'Misc';
+    author?: string;
 }
 
 export interface PreviewImage {

@@ -180,6 +180,10 @@ type Hit {
     A preview image in different resolutions
     """
     previewImage: PreviewImage!
+    """
+    Miscellaneous and custom fields
+    """
+    misc: Misc!
 }
 
 type Lom {
@@ -307,6 +311,13 @@ type ExternalThumbnail {
 #     large
 #     original
 # }
+
+type Misc {
+    """
+    An informal declaration of the item's author(s)
+    """
+    author: String
+}
 
 type Aggregation {
     facet: Facet!

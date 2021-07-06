@@ -7,6 +7,7 @@ import { CustomTermsMaps } from '../common/CustomTermsMap';
 import { MapFacetBuckets, MapFilterTerms, Mapping } from '../Mapping';
 import { contributeMapping } from './ContributeMapping';
 import { licenseMapping } from './LicenseMapping';
+import { miscMapping } from './MiscMapping';
 import { oerMapping } from './OerMapping';
 import { EduSharingHit, Source } from './types/EduSharingHit';
 
@@ -238,6 +239,9 @@ export class EduSharingMapping implements Mapping<EduSharingHit> {
                           url: this.getPreviewUrl(source, { size: 'thumbnail' }),
                       },
                 url: this.getPreviewUrl(source, { size: 'original' }),
+            },
+            misc: {
+                author: miscMapping.mapAuthor(hit),
             },
         };
     }

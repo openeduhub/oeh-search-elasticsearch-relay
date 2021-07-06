@@ -10,7 +10,6 @@ describe('EduSharingMapping', () => {
             _source: {
                 aspects: [],
                 collections: [],
-                content: { fulltext: '' },
                 nodeRef: { id: '', storeRef: { protocol: 'workspace', identifier: 'SpacesStore' } },
                 permissions: { read: '' },
                 preview: {

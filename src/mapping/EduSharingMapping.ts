@@ -235,6 +235,7 @@ export class EduSharingMapping implements Mapping<EduSharingHit> {
                     duration: source.properties['cclom:duration']
                         ? parseInt(source.properties['cclom:duration'], 10)
                         : undefined,
+                    format: source.content?.mimetype,
                 },
             },
             skos: {

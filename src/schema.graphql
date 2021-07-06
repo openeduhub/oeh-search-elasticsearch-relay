@@ -196,6 +196,10 @@ type LomTechnical {
     Media playtime
     """
     duration: Int
+    """
+    Mimetype
+    """
+    format: String
 }
 
 type LomGeneral {

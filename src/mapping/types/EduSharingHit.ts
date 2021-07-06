@@ -10,8 +10,9 @@ export interface Source {
     permissions: {
         read: string;
     };
-    content: {
+    content?: {
         fulltext: string;
+        mimetype: string;
     };
     preview: {
         mimetype?: string;

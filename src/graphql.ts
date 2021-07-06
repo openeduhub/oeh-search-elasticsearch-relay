@@ -115,6 +115,7 @@ export interface LomTechnical {
     __typename?: 'LomTechnical';
     location: string;
     duration?: number;
+    format?: string;
 }
 
 export interface PreviewImage {

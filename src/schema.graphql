@@ -185,6 +185,7 @@ type Hit {
 type Lom {
     technical: LomTechnical!
     general: LomGeneral!
+    lifecycle: LomLifecycle!
 }
 
 type LomTechnical {
@@ -207,6 +208,21 @@ type LomGeneral {
     keyword: [String!]
     description: String
     language: [String!]
+}
+
+type LomLifecycle {
+    contribute: [LomContribute!]
+}
+
+type LomContribute {
+    """
+    E.g., "creator", "author", "graphical_designer"
+    """
+    role: String!
+    """
+    VCard
+    """
+    entity: String!
 }
 
 type Skos {

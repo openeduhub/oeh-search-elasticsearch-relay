@@ -101,6 +101,13 @@ export interface Lom {
     __typename?: 'Lom';
     technical: LomTechnical;
     general: LomGeneral;
+    lifecycle: LomLifecycle;
+}
+
+export interface LomContribute {
+    __typename?: 'LomContribute';
+    role: string;
+    entity: string;
 }
 
 export interface LomGeneral {
@@ -109,6 +116,11 @@ export interface LomGeneral {
     keyword?: string[];
     description?: string;
     language?: string[];
+}
+
+export interface LomLifecycle {
+    __typename?: 'LomLifecycle';
+    contribute?: LomContribute[];
 }
 
 export interface LomTechnical {

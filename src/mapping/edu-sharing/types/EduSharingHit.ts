@@ -39,6 +39,10 @@ export interface Source {
     };
     collections: Array<Source>;
     aspects: string[];
+    contributor?: Array<{
+        property: string;
+        vcard: string;
+    }>;
 }
 
 export interface Fields {

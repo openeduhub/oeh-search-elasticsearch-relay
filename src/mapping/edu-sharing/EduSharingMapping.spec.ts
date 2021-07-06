@@ -1,5 +1,5 @@
 import { merge } from 'lodash';
-import { oerMapping } from './EduSharingMapping';
+import { oerMapping } from './OerMapping';
 import { EduSharingHit } from './types/EduSharingHit';
 
 describe('EduSharingMapping', () => {

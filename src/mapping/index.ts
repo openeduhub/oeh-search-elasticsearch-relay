@@ -1,5 +1,5 @@
 import { config } from '../common/config';
-import { EduSharingMapping } from './EduSharingMapping';
+import { EduSharingMapping } from './edu-sharing/EduSharingMapping';
 
 export const mapping = (() => {
     switch (config.elasticSearch.mapping) {

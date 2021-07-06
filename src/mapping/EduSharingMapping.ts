@@ -264,6 +264,9 @@ export class EduSharingMapping implements Mapping<EduSharingHit> {
                 widgets: hit.fields['properties_aggregated.ccm:oeh_widgets']
                     ?.filter((entry, index, self) => self.indexOf(entry) === index)
                     .map((entry) => this.mapSkos('widgets', entry, language)),
+                containsAdvertisement: hit.fields['properties_aggregated.ccm:containsAdvertisement']
+                    ?.filter((entry, index, self) => self.indexOf(entry) === index)
+                    .map((entry) => this.mapSkos('containsAdvertisement', entry, language)),
             },
             type: source.properties['ccm:objecttype']
                 ? (this.commonMapper.map(

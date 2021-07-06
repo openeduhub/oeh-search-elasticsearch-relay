@@ -188,6 +188,7 @@ export interface Skos {
     conditionsOfAccess?: SkosEntry[];
     price?: SkosEntry[];
     widgets?: SkosEntry[];
+    containsAdvertisement?: SkosEntry[];
 }
 
 export interface SkosEntry {

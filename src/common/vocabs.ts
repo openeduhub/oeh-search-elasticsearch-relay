@@ -4,6 +4,7 @@ import intendedEndUserRole from '../assets/vocabs/intendedEndUserRole.json';
 import learningResourceType from '../assets/vocabs/learningResourceType.json';
 import conditionsOfAccess from '../assets/vocabs/conditionsOfAccess.json';
 import price from '../assets/vocabs/price.json';
+import containsAdvertisement from '../assets/vocabs/containsAdvertisement.json';
 import widgets from '../assets/vocabs/widgets.json';
 import { Facet, Language } from '../graphql';
 import { warn } from './utils';
@@ -16,6 +17,7 @@ export const vocabsSchemes = {
     conditionsOfAccess: {},
     price: {},
     widgets: {},
+    containsAdvertisement: {},
 };
 
 export type VocabsScheme = keyof typeof vocabsSchemes;
@@ -123,6 +125,7 @@ class Vocabs {
             conditionsOfAccess: new VocabsDictionary(conditionsOfAccess),
             price: new VocabsDictionary(price),
             widgets: new VocabsDictionary(widgets),
+            containsAdvertisement: new VocabsDictionary(containsAdvertisement),
         };
     }
 

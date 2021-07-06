@@ -11,6 +11,7 @@ const vocabsSchemes = [
     'conditionsOfAccess',
     'widgets',
     'price',
+    'containsAdvertisement',
 ];
 const targetDir = 'src/assets/vocabs';
 

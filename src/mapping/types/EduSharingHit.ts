@@ -52,6 +52,7 @@ export interface Fields {
     'properties_aggregated.ccm:conditionsOfAccess'?: string[];
     'properties_aggregated.ccm:oeh_widgets'?: string[];
     'properties_aggregated.ccm:price'?: string[];
+    'properties_aggregated.ccm:containsAdvertisement'?: string[];
 }
 
 export interface EduSharingHit {

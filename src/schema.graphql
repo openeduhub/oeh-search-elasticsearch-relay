@@ -217,6 +217,7 @@ type Skos {
     conditionsOfAccess: [SkosEntry!]
     price: [SkosEntry!]
     widgets: [SkosEntry!]
+    containsAdvertisement: [SkosEntry!]
 }
 
 type SkosEntry {

@@ -5,6 +5,7 @@ import { EditorialTag, Facet, Hit, Language, SimpleFilter, SkosEntry, Type } fro
 import { CommonMapper } from '../common/CommonMapper';
 import { CustomTermsMaps } from '../common/CustomTermsMap';
 import { MapFacetBuckets, MapFilterTerms, Mapping } from '../Mapping';
+import { CollectionsMapping } from './CollectionsMapping';
 import { contributeMapping } from './ContributeMapping';
 import { licenseMapping } from './LicenseMapping';
 import { miscMapping } from './MiscMapping';
@@ -125,6 +126,7 @@ export class EduSharingMapping implements Mapping<EduSharingHit> {
     readonly collectionsFieldPrefix = 'collections.';
     readonly mapFilterTerms: MapFilterTerms;
     readonly mapFacetBuckets: MapFacetBuckets;
+    readonly collectionsMapping = new CollectionsMapping();
     private readonly commonMapper = new CommonMapper(customTermsMaps);
 
     constructor() {
@@ -132,10 +134,14 @@ export class EduSharingMapping implements Mapping<EduSharingHit> {
         this.mapFacetBuckets = this.commonMapper.mapFacetBuckets.bind(this.commonMapper);
     }
 
+    mapId(hit: EduSharingHit): string {
+        return hit._source.nodeRef.id;
+    }
+
     mapHit(hit: EduSharingHit, language: Language | null): Hit {
         const source = hit._source;
         return {
-            id: source.nodeRef.id,
+            id: this.mapId(hit),
             lom: {
                 general: {
                     title: source.properties['cclom:title'] || source.properties['cm:name'],

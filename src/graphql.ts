@@ -62,6 +62,15 @@ export interface Bucket {
     doc_count: number;
 }
 
+export interface Collection {
+    __typename?: 'Collection';
+    id: string;
+    name: string;
+    numberElements: number;
+    url: string;
+    thumbnail: EmbeddedThumbnail;
+}
+
 export interface DidYouMeanSuggestion {
     __typename?: 'DidYouMeanSuggestion';
     plain: string;
@@ -90,6 +99,7 @@ export interface Hit {
     editorialTags: EditorialTag[];
     previewImage: PreviewImage;
     misc: Misc;
+    collections?: Collection[];
 }
 
 export interface License {

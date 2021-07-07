@@ -1,13 +1,14 @@
-import { Args, Info, Query, Resolver } from '@nestjs/graphql';
+import { Args, Context, Info, Query, Resolver } from '@nestjs/graphql';
 import graphqlFields from 'graphql-fields';
-import { Hit, Language } from '../graphql';
 import { client } from '../common/elasticSearchClient';
+import { Hit, Language } from '../graphql';
 import { mapping } from '../mapping';
 
 @Resolver()
 export class GetResolver {
     @Query()
     async get(
+        @Context() context: any,
         @Info() info: any,
         @Args('id') id: string,
         @Args('language') language?: Language,
@@ -20,6 +21,7 @@ export class GetResolver {
                 stored_fields: mapping.getStoredFields(),
             },
         });
+        context.rootResponseBody = body;
         return parseResponse(body, language ?? null);
     }
 }

@@ -184,6 +184,10 @@ type Hit {
     Miscellaneous and custom fields
     """
     misc: Misc!
+    """
+    Collections that the entry belongs to
+    """
+    collections: [Collection!]
 }
 
 type Lom {
@@ -317,6 +321,14 @@ type Misc {
     An informal declaration of the item's author(s)
     """
     author: String
+}
+
+type Collection {
+    id: String!
+    name: String!
+    numberElements: Int!
+    url: String!
+    thumbnail: EmbeddedThumbnail!
 }
 
 type Aggregation {

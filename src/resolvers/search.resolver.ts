@@ -1,5 +1,5 @@
 import { RequestBody } from '@elastic/elasticsearch/lib/Transport';
-import { Args, ArgsType, Info, Query } from '@nestjs/graphql';
+import { Args, ArgsType, Context, Info, Query } from '@nestjs/graphql';
 import { Max } from 'class-validator';
 import { Query as ElasticQuery } from 'elastic-ts';
 import graphqlFields from 'graphql-fields';
@@ -20,7 +20,11 @@ class SearchArgs {
 
 export class SearchResolver {
     @Query()
-    async search(@Args() args: SearchArgs, @Info() info: any): Promise<SearchResult> {
+    async search(
+        @Args() args: SearchArgs,
+        @Context() context: any,
+        @Info() info: any,
+    ): Promise<SearchResult> {
         const fields = graphqlFields(info);
         const query = generateSearchQuery(
             args.searchString ?? null,
@@ -40,6 +44,7 @@ export class SearchResolver {
         const { body } = await client.search({
             body: requestBody,
         });
+        context.rootResponseBody = body;
         // console.log('hits: ', body.hits.total.value);
         return parseResponse(body, args.language ?? null);
     }

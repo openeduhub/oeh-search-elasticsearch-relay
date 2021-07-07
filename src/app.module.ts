@@ -4,10 +4,12 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { config } from './common/config';
 import { LogRequestsPlugin } from './common/logRequests';
 import { AutoCompleteResolvers } from './resolvers/autoComplete.resolver';
+import { CollectionResolver } from './resolvers/collection.resolver';
 import { FacetResolver } from './resolvers/facet.resolver';
 import { FacetsResolver } from './resolvers/facets.resolver';
 import { FacetSuggestionsResolver } from './resolvers/facetSuggestions.resolver';
 import { GetResolver } from './resolvers/get.resolver';
+import { HitResolver } from './resolvers/hit.resolver';
 import { SearchResolver } from './resolvers/search.resolver';
 import { SubjectsPortalsResolver } from './resolvers/subjectsPortals.resolver';
 
@@ -27,6 +29,8 @@ import { SubjectsPortalsResolver } from './resolvers/subjectsPortals.resolver';
         FacetsResolver,
         FacetSuggestionsResolver,
         GetResolver,
+        HitResolver,
+        CollectionResolver,
         SearchResolver,
         SubjectsPortalsResolver,
         LogRequestsPlugin,

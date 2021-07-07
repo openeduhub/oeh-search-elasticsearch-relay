@@ -1,6 +1,6 @@
 import { Args, Info, Query, Resolver } from '@nestjs/graphql';
 import graphqlFields from 'graphql-fields';
-import { Hit, Language } from '..//graphql';
+import { Hit, Language } from '../graphql';
 import { client } from '../common/elasticSearchClient';
 import { mapping } from '../mapping';
 

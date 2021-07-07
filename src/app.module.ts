@@ -6,10 +6,10 @@ import { LogRequestsPlugin } from './common/logRequests';
 import { AutoCompleteResolvers } from './resolvers/autoComplete.resolver';
 import { FacetResolver } from './resolvers/facet.resolver';
 import { FacetsResolver } from './resolvers/facets.resolver';
-import { FacetSuggestionsResolver } from './resolvers/facetSuggestions';
-import { GetResolver } from './resolvers/get';
+import { FacetSuggestionsResolver } from './resolvers/facetSuggestions.resolver';
+import { GetResolver } from './resolvers/get.resolver';
 import { SearchResolver } from './resolvers/search.resolver';
-import { SubjectsPortalsResolver } from './resolvers/subjectsPortals';
+import { SubjectsPortalsResolver } from './resolvers/subjectsPortals.resolver';
 
 @Module({
     imports: [

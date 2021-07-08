@@ -329,6 +329,7 @@ type Collection {
     numberElements: Int!
     url: String!
     thumbnail: EmbeddedThumbnail!
+    color: String!
 }
 
 type Aggregation {

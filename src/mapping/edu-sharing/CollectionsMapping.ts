@@ -22,6 +22,7 @@ export class CollectionsMapping {
                 mimetype: sourceCollection.preview.mimetype as string,
                 image: sourceCollection.preview.small,
             },
+            color: sourceCollection.properties['ccm:collectioncolor'],
         };
     }
 }

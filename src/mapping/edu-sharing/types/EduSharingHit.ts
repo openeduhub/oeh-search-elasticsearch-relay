@@ -26,6 +26,7 @@ export interface Source {
         'cclom:location': string[];
         'cclom:rights_description'?: string;
         'cclom:title'?: string;
+        'ccm:collectioncolor'?: string;
         'ccm:collectiontype'?: string;
         'ccm:commonlicense_key'?: CommonLicenseKey;
         'ccm:educationalcontext'?: string[];

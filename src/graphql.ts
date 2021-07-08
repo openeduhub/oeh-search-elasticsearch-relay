@@ -69,6 +69,7 @@ export interface Collection {
     numberElements: number;
     url: string;
     thumbnail: EmbeddedThumbnail;
+    color: string;
 }
 
 export interface DidYouMeanSuggestion {

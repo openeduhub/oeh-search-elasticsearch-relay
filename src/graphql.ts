@@ -1,3 +1,4 @@
+
 /*
  * ------------------------------------------------------
  * THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
@@ -7,40 +8,40 @@
 /* tslint:disable */
 /* eslint-disable */
 export enum EditorialTag {
-    recommended = 'recommended',
+    recommended = "recommended"
 }
 
 export enum Facet {
-    source = 'source',
-    keyword = 'keyword',
-    discipline = 'discipline',
-    educationalContext = 'educationalContext',
-    learningResourceType = 'learningResourceType',
-    intendedEndUserRole = 'intendedEndUserRole',
-    type = 'type',
-    editorialTag = 'editorialTag',
+    source = "source",
+    keyword = "keyword",
+    discipline = "discipline",
+    educationalContext = "educationalContext",
+    learningResourceType = "learningResourceType",
+    intendedEndUserRole = "intendedEndUserRole",
+    type = "type",
+    editorialTag = "editorialTag"
 }
 
 export enum Language {
-    de = 'de',
-    en = 'en',
+    de = "de",
+    en = "en"
 }
 
 export enum SimpleFilter {
-    oer = 'oer',
+    oer = "oer"
 }
 
 export enum TotalHitsRelation {
-    eq = 'eq',
-    gte = 'gte',
+    eq = "eq",
+    gte = "gte"
 }
 
 export enum Type {
-    content = 'content',
-    portal = 'portal',
-    tool = 'tool',
-    lessonPlanning = 'lessonPlanning',
-    method = 'method',
+    content = "content",
+    portal = "portal",
+    tool = "tool",
+    lessonPlanning = "lessonPlanning",
+    method = "method"
 }
 
 export interface Filter {
@@ -68,7 +69,7 @@ export interface Collection {
     name: string;
     numberElements: number;
     url: string;
-    thumbnail: EmbeddedThumbnail;
+    thumbnail?: EmbeddedThumbnail;
     color: string;
 }
 
@@ -155,50 +156,14 @@ export interface PreviewImage {
 
 export interface IQuery {
     __typename?: 'IQuery';
-    search(
-        size: number,
-        searchString?: string,
-        language?: Language,
-        filters?: Filter[],
-        includeCollectionTags?: boolean,
-        from?: number,
-    ): SearchResult | Promise<SearchResult>;
+    search(size: number, searchString?: string, language?: Language, filters?: Filter[], includeCollectionTags?: boolean, from?: number): SearchResult | Promise<SearchResult>;
     get(id: string, language?: Language): Hit | Promise<Hit>;
-    facet(
-        facet: Facet,
-        size: number,
-        searchString?: string,
-        filters?: Filter[],
-        language?: Language,
-        skipOutputMapping?: boolean,
-    ): Aggregation | Promise<Aggregation>;
-    facets(
-        facets: Facet[],
-        size: number,
-        searchString?: string,
-        filters?: Filter[],
-        language?: Language,
-        skipOutputMapping?: boolean,
-    ): Aggregation[] | Promise<Aggregation[]>;
-    autoComplete(
-        searchString: string,
-        filters?: Filter[],
-        language?: Language,
-    ): string[] | Promise<string[]>;
-    didYouMeanSuggestion(
-        searchString: string,
-        filters?: Filter[],
-        language?: Language,
-    ): DidYouMeanSuggestion | Promise<DidYouMeanSuggestion>;
+    facet(facet: Facet, size: number, searchString?: string, filters?: Filter[], language?: Language, skipOutputMapping?: boolean): Aggregation | Promise<Aggregation>;
+    facets(facets: Facet[], size: number, searchString?: string, filters?: Filter[], language?: Language, skipOutputMapping?: boolean): Aggregation[] | Promise<Aggregation[]>;
+    autoComplete(searchString: string, filters?: Filter[], language?: Language): string[] | Promise<string[]>;
+    didYouMeanSuggestion(searchString: string, filters?: Filter[], language?: Language): DidYouMeanSuggestion | Promise<DidYouMeanSuggestion>;
     subjectsPortals(size: number, language: Language): SubjectsPortals | Promise<SubjectsPortals>;
-    facetSuggestions(
-        facets: Facet[],
-        size: number,
-        language: Language,
-        inputString?: string,
-        searchString?: string,
-        filters?: Filter[],
-    ): Aggregation[] | Promise<Aggregation[]>;
+    facetSuggestions(facets: Facet[], size: number, language: Language, inputString?: string, searchString?: string, filters?: Filter[]): Aggregation[] | Promise<Aggregation[]>;
 }
 
 export interface SearchResult {

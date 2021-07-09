@@ -328,7 +328,7 @@ type Collection {
     name: String!
     numberElements: Int!
     url: String!
-    thumbnail: EmbeddedThumbnail!
+    thumbnail: EmbeddedThumbnail
     color: String!
 }
 

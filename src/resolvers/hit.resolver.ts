@@ -5,7 +5,7 @@ import { Collection, Hit } from '../graphql';
 @Resolver('Hit')
 export class HitResolver {
     @ResolveField()
-    async collections(@Parent() hit: Hit, @Context() context: any): Promise<Partial<Collection>[]> {
+    collections(@Parent() hit: Hit, @Context() context: any): Partial<Collection>[] {
         const sourceHit: SourceHit = context.rootResponseBody.hits.hits.find(
             (sourceHits: SourceHit) => hit.id === mapping.mapId(sourceHits),
         );

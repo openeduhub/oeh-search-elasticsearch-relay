@@ -18,10 +18,12 @@ export class CollectionsMapping {
             id: sourceCollection.nodeRef.id,
             name: sourceCollection.properties['cm:name'],
             url: sourceCollection.properties['cclom:location'][0],
-            thumbnail: {
-                mimetype: sourceCollection.preview.mimetype as string,
-                image: sourceCollection.preview.small,
-            },
+            thumbnail: sourceCollection.preview
+                ? {
+                      mimetype: sourceCollection.preview.mimetype as string,
+                      image: sourceCollection.preview.small,
+                  }
+                : undefined,
             color: sourceCollection.properties['ccm:collectioncolor'],
         };
     }

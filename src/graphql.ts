@@ -146,6 +146,7 @@ export interface LomTechnical {
 export interface Misc {
     __typename?: 'Misc';
     author?: string;
+    isExternal?: boolean;
 }
 
 export interface PreviewImage {

@@ -248,6 +248,7 @@ export class EduSharingMapping implements Mapping<EduSharingHit> {
             },
             misc: {
                 author: miscMapping.mapAuthor(hit),
+                isExternal: miscMapping.mapIsExternal(hit),
             },
         };
     }

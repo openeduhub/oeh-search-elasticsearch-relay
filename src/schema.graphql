@@ -321,6 +321,10 @@ type Misc {
     An informal declaration of the item's author(s)
     """
     author: String
+    """
+    Whether the material is provided via a link to a third party service
+    """
+    isExternal: Boolean
 }
 
 type Collection {

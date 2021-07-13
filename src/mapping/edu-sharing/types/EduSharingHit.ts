@@ -39,7 +39,7 @@ export interface Source {
         'cm:name': string;
         'cm:title'?: string;
     };
-    collections: Array<Source>;
+    collections?: Array<Source>;
     aspects: string[];
     contributor?: Array<{
         property: string;

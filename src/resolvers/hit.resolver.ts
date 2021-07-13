@@ -15,7 +15,7 @@ export class HitResolver {
                 mapping.collectionsMapping.filterPredicate(sourceCollection),
             )
             .map((sourceCollection) => mapping.collectionsMapping.mapCollection(sourceCollection));
-        if (collections.length > 0) {
+        if (collections && collections.length > 0) {
             return collections;
         } else {
             return null;

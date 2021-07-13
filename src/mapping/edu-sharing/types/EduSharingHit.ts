@@ -37,6 +37,7 @@ export interface Source {
         'ccm:taxonid'?: string[];
         'ccm:wwwurl'?: string;
         'cm:name': string;
+        'cm:title'?: string;
     };
     collections: Array<Source>;
     aspects: string[];

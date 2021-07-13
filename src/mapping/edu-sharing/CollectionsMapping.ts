@@ -10,13 +10,16 @@ export class CollectionsMapping {
     }
 
     filterPredicate(sourceCollection: SourceCollection): boolean {
-        return sourceCollection.permissions.read.includes('GROUP_EVERYONE');
+        return (
+            sourceCollection.permissions.read.includes('GROUP_EVERYONE') &&
+            !!sourceCollection.properties['cclom:location'][0]
+        );
     }
 
     mapCollection(sourceCollection: SourceCollection): Partial<Collection> {
         return {
             id: sourceCollection.nodeRef.id,
-            name: sourceCollection.properties['cm:name'],
+            name: sourceCollection.properties['cm:title'] ?? sourceCollection.properties['cm:name'],
             url: sourceCollection.properties['cclom:location'][0],
             thumbnail: sourceCollection.preview
                 ? {

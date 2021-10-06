@@ -317,7 +317,10 @@ export class EduSharingMapping implements Mapping<EduSharingHit> {
     }
 
     getStaticNegativeFilters(): Query[] {
-        return [{ term: { aspects: 'ccm:collection_io_reference' } }];
+        return [
+            { term: { aspects: 'ccm:collection_io_reference' } },
+            { term: { aspects: 'ccm:io_childobject' } },
+        ];
     }
 
     getInternationalizedFacetFields(facet: Facet, language: Language): string[] | null {

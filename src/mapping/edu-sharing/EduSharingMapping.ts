@@ -150,8 +150,9 @@ export class EduSharingMapping implements Mapping<EduSharingHit> {
                 },
                 technical: {
                     location:
-                        source.properties['ccm:wwwurl'] ||
-                        this.mapLocation(source.properties['cclom:location'][0]),
+                        source.properties['ccm:wwwurl'] ??
+                        this.mapLocation(source.properties['cclom:location']?.[0]) ??
+                        this.getLocationById(source.nodeRef.id),
                     duration: source.properties['cclom:duration']
                         ? parseInt(source.properties['cclom:duration'], 10)
                         : undefined,
@@ -385,11 +386,18 @@ export class EduSharingMapping implements Mapping<EduSharingHit> {
         }
     }
 
-    private mapLocation(location: string): string {
-        if (location.startsWith(EduSharingMapping.LOCATION_LOCAL_PREFIX)) {
+    private mapLocation(location?: string): string | null {
+        if (!location) {
+            return null;
+        } else if (location.startsWith(EduSharingMapping.LOCATION_LOCAL_PREFIX)) {
             const id = location.substr(EduSharingMapping.LOCATION_LOCAL_PREFIX.length);
-            return `${config.eduSharing.url}/components/render/${id}`;
+            return this.getLocationById(id);
+        } else {
+            return location;
         }
-        return location;
+    }
+
+    private getLocationById(id: string): string {
+        return `${config.eduSharing.url}/components/render/${id}`;
     }
 }

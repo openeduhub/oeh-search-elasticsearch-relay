@@ -65,6 +65,10 @@ const customTermsMaps: CustomTermsMaps = {
             ['Schule im Aufbruch']: 'schule_im_aufbruch_spider',
             ['KindOERgarten']: 'kindoergarten_spider',
             ['rpi-virtuell']: 'rpi_virtuell_spider',
+            ['KMap']: 'kmap_spider',
+            ['Niedersachsen Abituraufgaben']: 'niedersachsen_abi_spider',
+            ['dwu-Unterrichtsmaterialien']: 'zum_dwu_spider',
+            ['GinkgoMaps']: 'ginkgomaps_spider',
         },
     },
 };
@@ -104,6 +108,10 @@ const sourceUrls: { [spiderName: string]: string } = {
     schule_im_aufbruch_spider: 'https://vimeo.com/user12637410/videos',
     kindoergarten_spider: 'https://kindoergarten.wordpress.com/',
     rpi_virtuell_spider: 'https://material.rpi-virtuell.de',
+    kmap_spider: 'https://kmap.eu',
+    niedersachsen_abi_spider: 'https://za-aufgaben.nibis.de',
+    zum_dwu_spider: 'http://www.zum.de/dwu',
+    ginkgomaps_spider: 'http://ginkgomaps.com/index_de.html',
     [VALUE_NOT_AVAILABLE]: '',
 };
 

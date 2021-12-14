@@ -31,7 +31,7 @@ interface VocabsDefinition {
 interface DefinitionEntry {
     id: string;
     prefLabel: { [language in Language]?: string };
-    altLabel?: { [language in Language]?: string[] };
+    altLabel?: { [language in Language]?: string };
     narrower?: DefinitionEntry[];
 }
 
@@ -109,7 +109,7 @@ class VocabsDictionary {
      * nothing else is found.
      */
     private getBestLabel(entry: DefinitionEntry, language: Language, fallback: string) {
-        return entry.prefLabel[language] || entry.altLabel?.[language]?.[0] || fallback;
+        return entry.prefLabel[language] || entry.altLabel?.[language] || fallback;
     }
 }
 

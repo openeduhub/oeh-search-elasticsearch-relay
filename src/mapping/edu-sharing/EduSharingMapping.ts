@@ -69,6 +69,7 @@ const customTermsMaps: CustomTermsMaps = {
             ['Niedersachsen Abituraufgaben']: 'niedersachsen_abi_spider',
             ['dwu-Unterrichtsmaterialien']: 'zum_dwu_spider',
             ['GinkgoMaps']: 'ginkgomaps_spider',
+            ['Umwelt im Unterricht']: 'umwelt_im_unterricht_spider',
         },
     },
 };
@@ -112,6 +113,7 @@ const sourceUrls: { [spiderName: string]: string } = {
     niedersachsen_abi_spider: 'https://za-aufgaben.nibis.de',
     zum_dwu_spider: 'http://www.zum.de/dwu',
     ginkgomaps_spider: 'http://ginkgomaps.com/index_de.html',
+    umwelt_im_unterricht_spider: 'https://www.umwelt-im-unterricht.de/',
     [VALUE_NOT_AVAILABLE]: '',
 };
 

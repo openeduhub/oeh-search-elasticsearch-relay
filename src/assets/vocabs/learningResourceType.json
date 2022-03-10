@@ -240,8 +240,8 @@
     {
       "id": "http://w3id.org/openeduhub/vocabs/learningResourceType/weblog",
       "prefLabel": {
-        "de": "Weblog",
-        "en": "weblog"
+        "de": "Webblog",
+        "en": "webblog"
       }
     },
     {
